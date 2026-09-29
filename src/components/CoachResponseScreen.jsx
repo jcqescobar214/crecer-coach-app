@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import ResponseHeader from './ResponseHeader';
-import SituationContext from './SituationContext';
 import FeedbackFooter from './FeedbackFooter';
 import { getHelpIntervention } from '../data/helpBank';
 import { 
@@ -13,10 +11,10 @@ import {
   Check, 
   PhoneCall, 
   Heart,
-  Eye,
-  ShieldCheck,
-  Flame,
-  ThumbsUp
+  Eye, 
+  ShieldCheck, 
+  Headphones,
+  ChevronLeft
 } from 'lucide-react';
 
 const postCrisisEmotions = [
@@ -32,14 +30,14 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
   // Obtener la intervención profesional para 3 a 6 años
   const intervention = getHelpIntervention(situation);
 
-  // Estados de seguimiento posterior: null | 'calmed' | 'same' | 'worse'
+  // Estados de seguimiento posterior: null (en crisis / HUD activo) | 'calmed' | 'worse'
   const [followUpState, setFollowUpState] = useState(null);
-  // Evaluación de riesgo para 'Está empeorando': null | true | false
+  // Evaluación de riesgo para 'Está desbordado': null | true | false
   const [hasPhysicalRisk, setHasPhysicalRisk] = useState(null);
-  // Estado para el modo de audio simulado o con síntesis de voz (Whisper Mode)
+  // Estado para el Modo Oído / Audio Susurrado
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
-  // Desglosar frases para el teleprompter (separadas limpiamente si hay alternativas)
+  // Desglosar frases para el teleprompter
   const phrases = intervention.puedesDecir
     ? intervention.puedesDecir.split(' / ').map(p => p.trim())
     : [];
@@ -81,13 +79,13 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
 
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const textToSpeak = phrases.join('. Pausa. ')
+      const textToSpeak = `Respira hondo... baja a su altura. Repite conmigo con voz suave: ${phrases.join('. O también: ')}.`
         .replace(/[“”"']/g, '')
         .replace(/\//g, ' ');
 
       const utterance = new SpeechSynthesisUtterance(textToSpeak);
       utterance.lang = 'es-ES';
-      utterance.rate = 0.85; // Cadencia pausada y tranquilizadora
+      utterance.rate = 0.82; // Cadencia pausada y tranquilizadora
       utterance.pitch = 0.95;
 
       utterance.onend = () => setIsPlayingAudio(false);
@@ -97,169 +95,168 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
     } else {
       setTimeout(() => {
         setIsPlayingAudio(false);
-      }, 4500);
+      }, 5000);
     }
   };
 
   return (
-    <div className="flex flex-col bg-slate-50 w-full relative pb-8">
-      {/* Cabecera */}
-      <ResponseHeader onBack={onBack} />
+    <div className="flex flex-col bg-slate-50 w-full relative pb-6">
+      {/* Cabecera Compacta de Emergencia (Cero Distracciones) */}
+      <header className="w-full bg-white border-b border-slate-200/80 px-4 py-2.5 flex items-center justify-between shadow-xs sticky top-0 z-30">
+        <button 
+          onClick={onBack}
+          className="p-1.5 -ml-1 text-slate-700 hover:text-slate-900 rounded-xl hover:bg-slate-100 transition-colors flex items-center gap-1 cursor-pointer text-xs font-semibold"
+          aria-label="Volver"
+        >
+          <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
+          <span>Atrás</span>
+        </button>
+        
+        <div className="flex items-center gap-2">
+          <span className="text-base">{intervention.icon}</span>
+          <span className="text-xs font-bold text-slate-800 truncate max-w-[200px]">
+            {intervention.title}
+          </span>
+        </div>
 
-      <div className="p-4 flex flex-col gap-4">
-        {/* Resumen de la situación seleccionada */}
-        <SituationContext 
-          situationTitle={intervention.title}
-          childInfo="Etapa 3 a 6 años • Guion Inmediato"
-          icon={intervention.icon}
-        />
+        <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">
+          3-6 años
+        </span>
+      </header>
 
-        {/* --- TELEPROMPTER DE CRISIS (Frases con Máxima Legibilidad a 1 metro) --- */}
-        <div className="bg-white rounded-3xl p-5 border-2 border-indigo-100 shadow-sm flex flex-col gap-3 relative overflow-hidden">
-          {/* Cabecera del Teleprompter: Micro-Badges de Postura + Modo Voz */}
-          <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
-            {/* 3 Claves Corporales integradas directamente */}
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-extrabold border border-emerald-200/80">
-                <Eye className="w-3 h-3 text-emerald-600" />
-                <span>A su altura</span>
+      {/* ============================================================== */}
+      {/* FASE 1: HUD DE CRISIS ACTIVA (CERO SCROLL - VISIBLE AL 100%)    */}
+      {/* ============================================================== */}
+      {!followUpState && (
+        <div className="p-3.5 flex flex-col gap-3 max-w-md mx-auto w-full animate-fadeIn">
+          
+          {/* 1. CUERPO: 3 Claves Posturales Inmediatas */}
+          <div className="grid grid-cols-3 gap-2">
+            <div className="bg-emerald-50/90 border border-emerald-200/90 py-1.5 px-2 rounded-xl flex items-center justify-center gap-1 text-emerald-800 text-[11px] font-bold shadow-xs">
+              <Eye className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+              <span>A su altura</span>
+            </div>
+            <div className="bg-teal-50/90 border border-teal-200/90 py-1.5 px-2 rounded-xl flex items-center justify-center gap-1 text-teal-800 text-[11px] font-bold shadow-xs">
+              <Volume2 className="w-3.5 h-3.5 text-teal-600 flex-shrink-0" />
+              <span>Voz suave</span>
+            </div>
+            <div className="bg-indigo-50/90 border border-indigo-200/90 py-1.5 px-2 rounded-xl flex items-center justify-center gap-1 text-indigo-800 text-[11px] font-bold shadow-xs">
+              <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 flex-shrink-0" />
+              <span>Sin ceder</span>
+            </div>
+          </div>
+
+          {/* 2. CONEXIÓN: Teleprompter de Lectura Rápida a 1 metro */}
+          <div className="bg-white rounded-2xl p-4 border-2 border-indigo-200/90 shadow-sm flex flex-col gap-2 relative">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#A9A0EC] flex items-center gap-1">
+                <Sparkles className="w-3 h-3" />
+                <span>Lo que le dices (Teleprompter)</span>
               </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-teal-50 text-teal-800 text-[10px] font-extrabold border border-teal-200/80">
-                <Volume2 className="w-3 h-3 text-teal-600" />
-                <span>Voz suave</span>
-              </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-800 text-[10px] font-extrabold border border-indigo-200/80">
-                <ShieldCheck className="w-3 h-3 text-indigo-600" />
-                <span>Sin ceder</span>
-              </span>
+              <span className="text-[10px] text-slate-400 font-medium">Lectura rápida</span>
             </div>
 
-            {/* Botón de Audio Guiado (Modo Voz) */}
-            <button
-              onClick={handleToggleAudio}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs flex-shrink-0 ${
-                isPlayingAudio 
-                  ? 'bg-teal-600 text-white animate-pulse' 
-                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-              }`}
-              title="Escuchar frase con tono calmante"
-            >
-              <Volume2 className={`w-3.5 h-3.5 ${isPlayingAudio ? 'animate-bounce' : 'text-teal-600'}`} />
-              <span className="text-[11px]">{isPlayingAudio ? 'Escuchando...' : 'Modo Voz'}</span>
-            </button>
+            <div className="flex flex-col gap-2 py-0.5">
+              {phrases.map((phrase, idx) => (
+                <div 
+                  key={idx} 
+                  className="bg-indigo-50/60 p-3 rounded-xl border border-indigo-100"
+                >
+                  {phrases.length > 1 && (
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-600 block mb-0.5">
+                      {idx === 0 ? 'Opción 1 • Conectar / Validar' : 'Opción 2 • Sostener Límite'}
+                    </span>
+                  )}
+                  <p className="text-base sm:text-lg font-black text-slate-900 leading-snug tracking-tight">
+                    {phrase}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Frases Modelo en Formato Teleprompter */}
-          <div className="flex flex-col gap-2.5 my-1">
-            {phrases.map((phrase, idx) => (
-              <div 
-                key={idx} 
-                className="bg-[#EEF2FF]/70 p-4 rounded-2xl border border-indigo-100/90 relative"
+          {/* 3. MODO OÍDO: Audio Asistente Susurrado (Demo para Sponsor) */}
+          <button
+            onClick={handleToggleAudio}
+            className={`w-full py-3 px-4 rounded-2xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm ${
+              isPlayingAudio 
+                ? 'bg-teal-600 text-white animate-pulse' 
+                : 'bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 active:scale-[0.99] text-white'
+            }`}
+          >
+            <Headphones className={`w-4 h-4 ${isPlayingAudio ? 'animate-bounce' : ''}`} />
+            <span>{isPlayingAudio ? 'Escuchando al oído... (Toca para detener)' : '🎧 Modo Oído • Escuchar guía susurrada'}</span>
+          </button>
+
+          {/* 4. CONTENCIÓN: Semáforo de Acción Inmediata (Zero Párrafos) */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-emerald-50/90 border border-emerald-200/90 rounded-xl p-2.5 flex flex-col gap-1 shadow-xs">
+              <span className="text-[10px] font-extrabold text-emerald-800 uppercase tracking-wider flex items-center gap-1">
+                <Check className="w-3 h-3 text-emerald-600" />
+                <span>Haz esto:</span>
+              </span>
+              <p className="text-xs text-emerald-950 font-bold leading-tight">
+                {coreAction}
+              </p>
+            </div>
+
+            <div className="bg-rose-50/90 border border-rose-200/90 rounded-xl p-2.5 flex flex-col gap-1 shadow-xs">
+              <span className="text-[10px] font-extrabold text-rose-800 uppercase tracking-wider flex items-center gap-1">
+                <AlertTriangle className="w-3 h-3 text-rose-600" />
+                <span>Evita ahora:</span>
+              </span>
+              <p className="text-xs text-rose-950 font-bold leading-tight">
+                {avoidAction}
+              </p>
+            </div>
+          </div>
+
+          {/* 5. BARRA DE CIERRE DE CRISIS: ¿Qué ocurrió? */}
+          <div className="bg-white rounded-2xl p-3 border border-slate-200/80 shadow-xs flex flex-col gap-2 mt-0.5">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 text-center">
+              ¿Cómo respondió tu hijo tras aplicar el guion?
+            </span>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => {
+                  setFollowUpState('calmed');
+                  setHasPhysicalRisk(null);
+                }}
+                className="py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-xs cursor-pointer active:scale-[0.98]"
               >
-                {phrases.length > 1 && (
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#A9A0EC] block mb-1">
-                    {idx === 0 ? 'Opción 1 • Validar / Conectar' : 'Opción 2 • Sostener Límite'}
-                  </span>
-                )}
-                <p className="text-base sm:text-lg text-slate-900 font-extrabold leading-snug tracking-tight">
-                  {phrase}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex items-center justify-between text-[11px] text-slate-500 font-medium pt-1">
-            <span>💡 Habla despacio. No subas el volumen aunque el niño grite.</span>
-          </div>
-        </div>
-
-        {/* --- SEMÁFORO DE ACCIÓN RÁPIDA (Zero Párrafos) --- */}
-        <div className="grid grid-cols-2 gap-2.5">
-          {/* Haz esto ahora */}
-          <div className="bg-emerald-50/90 border border-emerald-200/90 rounded-2xl p-3.5 flex flex-col gap-1.5 shadow-xs">
-            <span className="text-[11px] font-extrabold text-emerald-800 uppercase tracking-wider flex items-center gap-1">
-              <span>✅ Haz esto:</span>
-            </span>
-            <p className="text-xs text-emerald-950 font-bold leading-relaxed">
-              {coreAction}
-            </p>
-          </div>
-
-          {/* Evita en este instante */}
-          <div className="bg-rose-50/90 border border-rose-200/90 rounded-2xl p-3.5 flex flex-col gap-1.5 shadow-xs">
-            <span className="text-[11px] font-extrabold text-rose-800 uppercase tracking-wider flex items-center gap-1">
-              <span>🚫 Evita ahora:</span>
-            </span>
-            <p className="text-xs text-rose-950 font-bold leading-relaxed">
-              {avoidAction}
-            </p>
-          </div>
-        </div>
-
-        {/* --- SEGUIMIENTO POSTERIOR: ¿CÓMO EVOLUCIONA LA SITUACIÓN? --- */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-xs flex flex-col gap-3.5 w-full mt-1">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
-              Paso siguiente • ¿Cómo respondió tu hijo?
-            </span>
-            {followUpState && (
-              <button 
-                onClick={resetFollowUp} 
-                className="text-[11px] font-semibold text-teal-600 hover:text-teal-700 flex items-center gap-1 cursor-pointer"
-              >
-                <RotateCcw className="w-3 h-3" />
-                <span>Cambiar</span>
+                <span className="text-sm">😊</span>
+                <span>Ya se calmó</span>
               </button>
-            )}
+
+              <button
+                onClick={() => {
+                  setFollowUpState('worse');
+                  setHasPhysicalRisk(null);
+                }}
+                className="py-2.5 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.98]"
+              >
+                <span className="text-sm">⚠️</span>
+                <span>Sigue desbordado</span>
+              </button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
-            <button
-              onClick={() => {
-                setFollowUpState('calmed');
-                setHasPhysicalRisk(null);
-              }}
-              className={`py-3 px-1.5 rounded-2xl text-xs font-bold transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${
-                followUpState === 'calmed'
-                  ? 'bg-emerald-600 text-white shadow-xs scale-[1.02]'
-                  : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200/60'
-              }`}
-            >
-              <span className="text-base">😊</span>
-              <span>Ya se calmó</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setFollowUpState('same');
-                setHasPhysicalRisk(null);
-              }}
-              className={`py-3 px-1.5 rounded-2xl text-xs font-bold transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${
-                followUpState === 'same'
-                  ? 'bg-amber-500 text-white shadow-xs scale-[1.02]'
-                  : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200/60'
-              }`}
-            >
-              <span className="text-base">😐</span>
-              <span>Sigue igual</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setFollowUpState('worse');
-                setHasPhysicalRisk(null);
-              }}
-              className={`py-3 px-1.5 rounded-2xl text-xs font-bold transition-all flex flex-col items-center justify-center gap-1 cursor-pointer ${
-                followUpState === 'worse'
-                  ? 'bg-rose-600 text-white shadow-xs scale-[1.02]'
-                  : 'bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200/60'
-              }`}
-            >
-              <span className="text-base">😫</span>
-              <span>Está empeorando</span>
-            </button>
-          </div>
         </div>
+      )}
+
+      {/* ============================================================== */}
+      {/* FASE 2: RESOLUCIÓN (CALMA O PROTOCOLO DE SEGURIDAD)            */}
+      {/* ============================================================== */}
+      {followUpState && (
+        <div className="p-4 flex flex-col gap-4 max-w-md mx-auto w-full animate-fadeIn">
+          {/* Botón para volver al guion de crisis */}
+          <button 
+            onClick={resetFollowUp}
+            className="self-start text-xs font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/80 px-3 py-1.5 rounded-xl flex items-center gap-1.5 cursor-pointer transition-colors"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Volver al guion de crisis</span>
+          </button>
 
         {/* --- OPCIÓN 1: YA SE CALMÓ (FASE EN FRÍO - MODELO OCEARA) --- */}
         {followUpState === 'calmed' && (
@@ -479,8 +476,9 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
         {/* Feedback de Utilidad */}
         <FeedbackFooter />
       </div>
-    </div>
-  );
+    )}
+  </div>
+);
 };
 
 export default CoachResponseScreen;
