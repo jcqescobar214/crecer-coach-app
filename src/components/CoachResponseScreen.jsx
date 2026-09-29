@@ -36,8 +36,22 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
   const [followUpState, setFollowUpState] = useState(null);
   // Evaluación de riesgo para 'Está empeorando': null | true | false
   const [hasPhysicalRisk, setHasPhysicalRisk] = useState(null);
-  // Estado para el modo de audio simulado (Whisper Mode)
+  // Estado para el modo de audio simulado o con síntesis de voz (Whisper Mode)
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+
+  // Desglosar frases para el teleprompter (separadas limpiamente si hay alternativas)
+  const phrases = intervention.puedesDecir
+    ? intervention.puedesDecir.split(' / ').map(p => p.trim())
+    : [];
+
+  // Síntesis de alto impacto: 1 micro-acción inmediata y 2 prohibiciones críticas
+  const coreAction = intervention.hazEstoAhora
+    ? (intervention.hazEstoAhora.split('.')[0] + '.')
+    : 'Presencia tranquila y palabras mínimas.';
+
+  const avoidAction = (intervention.evita && intervention.evita.length > 0)
+    ? (intervention.evita.slice(0, 2).join(' ni ') + '.')
+    : 'Gritar ni ceder al límite fijado.';
 
   // Estados de la reflexión post-crisis del adulto (OCEARA en frío)
   const [stormIntensity, setStormIntensity] = useState(null);
@@ -55,10 +69,36 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
   };
 
   const handleToggleAudio = () => {
-    setIsPlayingAudio(true);
-    setTimeout(() => {
+    if (isPlayingAudio) {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
       setIsPlayingAudio(false);
-    }, 4500);
+      return;
+    }
+
+    setIsPlayingAudio(true);
+
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const textToSpeak = phrases.join('. Pausa. ')
+        .replace(/[“”"']/g, '')
+        .replace(/\//g, ' ');
+
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.lang = 'es-ES';
+      utterance.rate = 0.85; // Cadencia pausada y tranquilizadora
+      utterance.pitch = 0.95;
+
+      utterance.onend = () => setIsPlayingAudio(false);
+      utterance.onerror = () => setIsPlayingAudio(false);
+
+      window.speechSynthesis.speak(utterance);
+    } else {
+      setTimeout(() => {
+        setIsPlayingAudio(false);
+      }, 4500);
+    }
   };
 
   return (
@@ -74,86 +114,84 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
           icon={intervention.icon}
         />
 
-        {/* --- TELEPROMPTER DE CRISIS (Frase Modelo de Alto Impacto) --- */}
+        {/* --- TELEPROMPTER DE CRISIS (Frases con Máxima Legibilidad a 1 metro) --- */}
         <div className="bg-white rounded-3xl p-5 border-2 border-indigo-100 shadow-sm flex flex-col gap-3 relative overflow-hidden">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#A9A0EC] flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Teleprompter • Lo que dices</span>
-            </span>
+          {/* Cabecera del Teleprompter: Micro-Badges de Postura + Modo Voz */}
+          <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            {/* 3 Claves Corporales integradas directamente */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-[10px] font-extrabold border border-emerald-200/80">
+                <Eye className="w-3 h-3 text-emerald-600" />
+                <span>A su altura</span>
+              </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-teal-50 text-teal-800 text-[10px] font-extrabold border border-teal-200/80">
+                <Volume2 className="w-3 h-3 text-teal-600" />
+                <span>Voz suave</span>
+              </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-800 text-[10px] font-extrabold border border-indigo-200/80">
+                <ShieldCheck className="w-3 h-3 text-indigo-600" />
+                <span>Sin ceder</span>
+              </span>
+            </div>
 
-            {/* Botón de Audio Susurrado */}
+            {/* Botón de Audio Guiado (Modo Voz) */}
             <button
               onClick={handleToggleAudio}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs flex-shrink-0 ${
                 isPlayingAudio 
-                  ? 'bg-teal-500 text-white animate-pulse' 
+                  ? 'bg-teal-600 text-white animate-pulse' 
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
               }`}
+              title="Escuchar frase con tono calmante"
             >
-              <Volume2 className="w-3.5 h-3.5" />
-              <span>{isPlayingAudio ? 'Reproduciendo...' : 'Modo Voz'}</span>
+              <Volume2 className={`w-3.5 h-3.5 ${isPlayingAudio ? 'animate-bounce' : 'text-teal-600'}`} />
+              <span className="text-[11px]">{isPlayingAudio ? 'Escuchando...' : 'Modo Voz'}</span>
             </button>
           </div>
 
-          {/* Frase Gigante Textual para leer de reojo */}
-          <div className="bg-[#EEF2FF]/70 p-4 rounded-2xl border border-indigo-100/80 my-1">
-            <p className="text-base sm:text-lg text-slate-900 font-extrabold leading-snug tracking-tight">
-              {intervention.puedesDecir}
-            </p>
+          {/* Frases Modelo en Formato Teleprompter */}
+          <div className="flex flex-col gap-2.5 my-1">
+            {phrases.map((phrase, idx) => (
+              <div 
+                key={idx} 
+                className="bg-[#EEF2FF]/70 p-4 rounded-2xl border border-indigo-100/90 relative"
+              >
+                {phrases.length > 1 && (
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#A9A0EC] block mb-1">
+                    {idx === 0 ? 'Opción 1 • Validar / Conectar' : 'Opción 2 • Sostener Límite'}
+                  </span>
+                )}
+                <p className="text-base sm:text-lg text-slate-900 font-extrabold leading-snug tracking-tight">
+                  {phrase}
+                </p>
+              </div>
+            ))}
           </div>
 
-          <span className="text-[11px] text-slate-500 font-medium">
-            💡 Mantén contacto visual a su altura y habla con volumen bajo y firme.
-          </span>
-        </div>
-
-        {/* --- PICTOGRAMAS DE POSTURA CORPORAL (Lenguaje No Verbal de Crisis) --- */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-xs flex flex-col gap-3">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-            Tu postura corporal (3 claves)
-          </span>
-
-          <div className="grid grid-cols-3 gap-2">
-            <div className="bg-emerald-50/80 border border-emerald-100 p-2.5 rounded-xl flex flex-col items-center text-center gap-1">
-              <Eye className="w-5 h-5 text-emerald-600" />
-              <span className="text-[11px] font-bold text-emerald-800 leading-tight">A su altura</span>
-              <span className="text-[9px] text-emerald-700 opacity-90">Agáchate</span>
-            </div>
-
-            <div className="bg-teal-50/80 border border-teal-100 p-2.5 rounded-xl flex flex-col items-center text-center gap-1">
-              <Volume2 className="w-5 h-5 text-teal-600" />
-              <span className="text-[11px] font-bold text-teal-800 leading-tight">Voz suave</span>
-              <span className="text-[9px] text-teal-700 opacity-90">Un susurro</span>
-            </div>
-
-            <div className="bg-indigo-50/80 border border-indigo-100 p-2.5 rounded-xl flex flex-col items-center text-center gap-1">
-              <ShieldCheck className="w-5 h-5 text-indigo-600" />
-              <span className="text-[11px] font-bold text-indigo-800 leading-tight">Firmeza</span>
-              <span className="text-[9px] text-indigo-700 opacity-90">Sin ceder</span>
-            </div>
+          <div className="flex items-center justify-between text-[11px] text-slate-500 font-medium pt-1">
+            <span>💡 Habla despacio. No subas el volumen aunque el niño grite.</span>
           </div>
         </div>
 
-        {/* --- ACCIÓN INMEDIATA + QUÉ EVITAR (Compacto y sin saturación) --- */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {/* --- SEMÁFORO DE ACCIÓN RÁPIDA (Zero Párrafos) --- */}
+        <div className="grid grid-cols-2 gap-2.5">
           {/* Haz esto ahora */}
-          <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-xs flex flex-col gap-1.5">
-            <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider flex items-center gap-1">
-              <span>✅ Haz esto ahora:</span>
+          <div className="bg-emerald-50/90 border border-emerald-200/90 rounded-2xl p-3.5 flex flex-col gap-1.5 shadow-xs">
+            <span className="text-[11px] font-extrabold text-emerald-800 uppercase tracking-wider flex items-center gap-1">
+              <span>✅ Haz esto:</span>
             </span>
-            <p className="text-xs text-slate-700 leading-relaxed font-medium">
-              {intervention.hazEstoAhora}
+            <p className="text-xs text-emerald-950 font-bold leading-relaxed">
+              {coreAction}
             </p>
           </div>
 
-          {/* Alerta de no hacer */}
-          <div className="bg-rose-50/90 rounded-2xl p-4 border border-rose-200/80 shadow-xs flex flex-col gap-1.5">
-            <span className="text-[11px] font-bold text-rose-800 uppercase tracking-wider flex items-center gap-1">
-              <span>🚫 Evita en este instante:</span>
+          {/* Evita en este instante */}
+          <div className="bg-rose-50/90 border border-rose-200/90 rounded-2xl p-3.5 flex flex-col gap-1.5 shadow-xs">
+            <span className="text-[11px] font-extrabold text-rose-800 uppercase tracking-wider flex items-center gap-1">
+              <span>🚫 Evita ahora:</span>
             </span>
-            <p className="text-xs text-rose-900 leading-relaxed font-medium">
-              Gritar, dar discursos largos o retirar el límite para que deje de llorar.
+            <p className="text-xs text-rose-950 font-bold leading-relaxed">
+              {avoidAction}
             </p>
           </div>
         </div>
@@ -161,8 +199,8 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
         {/* --- SEGUIMIENTO POSTERIOR: ¿CÓMO EVOLUCIONA LA SITUACIÓN? --- */}
         <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-xs flex flex-col gap-3.5 w-full mt-1">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-              ¿Cómo evoluciona la situación?
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
+              Paso siguiente • ¿Cómo respondió tu hijo?
             </span>
             {followUpState && (
               <button 
@@ -170,7 +208,7 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
                 className="text-[11px] font-semibold text-teal-600 hover:text-teal-700 flex items-center gap-1 cursor-pointer"
               >
                 <RotateCcw className="w-3 h-3" />
-                <span>Reiniciar</span>
+                <span>Cambiar</span>
               </button>
             )}
           </div>
