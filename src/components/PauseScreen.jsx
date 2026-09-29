@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import HelpHeader from './HelpHeader';
 import { ArrowRight, Wind, CheckCircle2, ShieldCheck, Volume2, Sparkles } from 'lucide-react';
 
-const PauseScreen = ({ situation, intensity, onBack, onContinue }) => {
+const PauseScreen = ({ situation, onBack, onContinue }) => {
   // Modo de vista: 'choice' (decisión de 1 toque) | 'breathing' (respiración guiada exprés)
   const [viewMode, setViewMode] = useState('choice');
 
@@ -26,7 +26,7 @@ const PauseScreen = ({ situation, intensity, onBack, onContinue }) => {
   }, [viewMode]);
 
   return (
-    <div className="flex flex-col bg-slate-50 w-full relative min-h-screen">
+    <div className="flex flex-col bg-slate-50 w-full relative">
       <HelpHeader 
         onBack={() => {
           if (viewMode === 'breathing') {

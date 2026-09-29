@@ -40,6 +40,7 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
   // Estados de la reflexión post-crisis del adulto (OCEARA en frío)
+  const [stormIntensity, setStormIntensity] = useState(null);
   const [selectedPostEmotion, setSelectedPostEmotion] = useState(null);
   const [parentSuccessGoal, setParentSuccessGoal] = useState(null);
   const [savedPractice, setSavedPractice] = useState(false);
@@ -47,6 +48,7 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
   const resetFollowUp = () => {
     setFollowUpState(null);
     setHasPhysicalRisk(null);
+    setStormIntensity(null);
     setSelectedPostEmotion(null);
     setParentSuccessGoal(null);
     setSavedPractice(false);
@@ -244,8 +246,35 @@ const CoachResponseScreen = ({ onBack, situation, pauseData }) => {
                 </h4>
               </div>
 
-              {/* ¿Qué sentiste? */}
+              {/* ¿Qué tan intensa estuvo la situación? */}
               <div className="flex flex-col gap-2">
+                <span className="text-xs font-bold text-slate-700">
+                  ¿Qué tan intensa estuvo la tormenta del niño?
+                </span>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { id: 'leve', label: 'Manejable', emoji: '🌱' },
+                    { id: 'fuerte', label: 'Fuerte', emoji: '😤' },
+                    { id: 'desborde', label: 'Desborde', emoji: '🌋' },
+                  ].map((lvl) => (
+                    <button
+                      key={lvl.id}
+                      onClick={() => setStormIntensity(lvl.id)}
+                      className={`p-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer border ${
+                        stormIntensity === lvl.id
+                          ? 'bg-amber-50 border-amber-300 text-amber-900 font-bold shadow-xs scale-102'
+                          : 'bg-slate-50 border-slate-200/70 text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      <span className="text-base">{lvl.emoji}</span>
+                      <span className="text-[11px]">{lvl.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* ¿Qué sentiste? */}
+              <div className="flex flex-col gap-2 pt-2 border-t border-slate-100">
                 <span className="text-xs font-bold text-slate-700">
                   ¿Qué emoción experimentaste durante la situación?
                 </span>
