@@ -3,8 +3,8 @@ import HelpHeader from './HelpHeader';
 import { ArrowRight, Wind, CheckCircle2, ShieldCheck, Volume2, Sparkles } from 'lucide-react';
 
 const PauseScreen = ({ situation, onBack, onContinue }) => {
-  // Modo de vista: 'choice' (decisión de 1 toque) | 'breathing' (respiración guiada exprés)
-  const [viewMode, setViewMode] = useState('choice');
+  // Modo de vista: 'intro' (teleprompter con coach) | 'choice' (decisión de 1 toque) | 'breathing' (respiración)
+  const [viewMode, setViewMode] = useState('intro');
 
   // Animación del ciclo de respiración de 5 segundos
   const [breathPhase, setBreathPhase] = useState('Inhala...');
@@ -31,6 +31,8 @@ const PauseScreen = ({ situation, onBack, onContinue }) => {
         onBack={() => {
           if (viewMode === 'breathing') {
             setViewMode('choice');
+          } else if (viewMode === 'choice') {
+            setViewMode('intro');
           } else {
             onBack();
           }
@@ -39,17 +41,54 @@ const PauseScreen = ({ situation, onBack, onContinue }) => {
       />
 
       <div className="p-4 flex flex-col gap-4">
-        {/* Banner de Validación Empática del Coach */}
-        <div className="bg-emerald-50/90 border border-emerald-200/80 rounded-2xl p-3.5 flex items-center gap-3 shadow-xs">
-          <div className="w-10 h-10 rounded-full bg-teal-100 p-0.5 flex-shrink-0 border border-teal-200 flex items-center justify-center overflow-hidden">
-            <img src="/coach_mascot.png" alt="Coach" className="w-full h-full object-contain" />
-          </div>
-          <p className="text-xs text-emerald-900 font-semibold leading-snug">
-            "Para calmar a tu hijo, primero cuidemos tu propia serenidad."
-          </p>
-        </div>
+        {/* --- PANTALLA 1: TELEPROMPTER PARA EL PADRE CON COACH CENTRADO --- */}
+        {viewMode === 'intro' && (
+          <div className="flex flex-col items-center text-center gap-5 pt-3 pb-2 animate-fadeIn">
+            {/* Imagen del Coach en el centro superior */}
+            <div className="relative">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-b from-teal-50 to-emerald-100 p-1.5 border-2 border-teal-200 shadow-sm flex items-center justify-center">
+                <img 
+                  src="/coach_mascot.png" 
+                  alt="Coach Crecer" 
+                  className="w-full h-full object-contain filter drop-shadow-xs" 
+                />
+              </div>
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white px-2.5 py-0.5 rounded-full border border-teal-200 text-[10px] font-extrabold text-teal-700 shadow-xs uppercase tracking-wider whitespace-nowrap">
+                Coach Crecer
+              </div>
+            </div>
 
-        {/* --- MODO ELECCIÓN DE 1 TOQUE (Sin cuestionarios en caliente) --- */}
+            {/* Mensaje estilo Teleprompter encerrado */}
+            <div className="w-full bg-white rounded-3xl p-6 border-2 border-emerald-100 shadow-sm flex flex-col items-center gap-3 relative mt-1">
+              <div className="flex items-center gap-1.5 text-[#A9A0EC] font-extrabold text-[11px] uppercase tracking-widest">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Mensaje clave para ti</span>
+              </div>
+
+              <div className="text-center py-2">
+                <p className="text-lg sm:text-xl font-extrabold text-slate-800 leading-snug tracking-tight">
+                  “Para calmar a tu hijo, <br className="hidden sm:inline" />
+                  <span className="text-teal-700">primero cuidemos tu propia serenidad</span>.”
+                </p>
+              </div>
+
+              <p className="text-xs text-slate-500 font-medium max-w-xs text-center">
+                Tu tranquilidad es el ancla emocional que tu hijo necesita para regularse.
+              </p>
+            </div>
+
+            {/* Solo un botón Siguiente */}
+            <button
+              onClick={() => setViewMode('choice')}
+              className="w-full py-4 px-6 bg-teal-600 hover:bg-teal-700 active:scale-[0.99] text-white rounded-2xl font-bold text-sm shadow-md shadow-teal-700/10 flex items-center justify-center gap-2 transition-all cursor-pointer mt-2"
+            >
+              <span>Siguiente</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
+        {/* --- PANTALLA 2: MODO ELECCIÓN DE 1 TOQUE (Decisión de Intervención) --- */}
         {viewMode === 'choice' && (
           <div className="flex flex-col gap-4 animate-fadeIn">
             <div className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm flex flex-col gap-2 text-center">
@@ -99,7 +138,7 @@ const PauseScreen = ({ situation, onBack, onContinue }) => {
           </div>
         )}
 
-        {/* --- MODO RESPIRACIÓN EXPRÉS (5 SEGUNDOS) --- */}
+        {/* --- PANTALLA 3: MODO RESPIRACIÓN EXPRÉS (5 SEGUNDOS) --- */}
         {viewMode === 'breathing' && (
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm flex flex-col items-center text-center gap-5 animate-fadeIn">
             <div className="flex flex-col items-center gap-1">
