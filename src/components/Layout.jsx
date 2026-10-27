@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import BottomNav from './BottomNav';
 
-const Layout = ({ children, hideHeader = false, activeTab = 'inicio', onTabChange }) => {
+const Layout = ({ children, hideHeader = false, hideBottomNav = false, activeTab = 'inicio', onTabChange }) => {
   return (
     <>
       <style>{`
@@ -22,7 +22,7 @@ const Layout = ({ children, hideHeader = false, activeTab = 'inicio', onTabChang
           {children}
         </main>
 
-        <BottomNav activeTab={activeTab} onTabChange={onTabChange} />
+        {!hideBottomNav && <BottomNav activeTab={activeTab} onTabChange={onTabChange} />}
       </div>
     </>
   );
