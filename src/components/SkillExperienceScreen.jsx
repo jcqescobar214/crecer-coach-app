@@ -174,17 +174,22 @@ const SkillExperienceScreen = ({ skill, onBack, onComplete, onExploreOther }) =>
             </div>
 
             {/* Insight Empático del Coach */}
-            <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/90 rounded-3xl p-4.5 flex items-start gap-3.5 shadow-xs">
-              <div className="w-12 h-12 rounded-2xl bg-white p-1 flex-shrink-0 border border-amber-200 flex items-center justify-center shadow-xs overflow-hidden">
-                <img src="/coach_mascot.png" alt="Coach" className="w-full h-full object-contain" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-800">
+            <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/90 rounded-3xl p-4 shadow-xs flex items-center justify-between gap-3 overflow-hidden">
+              <div className="flex flex-col flex-1">
+                <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-white/80 self-start px-2.5 py-0.5 rounded-full border border-amber-200 mb-1.5 shadow-xs">
                   ¿Por qué ocurre esto?
                 </span>
-                <p className="text-xs text-slate-800 font-medium leading-relaxed mt-1">
+                <p className="text-xs text-slate-800 font-medium leading-relaxed">
                   {skill.miraQuePasa.coachInsight}
                 </p>
+              </div>
+
+              <div className="w-20 h-24 flex-shrink-0 flex items-end justify-center -mr-1">
+                <img 
+                  src="/coach_mascot.png" 
+                  alt="Coach" 
+                  className="w-full h-full object-contain object-bottom drop-shadow-md" 
+                />
               </div>
             </div>
           </div>

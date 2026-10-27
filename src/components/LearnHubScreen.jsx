@@ -66,22 +66,27 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
       </header>
 
       <div className="p-4 flex flex-col gap-4 max-w-md mx-auto w-full">
-        {/* Banner Motivacional del Coach */}
-        <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/80 rounded-3xl p-4.5 flex items-center gap-3.5 shadow-xs">
-          <div className="w-13 h-13 rounded-2xl bg-white p-1 flex-shrink-0 border border-amber-200 flex items-center justify-center shadow-xs overflow-hidden">
+        {/* Banner Motivacional del Coach (Ajustado para Mobile) */}
+        <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/60 border border-amber-200/80 rounded-3xl p-4 shadow-xs flex items-center justify-between relative overflow-hidden">
+          <div className="flex flex-col flex-1 pr-3 z-10">
+            <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-white/90 self-start px-2.5 py-0.5 rounded-full border border-amber-200 shadow-xs mb-1.5">
+              Método Kazdin • 2 min
+            </span>
+            <h2 className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug">
+              Aprende con microprácticas, no con teoría.
+            </h2>
+            <p className="text-xs text-slate-600 font-medium leading-relaxed mt-1">
+              "Elige una habilidad hoy y pruébala en tu próxima rutina."
+            </p>
+          </div>
+
+          {/* Personaje 3D del Coach perfectamente escalado */}
+          <div className="w-24 h-28 flex-shrink-0 flex items-end justify-center relative -mr-1">
             <img 
               src="/coach_mascot.png" 
-              alt="Coach" 
-              className="w-full h-full object-contain filter drop-shadow-xs" 
+              alt="Coach Crecer" 
+              className="w-full h-full object-contain object-bottom drop-shadow-md hover:scale-105 transition-transform" 
             />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-700">
-              Microprácticas de 2 minutos
-            </span>
-            <p className="text-xs font-bold text-slate-800 leading-snug mt-0.5">
-              "No necesitas cursos largos. Entrena una habilidad hoy y pruébala en la próxima rutina."
-            </p>
           </div>
         </div>
 
