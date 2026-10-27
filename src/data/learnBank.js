@@ -1,4 +1,4 @@
-// Banco de contenidos de las 9 Habilidades Parentales (Modelo Kazdin / PMTO)
+// Banco de contenidos de las 9 Habilidades Parentales
 // para la sección "Quiero aprender" de la app Crecer
 
 export const learnSkills = [
@@ -175,7 +175,7 @@ export const learnSkills = [
     practica: {
       type: 'template_choice',
       prompt: 'Construye tu regla de motivación usando el principio: "Primero cumples, luego recibes":',
-      helper: 'Fórmula Kazdin: Cuando [Acción] → Entonces [Privilegio agradable].',
+      helper: 'Fórmula: Cuando [Acción] → Entonces [Privilegio agradable].',
       options: [
         { id: '1', verb: 'Cuando', action: 'termines de ponerte el pijama → leemos dos cuentos juntos en la cama.' },
         { id: '2', verb: 'Cuando', action: 'los bloques estén en su caja → ponemos tu música favorita para bailar.' },
@@ -306,7 +306,7 @@ export const learnSkills = [
     },
     practica: {
       type: 'template_choice',
-      prompt: 'Entrenamiento rápido en 4 pasos (Método Kazdin):',
+      prompt: 'Entrenamiento rápido en 4 pasos:',
       helper: 'Elige la conducta que ensayarán hoy durante 2 minutos:',
       options: [
         { id: '1', verb: 'Paso a paso:', action: 'Tú lo muestras → Lo hacen juntos → Él lo intenta → Lo elogias con entusiasmo.' },

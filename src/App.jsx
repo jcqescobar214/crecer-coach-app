@@ -47,7 +47,7 @@ export default function App() {
       );
     }
 
-    // 3. Catálogo "Quiero aprender" (9 Habilidades Kazdin)
+    // 3. Catálogo "Quiero aprender" (9 Habilidades Prácticas)
     if (activeTab === 'aprender') {
       return (
         <LearnHubScreen

@@ -149,7 +149,7 @@ const SkillExperienceScreen = ({ skill, onBack, onComplete, onExploreOther }) =>
         {/* Etiqueta del Paso */}
         <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-wider text-slate-400">
           <span>{STEP_NAMES[currentStep - 1]}</span>
-          <span className="text-amber-600 font-bold">Método Kazdin</span>
+          <span className="text-amber-600 font-bold">Micropráctica</span>
         </div>
 
         {/* ============================================================== */}

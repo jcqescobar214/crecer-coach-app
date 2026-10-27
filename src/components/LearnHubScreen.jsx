@@ -53,7 +53,7 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
               💡
             </span>
             <span className="text-xs font-extrabold uppercase tracking-wider text-slate-400">
-              Entrenamiento Kazdin
+              Habilidades Clave
             </span>
           </div>
         )}
@@ -70,7 +70,7 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
         <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/60 border border-amber-200/80 rounded-3xl p-4 shadow-xs flex items-center justify-between relative overflow-hidden">
           <div className="flex flex-col flex-1 pr-3 z-10">
             <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-white/90 self-start px-2.5 py-0.5 rounded-full border border-amber-200 shadow-xs mb-1.5">
-              Método Kazdin • 2 min
+              Microprácticas • 2 min
             </span>
             <h2 className="text-sm sm:text-base font-extrabold text-slate-900 leading-snug">
               Aprende con microprácticas, no con teoría.
@@ -169,7 +169,7 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
 
                   <div className="flex items-center justify-between pt-2 mt-1 border-t border-slate-100/80">
                     <span className="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider">
-                      Práctica interactiva Kazdin
+                      Micropráctica guiada
                     </span>
                     <span className="text-xs font-bold text-amber-600 flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">
                       <span>Empezar</span>
