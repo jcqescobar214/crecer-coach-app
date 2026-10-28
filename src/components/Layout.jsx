@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import BottomNav from './BottomNav';
 
-const Layout = ({ children, hideHeader = false, hideBottomNav = false, activeTab = 'inicio', onTabChange }) => {
+const Layout = ({ children, hideHeader = false, hideBottomNav = false, activeTab = 'inicio', onTabChange, floatingAction = null }) => {
   return (
     <>
       <style>{`
@@ -21,6 +21,8 @@ const Layout = ({ children, hideHeader = false, hideBottomNav = false, activeTab
         <main className={`flex-1 overflow-y-auto w-full ${hideHeader ? 'p-0 pb-24' : 'p-4 pb-24'} flex flex-col gap-4`}>
           {children}
         </main>
+
+        {floatingAction}
 
         {!hideBottomNav && <BottomNav activeTab={activeTab} onTabChange={onTabChange} />}
       </div>
