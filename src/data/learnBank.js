@@ -3,8 +3,282 @@
 
 export const learnSkills = [
   {
-    id: 'habla_claro',
+    id: 'conecta',
     number: 1,
+    title: 'Conecta y juega',
+    subtitle: 'Vínculo y atención compartida',
+    tagline: 'Cuando dejas que tu hijo dirija el juego, le demuestras que te interesa lo que hace.',
+    emoji: '🌱',
+    badge: 'Habilidad 1 de 9',
+    color: '#00A896',
+    bgSoft: 'bg-[#E8F8F7]',
+    borderSoft: 'border-[#B2EBF2]',
+    category: 'communication',
+    isPremier: true,
+    whyImportant: 'Cuando dejas que tu hijo dirija el juego, le demuestras que te interesa lo que hace. Jugar juntos fortalece su vínculo.',
+    introImage: '/conecta/illustration_intro.png',
+    miraQuePasa: {
+      tag: '1. Mira qué pasa',
+      subtitle: 'Observa esta situación. Fíjate en lo que hace el adulto y cómo puede influir en el juego de su hijo.',
+      image: '/conecta/illustration_mira.png',
+      dialogue: '“¡Pon el bloque rojo arriba!”',
+      didYouKnow: 'A veces, sin darnos cuenta, les decimos a nuestros hijos cómo deben jugar. Aunque queremos ayudar, terminamos decidiendo por ellos y les dejamos poco espacio para explorar y crear a su manera.'
+    },
+    elige: {
+      tag: '2. Elige',
+      prompt: 'Tu hijo está construyendo una torre con bloques. ¿Qué harías?',
+      image: '/conecta/illustration_elige.png',
+      options: [
+        {
+          id: 'a',
+          label: 'A',
+          text: 'Le digo cómo hacerla más alta.',
+          thumb: '/conecta/thumb_opt_a.png',
+          isCorrect: false,
+          feedbackTitle: '¡Probemos otra forma!',
+          feedback: 'Cuando le dices cómo hacer la torre, terminas dirigiendo su juego. Aunque quieres ayudar, es mejor dejar que él decida cómo construirla.'
+        },
+        {
+          id: 'b',
+          label: 'B',
+          text: 'Observo y digo: “¡Estás construyendo una torre!”',
+          thumb: '/conecta/thumb_opt_b.png',
+          isCorrect: true,
+          feedbackTitle: '¡Eso es!',
+          feedback: '¡Eso es! Estás mostrando interés sin dirigir el juego.'
+        },
+        {
+          id: 'c',
+          label: 'C',
+          text: 'Le pregunto qué colores está usando.',
+          thumb: '/conecta/thumb_opt_c.png',
+          isCorrect: false,
+          feedbackTitle: '¡Probemos otra forma!',
+          feedback: 'Preguntar no está mal. Ahora practica comentar lo que hace, sin convertir el juego en preguntas.'
+        }
+      ]
+    },
+    miraComoSeHace: {
+      tag: '3. Mira cómo se hace',
+      subtitle: 'Observa dos ejemplos de cómo acompañar el juego de tu hijo sin dirigirlo.',
+      panels: [
+        {
+          id: 1,
+          image: '/conecta/demo_panel_1.png',
+          text: '¡Estás poniendo un bloque sobre otro!'
+        },
+        {
+          id: 2,
+          image: '/conecta/demo_panel_2.png',
+          text: 'Gracias, voy a ponerlo contigo.'
+        }
+      ],
+      coachMessage: 'Puedes acompañar el juego observando, comentando o imitando lo que hace tu hijo, sin decirle cómo debe jugar.'
+    },
+    practica: {
+      tag: '4. Practica',
+      subtitle: 'Selecciona la situación que más se parezca a lo que hace tu hijo.',
+      activities: [
+        {
+          id: 'bloques',
+          name: 'Bloques',
+          icon: '/conecta/tab_bloques.png',
+          sceneImage: '/conecta/practica_bloques.png',
+          sceneDescription: 'Tu hijo está construyendo una torre con bloques en el suelo.',
+          question: '¿Qué podrías decir para acompañar su juego?',
+          options: [
+            {
+              id: 'a',
+              text: 'Pon ese bloque aquí.',
+              isCorrect: false,
+              feedback: 'Le estás indicando dónde ponerlo. Prueba comentar lo que está haciendo.'
+            },
+            {
+              id: 'b',
+              text: 'Estás poniendo un bloque sobre otro.',
+              isCorrect: true,
+              feedback: '¡Muy bien! Comentaste lo que hace sin cambiar su juego.'
+            },
+            {
+              id: 'c',
+              text: 'Haz una torre más alta.',
+              isCorrect: false,
+              feedback: 'Así le estás diciendo cómo jugar. Prueba observar lo que está haciendo.'
+            }
+          ]
+        },
+        {
+          id: 'carros',
+          name: 'Carros',
+          icon: '/conecta/tab_carros.png',
+          sceneImage: '/conecta/card_describe.png',
+          sceneDescription: 'Un niño está moviendo un carro de juguete por el piso. El adulto está cerca, observando.',
+          question: '¿Qué podrías decir para acompañar su juego?',
+          options: [
+            {
+              id: 'a',
+              text: 'Haz que el carro vaya más rápido.',
+              isCorrect: false,
+              feedback: 'Así le estás diciendo cómo jugar. Prueba observar lo que está haciendo.'
+            },
+            {
+              id: 'b',
+              text: 'Tu carro está recorriendo el piso.',
+              isCorrect: true,
+              feedback: '¡Muy bien! Comentaste lo que hace sin cambiar su juego.'
+            },
+            {
+              id: 'c',
+              text: 'Ahora lleva el carro al garaje.',
+              isCorrect: false,
+              feedback: 'Le estás indicando qué hacer después. En este momento buscamos seguir su iniciativa.'
+            }
+          ]
+        },
+        {
+          id: 'dibujar',
+          name: 'Dibujar',
+          icon: '/conecta/tab_dibujar.png',
+          sceneImage: '/conecta/tab_dibujar.png',
+          sceneDescription: 'Un niño está realizando trazos de diferentes colores sobre una hoja. El adulto observa su actividad.',
+          question: '¿Qué podrías decir para acompañar su juego?',
+          options: [
+            {
+              id: 'a',
+              text: 'Dibuja un árbol.',
+              isCorrect: false,
+              feedback: 'Le estás diciendo qué dibujar. En este momento queremos dejar que él decida.'
+            },
+            {
+              id: 'b',
+              text: 'Estás haciendo muchas líneas de colores.',
+              isCorrect: true,
+              feedback: '¡Eso es! Describiste lo que está haciendo sin cambiar su dibujo.'
+            },
+            {
+              id: 'c',
+              text: 'Pinta también aquí.',
+              isCorrect: false,
+              feedback: 'Así estás dirigiendo su dibujo. Prueba comentar lo que ya está haciendo.'
+            }
+          ]
+        },
+        {
+          id: 'munecos',
+          name: 'Muñecos',
+          icon: '/conecta/tab_munecos.png',
+          sceneImage: '/conecta/card_responde.png',
+          sceneDescription: 'Un niño está acostando un muñeco sobre una cama de juguete. El adulto observa sin intervenir.',
+          question: '¿Qué podrías decir para acompañar su juego?',
+          options: [
+            {
+              id: 'a',
+              text: 'Ahora dale de comer.',
+              isCorrect: false,
+              feedback: 'Estás proponiendo qué debe pasar después. Prueba seguir la historia que está creando.'
+            },
+            {
+              id: 'b',
+              text: 'Estás acostando a tu muñeco.',
+              isCorrect: true,
+              feedback: '¡Muy bien! Describiste lo que hace sin cambiar su juego.'
+            },
+            {
+              id: 'c',
+              text: 'No, primero tienes que bañarlo.',
+              isCorrect: false,
+              feedback: 'Así estás corrigiendo su manera de jugar. Deja que él decida cómo continúa la historia.'
+            }
+          ]
+        }
+      ],
+      reminder: 'Puedes acompañar el juego observando, comentando o imitando lo que hace tu hijo, sin dirigirlo.'
+    },
+    puedesDecirOHacer: {
+      tag: '5. Puedes decir o hacer',
+      subtitle: 'Durante el juego puedes acompañar a tu hijo de diferentes formas. Aquí te mostramos cuatro conductas que fortalecen la conexión y el disfrute.',
+      cards: [
+        {
+          id: 'observa',
+          title: 'Observa',
+          desc: 'Mira con interés lo que hace tu hijo.',
+          image: '/conecta/card_observa.png'
+        },
+        {
+          id: 'describe',
+          title: 'Describe',
+          desc: 'Comenta lo que está haciendo, sin decirle cómo hacerlo.',
+          image: '/conecta/card_describe.png'
+        },
+        {
+          id: 'imita',
+          title: 'Imita',
+          desc: 'Haz algo parecido a lo que él hace.',
+          image: '/conecta/card_imita.png'
+        },
+        {
+          id: 'responde',
+          title: 'Responde',
+          desc: 'Si te invita a jugar, participa siguiendo su idea.',
+          image: '/conecta/card_responde.png'
+        }
+      ],
+      reminder: 'Mientras juegan, puedes observar, comentar, imitar y responder a tu hijo. Lo importante es acompañarlo y dejar que él lleve la iniciativa.'
+    },
+    evita: {
+      tag: '6. Evita',
+      subtitle: 'Algunas formas de interactuar pueden dificultar el juego y hacer que tu hijo pierda el interés. Aquí te mostramos cuatro cosas que es mejor evitar.',
+      cards: [
+        {
+          id: 'ordenes',
+          title: 'Órdenes',
+          desc: 'Decirle todo el tiempo qué hacer.',
+          image: '/conecta/card_ordenes.png'
+        },
+        {
+          id: 'preguntas',
+          title: 'Preguntas',
+          desc: 'Hacer preguntas sin parar.',
+          image: '/conecta/card_preguntas.png'
+        },
+        {
+          id: 'correcciones',
+          title: 'Correcciones',
+          desc: 'Corregir cómo debe jugar.',
+          image: '/conecta/card_correcciones.png'
+        },
+        {
+          id: 'distracciones',
+          title: 'Distracciones',
+          desc: 'Mirar el celular mientras juegan.',
+          image: '/conecta/card_distracciones.png'
+        }
+      ],
+      reminder: 'Cuando das muchas órdenes, preguntas o correcciones, o miras el celular, es más difícil que tu hijo disfrute del juego y se sienta conectado contigo.'
+    },
+    pruebaloHoy: {
+      tag: '7. Pruébalo hoy',
+      badge: 'Tu misión',
+      title: '5 minutos juntos',
+      description: 'Deja que tu hijo escoja un juego seguro. Acompáñalo sin dirigir.',
+      image: '/conecta/illustration_mision.png',
+      habitKey: 'conecta_5_minutos_juntos',
+      durations: [
+        { id: '2min', label: '2 minutos', sub: 'Versión breve' },
+        { id: '5min', label: '5 minutos', sub: 'Tiempo completo' }
+      ],
+      moments: [
+        { id: 'manana', label: 'Mañana', icon: 'sun' },
+        { id: 'tarde', label: 'Tarde', icon: 'sunset' },
+        { id: 'noche', label: 'Noche', icon: 'moon' },
+        { id: 'despues', label: 'Elegir después', icon: 'calendar' }
+      ],
+      reminder: 'Durante el juego, puedes observar, comentar, imitar y responder a tu hijo. Lo importante es acompañarlo y dejar que él lleve la iniciativa.'
+    }
+  },
+  {
+    id: 'habla_claro',
+    number: 2,
     title: 'Habla claro',
     tagline: 'Dile exactamente qué esperas que haga.',
     emoji: '🗣️',
