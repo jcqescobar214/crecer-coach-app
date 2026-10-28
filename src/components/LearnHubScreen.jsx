@@ -26,7 +26,7 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
 
   const filteredSkills = learnSkills.filter(skill => {
     if (filter === 'communication') {
-      return ['habla_claro', 'elogia', 'da_ejemplo', 'ensena_que_hacer'].includes(skill.id);
+      return ['conecta', 'habla_claro', 'elogia', 'da_ejemplo', 'ensena_que_hacer'].includes(skill.id);
     }
     if (filter === 'limits') {
       return ['anticipate', 'pon_limites', 'se_constante', 'motiva', 'practiquen_juntos'].includes(skill.id);
@@ -133,12 +133,26 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
               <button
                 key={skill.id}
                 onClick={() => onSelectSkill(skill)}
-                className="bg-white rounded-2xl p-4 border border-slate-100 shadow-xs hover:border-amber-300 transition-all text-left flex items-start gap-3.5 group cursor-pointer active:scale-[0.99]"
+                className={`rounded-2xl p-4 border shadow-xs transition-all text-left flex items-start gap-3.5 group cursor-pointer active:scale-[0.99] ${
+                  skill.id === 'conecta'
+                    ? 'bg-gradient-to-r from-[#E8F8F7]/70 to-white border-[#00A896]/40 hover:border-[#00A896]'
+                    : 'bg-white border-slate-100 hover:border-amber-300'
+                }`}
               >
                 {/* Emoji / Icono con Número */}
-                <div className="w-12 h-12 rounded-2xl bg-amber-50/80 border border-amber-200/70 flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-105 transition-transform shadow-xs relative">
-                  <span>{skill.emoji}</span>
-                  <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-slate-800 text-white text-[10px] font-black flex items-center justify-center border-2 border-white shadow-xs">
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-105 transition-transform shadow-xs relative ${
+                  skill.id === 'conecta'
+                    ? 'bg-[#E0F7F6] border border-[#00A896]/30 text-[#00A896]'
+                    : 'bg-amber-50/80 border border-amber-200/70'
+                }`}>
+                  {skill.id === 'conecta' ? (
+                    <img src="/conecta/sprout_logo.png" alt="Sprout" className="w-7 h-7 object-contain" />
+                  ) : (
+                    <span>{skill.emoji}</span>
+                  )}
+                  <span className={`absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full text-white text-[10px] font-black flex items-center justify-center border-2 border-white shadow-xs ${
+                    skill.id === 'conecta' ? 'bg-[#00A896]' : 'bg-slate-800'
+                  }`}>
                     {skill.number}
                   </span>
                 </div>
@@ -146,9 +160,18 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
                 {/* Contenido */}
                 <div className="flex flex-col flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-1">
-                    <h2 className="text-sm font-extrabold text-slate-800 group-hover:text-amber-700 transition-colors truncate">
-                      {skill.title}
-                    </h2>
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <h2 className={`text-sm font-extrabold truncate ${
+                        skill.id === 'conecta' ? 'text-[#0F2942] group-hover:text-[#00A896]' : 'text-slate-800 group-hover:text-amber-700'
+                      }`}>
+                        {skill.title}
+                      </h2>
+                      {skill.id === 'conecta' && (
+                        <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-md bg-[#00A896]/15 text-[#00A896] uppercase flex-shrink-0">
+                          Nueva
+                        </span>
+                      )}
+                    </div>
 
                     {inPlan ? (
                       <span className="inline-flex items-center gap-1 text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 flex-shrink-0">
@@ -158,7 +181,7 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
                     ) : (
                       <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1 flex-shrink-0">
                         <Clock className="w-3 h-3 text-slate-400" />
-                        <span>2 min</span>
+                        <span>{skill.id === 'conecta' ? '3 min' : '2 min'}</span>
                       </span>
                     )}
                   </div>
@@ -168,10 +191,14 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
                   </p>
 
                   <div className="flex items-center justify-between pt-2 mt-1 border-t border-slate-100/80">
-                    <span className="text-[10px] font-extrabold text-amber-700 uppercase tracking-wider">
-                      Micropráctica guiada
+                    <span className={`text-[10px] font-extrabold uppercase tracking-wider ${
+                      skill.id === 'conecta' ? 'text-[#00A896]' : 'text-amber-700'
+                    }`}>
+                      {skill.id === 'conecta' ? 'Recorrido visual guiado' : 'Micropráctica guiada'}
                     </span>
-                    <span className="text-xs font-bold text-amber-600 flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">
+                    <span className={`text-xs font-bold flex items-center gap-0.5 group-hover:translate-x-1 transition-transform ${
+                      skill.id === 'conecta' ? 'text-[#00A896]' : 'text-amber-600'
+                    }`}>
                       <span>Empezar</span>
                       <ChevronRight className="w-4 h-4" />
                     </span>
