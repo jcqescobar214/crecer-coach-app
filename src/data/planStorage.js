@@ -1,18 +1,68 @@
-// Gestión de persistencia local para "Mi Plan" y "Mi Progreso" de la app Crecer
+// Gestión de persistencia local segura para "Mi Plan" y "Mi Progreso" de la app Crecer
 
 const STORAGE_KEY = 'crecer_plan_habits';
 const LOGS_STORAGE_KEY = 'crecer_practice_logs';
 const LEARN_PROGRESS_KEY = 'crecer_learn_progress';
 
-export const getSavedPlanHabits = () => {
-  if (typeof window === 'undefined') return [];
+// Almacén en memoria RAM para resiliencia en caso de que localStorage esté bloqueado o sin cuota
+const memoryStore = new Map();
+
+// Cifrado/ofuscación ligera de datos sensibles familiares (UTF-8 safe + compatibilidad retroactiva)
+const encodeStorageData = (obj) => {
   try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
-  } catch (error) {
-    console.error('Error al leer hábitos de Mi Plan:', error);
-    return [];
+    const json = JSON.stringify(obj);
+    return 'crx_' + btoa(unescape(encodeURIComponent(json)));
+  } catch (e) {
+    return JSON.stringify(obj);
   }
+};
+
+const decodeStorageData = (raw) => {
+  if (!raw) return null;
+  try {
+    if (typeof raw === 'string' && raw.startsWith('crx_')) {
+      const json = decodeURIComponent(escape(atob(raw.slice(4))));
+      return JSON.parse(json);
+    }
+    return JSON.parse(raw);
+  } catch (e) {
+    try {
+      return JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+};
+
+const safeGetItem = (key, fallback = null) => {
+  if (typeof window === 'undefined') return fallback;
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw !== null) {
+      const parsed = decodeStorageData(raw);
+      return parsed !== null ? parsed : fallback;
+    }
+    return memoryStore.get(key) || fallback;
+  } catch (error) {
+    console.warn(`[Crecer Storage] Error al leer ${key}, usando respaldo en memoria:`, error);
+    return memoryStore.get(key) || fallback;
+  }
+};
+
+const safeSetItem = (key, data) => {
+  if (typeof window === 'undefined') return;
+  const encoded = encodeStorageData(data);
+  try {
+    localStorage.setItem(key, encoded);
+    memoryStore.set(key, data);
+  } catch (error) {
+    console.warn(`[Crecer Storage] Cuota excedida o almacenamiento no disponible para ${key}. Guardando en memoria RAM:`, error);
+    memoryStore.set(key, data);
+  }
+};
+
+export const getSavedPlanHabits = () => {
+  return safeGetItem(STORAGE_KEY, []);
 };
 
 export const savePlanHabit = (habit) => {
@@ -40,7 +90,7 @@ export const savePlanHabit = (habit) => {
       ];
     }
     
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    safeSetItem(STORAGE_KEY, updated);
     return updated;
   } catch (error) {
     console.error('Error al guardar hábito en Mi Plan:', error);
@@ -56,14 +106,7 @@ export const isHabitInPlan = (habitKey) => {
 // --- Registro de Prácticas Realizadas (Logs) ---
 
 export const getPracticeLogs = () => {
-  if (typeof window === 'undefined') return [];
-  try {
-    const data = localStorage.getItem(LOGS_STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
-  } catch (error) {
-    console.error('Error al leer historial de prácticas:', error);
-    return [];
-  }
+  return safeGetItem(LOGS_STORAGE_KEY, []);
 };
 
 export const savePracticeLog = (logEntry) => {
@@ -76,7 +119,7 @@ export const savePracticeLog = (logEntry) => {
       ...logEntry
     };
     const updated = [newEntry, ...existing];
-    localStorage.setItem(LOGS_STORAGE_KEY, JSON.stringify(updated));
+    safeSetItem(LOGS_STORAGE_KEY, updated);
 
     // Si la práctica fue realizada, actualizar el estado en Mi Plan
     if (logEntry.pudoJugar === 'si') {
@@ -92,7 +135,7 @@ export const savePracticeLog = (logEntry) => {
         }
         return h;
       });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedHabits));
+      safeSetItem(STORAGE_KEY, updatedHabits);
     }
 
     return updated;
@@ -194,16 +237,93 @@ export const evaluateConectaPractice = (answers) => {
   };
 };
 
+// Matriz clínica de evaluación para Habla claro (Instrucciones efectivas)
+export const evaluateHablaClaroPractice = (answers) => {
+  const { pudoPracticar, seAcerco, unaSolaCosa, tonoCalmo, dificultad } = answers;
+
+  if (pudoPracticar === 'hoy_no' || pudoPracticar === 'no') {
+    return {
+      type: 'hoy_no',
+      title: 'Hoy no pudiste realizar la práctica',
+      message: 'No te preocupes. Lo fundamental es ser consciente del momento. Puedes intentarlo en tu próxima rutina.',
+      bien: 'Reconociste que el momento no era propicio para dar indicaciones con calma.',
+      recomendacion: 'Elige una rutina simple (guardar los zapatos o sentarse a almorzar) donde estés cerca.',
+      reto: 'Programar una indicación clara para tu siguiente rutina del día.',
+      status: 'Reprogramada'
+    };
+  }
+
+  // 1. Acercamiento excelente, una sola indicación, tono firme y calmo, sin dificultad
+  if (
+    seAcerco === 'si' && 
+    unaSolaCosa === 'si' && 
+    (tonoCalmo === 'firme_calmo' || tonoCalmo === 'si') && 
+    (dificultad === 'ninguna' || dificultad === 'nada')
+  ) {
+    return {
+      type: 'perfect',
+      bien: 'Te pusiste a su altura, pediste una sola acción motora concreta y mantuviste un tono sereno y seguro.',
+      recomendacion: 'Apenas empiece a realizar la acción, reconóceselo de inmediato diciendo exactamente lo que hizo bien.',
+      reto: 'Aplica esta misma fórmula de 3 pasos en dos momentos diferentes del día de mañana.',
+      status: 'Realizada'
+    };
+  }
+
+  // 2. Le costó acercarse o dio la orden desde lejos
+  if (seAcerco === 'le_costo' || dificultad === 'grite_lejos') {
+    return {
+      type: 'costo_acercarse',
+      bien: 'Fuiste consciente de cómo le estás pidiendo las cosas a tu hijo.',
+      recomendacion: 'Antes de hablar, camina hasta donde esté tu hijo, ponte a su altura y asegúrate de tener su mirada antes de dar la orden.',
+      reto: 'Practica no pedir nada a más de un metro de distancia en tu próxima indicación.',
+      status: 'Realizada'
+    };
+  }
+
+  // 3. Encadenó varias instrucciones juntas
+  if (unaSolaCosa === 'varias_juntas' || dificultad === 'cadenas') {
+    return {
+      type: 'costo_una_instruccion',
+      bien: 'Buscaste orientar la conducta de tu hijo hacia una tarea necesaria.',
+      recomendacion: 'El cerebro infantil no retiene listas largas. Pide un solo paso motor a la vez: primero los zapatos, luego la mochila.',
+      reto: 'Da una sola indicación física por vez y espera a que termine antes de la siguiente.',
+      status: 'Realizada'
+    };
+  }
+
+  // 4. Elevó la voz o le costó esperar los 5 segundos
+  if (tonoCalmo === 'eleve_voz' || dificultad === 'esperar_pausa') {
+    return {
+      type: 'costo_pausa_tono',
+      bien: 'Identificaste que el tono y los tiempos son decisivos para que coopere.',
+      recomendacion: 'Los niños tardan entre 5 y 8 segundos en procesar una instrucción motora. Cuenta mentalmente hasta cinco en silencio antes de repetir.',
+      reto: 'Habla con voz tranquila y espera 5 segundos en silencio con una actitud paciente.',
+      status: 'Realizada'
+    };
+  }
+
+  // Por defecto (completó con éxito)
+  return {
+    type: 'general_positivo',
+    bien: 'Practicaste dar indicaciones más precisas, directas y alcanzables para tu hijo.',
+    recomendacion: 'Continúa nombrando la acción física exacta (guardar, colocar, llevar) en vez de órdenes generales.',
+    reto: 'Practica dar 3 instrucciones concretas a lo largo de tu jornada de mañana.',
+    status: 'Realizada'
+  };
+};
+
+// Dispatcher de evaluación por habilidad
+export const evaluatePractice = (skillId, answers) => {
+  if (skillId === 'habla_claro') {
+    return evaluateHablaClaroPractice(answers);
+  }
+  return evaluateConectaPractice(answers);
+};
+
 // --- Progreso de Aprendizaje en "Quiero aprender" ---
 
 export const getLearningProgress = () => {
-  if (typeof window === 'undefined') return {};
-  try {
-    const data = localStorage.getItem(LEARN_PROGRESS_KEY);
-    return data ? JSON.parse(data) : {};
-  } catch (error) {
-    return {};
-  }
+  return safeGetItem(LEARN_PROGRESS_KEY, {});
 };
 
 export const recordLearningStep = (skillId, stepKey, result) => {
@@ -216,7 +336,7 @@ export const recordLearningStep = (skillId, stepKey, result) => {
       timestamp: new Date().toISOString()
     };
     current[skillId] = skillData;
-    localStorage.setItem(LEARN_PROGRESS_KEY, JSON.stringify(current));
+    safeSetItem(LEARN_PROGRESS_KEY, current);
   } catch (error) {
     console.error('Error al registrar aprendizaje:', error);
   }
