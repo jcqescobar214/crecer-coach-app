@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['apple-touch-icon.png', 'coach_mascot.png', 'fonts/*.woff2'],
+      includeAssets: ['favicon.ico', 'favicon-32x32.png', 'apple-touch-icon.png', 'og-image.png', 'coach_mascot.png', 'fonts/*.woff2'],
       manifest: {
         name: 'Crecer - Coach Virtual de Crianza',
         short_name: 'Crecer',
