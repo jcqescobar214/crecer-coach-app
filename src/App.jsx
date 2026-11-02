@@ -7,6 +7,7 @@ import LearnHubScreen from './components/LearnHubScreen';
 import SkillExperienceScreen from './components/SkillExperienceScreen';
 import ConectaSkillScreen from './components/ConectaSkillScreen';
 import HablaClaroSkillScreen from './components/HablaClaroSkillScreen';
+import ElogiaSkillScreen from './components/ElogiaSkillScreen';
 import PlanScreen from './components/PlanScreen';
 import ProgressScreen from './components/ProgressScreen';
 import RegisterPracticeScreen from './components/RegisterPracticeScreen';
@@ -97,14 +98,35 @@ export default function App() {
         );
       }
 
-      // Otras habilidades usan el SkillExperienceScreen genérico
+      // Si es "Elogia", usamos la experiencia especializada de alta fidelidad
+      if (selectedSkill.id === 'elogia') {
+        return (
+          <ElogiaSkillScreen
+            onBack={() => setSelectedSkill(null)}
+            onComplete={() => {
+              setSelectedSkill(null);
+              setActiveTab('aprender');
+            }}
+            onGoToPlan={() => {
+              setSelectedSkill(null);
+              setActiveTab('plan');
+            }}
+          />
+        );
+      }
+
+      // Otras habilidades usan la experiencia de alta fidelidad SkillExperienceScreen
       return (
         <SkillExperienceScreen
           skill={selectedSkill}
           onBack={() => setSelectedSkill(null)}
           onComplete={() => {
             setSelectedSkill(null);
-            setActiveTab('inicio');
+            setActiveTab('aprender');
+          }}
+          onGoToPlan={() => {
+            setSelectedSkill(null);
+            setActiveTab('plan');
           }}
           onExploreOther={() => setSelectedSkill(null)}
         />

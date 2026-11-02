@@ -9,7 +9,7 @@ export const learnSkills = [
     subtitle: 'Vínculo y atención compartida',
     tagline: 'Cuando dejas que tu hijo dirija el juego, le demuestras que te interesa lo que hace.',
     emoji: '🌱',
-    badge: 'Habilidad 1 de 9',
+    badge: 'Habilidad 1 de 10',
     color: '#00A896',
     bgSoft: 'bg-[#E8F8F7]',
     borderSoft: 'border-[#B2EBF2]',
@@ -283,7 +283,7 @@ export const learnSkills = [
     subtitle: 'Instrucciones concretas y efectivas',
     tagline: 'Dile exactamente qué esperas que haga.',
     emoji: '🗣️',
-    badge: 'Habilidad 2 de 9',
+    badge: 'Habilidad 2 de 10',
     color: '#D97706',
     bgSoft: 'bg-amber-50',
     borderSoft: 'border-amber-200',
@@ -556,534 +556,2255 @@ export const learnSkills = [
     }
   },
 
-  {
-    id: 'elogia',
-    number: 3,
-    title: 'Elogia',
-    tagline: 'Hazle saber exactamente qué hizo bien.',
-    emoji: '⭐',
-    color: '#EAB308',
-    bgSoft: 'bg-yellow-50',
-    borderSoft: 'border-yellow-200',
-    miraQuePasa: {
-      dialogue: 'El niño recoge sus juguetes y el adulto dice al pasar: “Muy bien”.',
-      childReaction: 'El niño apenas levanta la mirada y no sabe qué fue lo que agradó.',
-      coachInsight: 'Un "muy bien" genérico se pierde. El cerebro infantil aprende mucho más rápido cuando el elogio describe la conducta concreta que acaba de ocurrir.'
-    },
-    elige: {
-      prompt: 'Tu hijo recogió sus materiales al terminar de pintar. ¿Cuál elogio refuerza más la conducta?',
-      options: [
-        {
-          id: 'a',
-          text: '“Por fin hiciste caso sin renegar.”',
-          isCorrect: false,
-          feedback: 'Recuerda el error pasado y arruina el reconocimiento positivo.'
-        },
-        {
-          id: 'b',
-          text: '“Muy bien.”',
-          isCorrect: false,
-          feedback: 'Es cariñoso, pero demasiado vago para fijar el hábito.'
-        },
-        {
-          id: 'c',
-          text: '“¡Me encantó que guardaras los pinceles apenas terminaste!”',
-          isCorrect: true,
-          feedback: '¡Perfecto! El niño sabe exactamente qué acción específica estás reconociendo y querrá repetirla.'
-        }
-      ]
-    },
-    practica: {
-      type: 'template_choice',
-      prompt: 'Tu hijo se sentó a hacer la tarea sin discutir. Completa tu elogio específico:',
-      helper: 'Elogia el esfuerzo y la acción exacta, no la perfección.',
-      options: [
-        { id: '1', verb: 'Me gustó mucho que', action: 'te sentaras a la primera llamada con tus cuadernos listos.' },
-        { id: '2', verb: 'Gracias por', action: 'empezar tu tarea con calma y entusiasmo hoy.' },
-        { id: '3', verb: 'Noté que', action: 'dejaste tus juguetes a tiempo para concentrarte. ¡Gran esfuerzo!' }
-      ]
-    },
-    puedesDecir: [
-      '“Me gustó cómo esperaste tu turno con paciencia.”',
-      '“Gracias por guardar el celular cuando te lo pedí.”',
-      '“Vi que estabas enojado y hablaste sin gritar. ¡Muy bien!”'
-    ],
-    evita: [
-      'Elogiar con un “pero...” al final (“Bien, pero mañana hazlo más rápido”).',
-      'Usar sarcasmo o ironía (“¡Milagro que recogiste!”).',
-      'Elogiar únicamente resultados perfectos en vez del esfuerzo.',
-      'Esperar semanas o grandes hitos para reconocer un avance.'
-    ],
-    pruebaloHoy: {
-      badge: 'Misión del día',
-      title: '¡Atrápalo haciéndolo bien!',
-      description: 'Encuentra 3 conductas positivas cotidianas hoy y descríbelas en voz alta inmediatamente.',
-      habitKey: 'elogia_atrapalo_bien'
-    }
+    {
+  "id": "elogia",
+  "number": 3,
+  "title": "Elogia",
+  "subtitle": "Reconocimiento específico e inmediato",
+  "tagline": "Hazle saber exactamente qué hizo bien.",
+  "emoji": "⭐",
+  "badge": "Habilidad 3 de 10",
+  "color": "#EAB308",
+  "bgSoft": "bg-yellow-50",
+  "borderSoft": "border-yellow-200",
+  "category": "communication",
+  "isPremier": true,
+  "whyImportant": "Un \"muy bien\" genérico se pierde en el aire. Cuando describes la acción motora concreta con entusiasmo apenas ocurre, el cerebro infantil conecta placer con la conducta adecuada y desea repetirla.",
+  "miraQuePasa": {
+    "tag": "1. Mira qué pasa",
+    "subtitle": "Observa esta situación cotidiana. Fíjate en cómo reacciona el niño cuando el elogio es vago o postergado.",
+    "dialogue": "“Muy bien... pórtate así siempre.” (Dicho al pasar desde otra habitación)",
+    "didYouKnow": "El 80% de los elogios son vagos. Los niños cooperan el triple cuando el elogio describe exactamente el verbo y el objeto con calidez en los primeros segundos."
   },
-
-  {
-    id: 'motiva',
-    number: 3,
-    title: 'Motiva',
-    tagline: 'Ayúdalo a querer repetir lo que está haciendo bien.',
-    emoji: '🎯',
-    color: '#F97316',
-    bgSoft: 'bg-orange-50',
-    borderSoft: 'border-orange-200',
-    miraQuePasa: {
-      dialogue: '“Si haces la tarea sin quejarte, te compro un juguete el sábado.”',
-      childReaction: 'El niño se acostumbra a cooperar solo cuando hay un soborno material.',
-      coachInsight: 'No necesitas comprar regalos. Los mejores motivadores para niños pequeños son el tiempo compartido, la atención del adulto, elegir una canción o ganar un privilegio divertido.'
-    },
-    elige: {
-      prompt: '¿Cuál de estos reforzadores suele ser más duradero y saludable para un niño?',
-      options: [
-        {
-          id: 'a',
-          text: 'Comprarle un dulce o juguete cada vez que obedece.',
-          isCorrect: false,
-          feedback: 'Crea dependencia material y pierde efecto muy rápidamente.'
-        },
-        {
-          id: 'b',
-          text: 'Elegir juntos el cuento de la noche o 10 minutos de juego libre.',
-          isCorrect: true,
-          feedback: '¡Excelente! Los privilegios de tiempo y atención fortalecen el vínculo y la motivación intrínseca.'
-        },
-        {
-          id: 'c',
-          text: 'Darle el premio antes de que cumpla la conducta para calmarlo.',
-          isCorrect: false,
-          feedback: 'Refuerza la queja previa en lugar de la conducta esperada.'
-        }
-      ]
-    },
-    practica: {
-      type: 'template_choice',
-      prompt: 'Construye tu regla de motivación usando el principio: "Primero cumples, luego recibes":',
-      helper: 'Fórmula: Cuando [Acción] → Entonces [Privilegio agradable].',
-      options: [
-        { id: '1', verb: 'Cuando', action: 'termines de ponerte el pijama → leemos dos cuentos juntos en la cama.' },
-        { id: '2', verb: 'Cuando', action: 'los bloques estén en su caja → ponemos tu música favorita para bailar.' },
-        { id: '3', verb: 'Cuando', action: 'la mesa quede limpia → salimos 15 minutos al parque.' }
-      ]
-    },
-    puedesDecir: [
-      '“Cuando termines de recoger los colores, podemos jugar.”',
-      '“Cada vez que cooperas a la primera, ganas una estrella para la salida del fin de semana.”',
-      '“Gracias por terminar a tiempo; ahora tenemos tiempo extra para jugar.”'
-    ],
-    evita: [
-      'Prometer recompensas gigantes que luego no podrás cumplir.',
-      'Utilizar siempre premios de comida chatarra o dinero.',
-      'Entregar el beneficio antes de que realice el esfuerzo.',
-      'Cambiar las reglas a mitad de camino según tu humor.'
-    ],
-    pruebaloHoy: {
-      badge: 'Misión del día',
-      title: 'Elige UNA conducta y refuérzala',
-      description: 'Define un privilegio simple de tiempo compartido y otórgualo apenas tu hijo cumpla la acción.',
-      habitKey: 'motiva_tiempo_compartido'
-    }
+  "elige": {
+    "tag": "2. Elige",
+    "image": "/elogia/illustration_elige.png",
+    "prompt": "Tu hijo recogió sus materiales al terminar de pintar. ¿Cuál elogio refuerza más la conducta para que se repita?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A",
+        "thumb": "/elogia/thumb_opt_a.png",
+        "text": "“Por fin hiciste caso sin renegar.”",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Recuerda el error pasado y añade una pizca de queja que arruina el reconocimiento positivo."
+      },
+      {
+        "id": "b",
+        "label": "B",
+        "thumb": "/elogia/thumb_opt_b.png",
+        "text": "“¡Me encantó que guardaras los pinceles en su frasco apenas terminaste!”",
+        "isCorrect": true,
+        "feedbackTitle": "¡Exacto!",
+        "feedback": "¡Perfecto! El niño sabe exactamente qué acción específica estás reconociendo y sentirá orgullo auténtico por repetirla."
+      },
+      {
+        "id": "c",
+        "label": "C",
+        "thumb": "/elogia/thumb_opt_c.png",
+        "text": "“Muy bien, pero mañana hazlo más rápido.”",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "El \"pero\" anula todo el efecto del elogio anterior y desmotiva el esfuerzo."
+      }
+    ]
   },
-
-  {
-    id: 'da_ejemplo',
-    number: 4,
-    title: 'Da ejemplo',
-    tagline: 'Enséñale con lo que haces.',
-    emoji: '👀',
-    color: '#06B6D4',
-    bgSoft: 'bg-cyan-50',
-    borderSoft: 'border-cyan-200',
-    miraQuePasa: {
-      dialogue: 'El adulto grita alterado: “¡TE DIJE QUE DEJES DE GRITAR EN ESTA CASA!”',
-      childReaction: 'El niño se asusta, llora o responde gritando con más fuerza.',
-      coachInsight: 'Los niños aprenden por neuronas espejo. No podemos enseñar serenidad gritando, ni enseñar respeto perdiendo el control.'
-    },
-    elige: {
-      prompt: 'Tu hijo derrama un vaso de leche por accidente. ¿Qué le enseñará mejor a manejar errores?',
-      options: [
-        {
-          id: 'a',
-          text: '“¡Mira lo que hiciste! ¡Siempre eres tan torpe!”',
-          isCorrect: false,
-          feedback: 'Enseña culpa, vergüenza y miedo a equivocarse.'
-        },
-        {
-          id: 'b',
-          text: '“Fue un accidente. Respira, toma un trapo y vamos a limpiarlo juntos.”',
-          isCorrect: true,
-          feedback: '¡Exacto! Modela que los accidentes se resuelven con calma y responsabilidad.'
-        },
-        {
-          id: 'c',
-          text: 'Limpiarlo tú con enojo y resoplando en silencio.',
-          isCorrect: false,
-          feedback: 'Comunica resentimiento pasivo en lugar de una solución constructiva.'
-        }
-      ]
-    },
-    practica: {
-      type: 'template_choice',
-      prompt: '¿Qué habilidad de autocontrol quieres modelar frente a tu hijo hoy?',
-      helper: 'Decide cómo reaccionarás cuando sientas tensión.',
-      options: [
-        { id: '1', verb: 'Autocontrol:', action: 'Decir en voz alta: “Estoy frustrado. Voy a respirar hondo antes de responder”.' },
-        { id: '2', verb: 'Reparación:', action: 'Pedir disculpas si levanté la voz: “Perdona, me alteré. Hablemos con calma”.' },
-        { id: '3', verb: 'Solución:', action: 'Mostrar optimismo ante un tropiezo: “Esto no salió como esperaba, intentémoslo otra vez”.' }
-      ]
-    },
-    puedesDecir: [
-      '“Estoy sintiendo mucho calor y enojo. Voy a tomar agua y vuelvo.”',
-      '“Me equivoqué con lo que dije hace un momento. Lo siento.”',
-      '“Se cayó la torre. Es frustrante, pero podemos volver a armarla.”'
+  "miraComoSeHace": {
+    "tag": "3. Mira cómo se hace",
+    "subtitle": "Escucha dos ejemplos reales de cómo estructurar un elogio específico y lleno de calidez.",
+    "panels": [
+      {
+        "id": 1,
+        "step": "1",
+        "title": "Elogio por compartir",
+        "image": "/elogia/demo_panel_1.png",
+        "phrase": "¡Noté que compartiste tus colores con tu hermano con una sonrisa! Me gustó mucho tu paciencia.",
+        "text": "“¡Noté que compartiste tus colores con tu hermano con una sonrisa! Me gustó mucho tu paciencia.”",
+        "tip": "Describe la acción concreta con calidez."
+      },
+      {
+        "id": 2,
+        "step": "2",
+        "title": "Elogio por ordenar",
+        "image": "/elogia/demo_panel_2.png",
+        "phrase": "Muchas gracias por colocar los zapatos dentro del mueble apenas llegaste de la calle. ¡Qué gran ayuda!",
+        "text": "“Muchas gracias por colocar los zapatos dentro del mueble apenas llegaste de la calle. ¡Qué gran ayuda!”",
+        "tip": "Reconoce de inmediato el esfuerzo sin reproches pasados."
+      }
     ],
-    evita: [
-      'Exigir al niño un autocontrol que los adultos no estamos demostrando.',
-      'Ocultar siempre tus errores en vez de mostrar cómo repararlos.',
-      'Tratar los accidentes normales como si fueran desobediencias voluntarias.',
-      'Usar el teléfono mientras le exiges a él que deje las pantallas.'
-    ],
-    pruebaloHoy: {
-      badge: 'Misión del día',
-      title: 'Modelado Consciente',
-      description: 'Elige una situación que te dé impaciencia hoy y muestra en voz alta cómo respiras y mantienes la calma.',
-      habitKey: 'da_ejemplo_calma'
-    }
+    "coachTip": "La regla de oro del elogio: 1) Ponte cerca con una sonrisa, 2) Nombra la acción física exacta, 3) Reconoce el esfuerzo sin añadir un \"pero\"."
   },
-
-  {
-    id: 'practiquen_juntos',
-    number: 5,
-    title: 'Practiquen juntos',
-    tagline: 'Las habilidades se aprenden practicando.',
-    emoji: '🤝',
-    color: '#8B5CF6',
-    bgSoft: 'bg-purple-50',
-    borderSoft: 'border-purple-200',
-    miraQuePasa: {
-      dialogue: '“¡Ya te he explicado diez veces que cuando estés furioso no debes pegar!”',
-      childReaction: 'En la siguiente rabieta, el niño vuelve a lanzar un golpe.',
-      coachInsight: 'Saber la regla de memoria no significa tener la habilidad motriz ni emocional instalada. Las habilidades de autorregulación se entrenan jugando, en momentos de calma.'
-    },
-    elige: {
-      prompt: '¿Cuál es el mejor momento para ensayar cómo pedir las cosas por favor o cómo calmarse?',
-      options: [
-        {
-          id: 'a',
-          text: 'En pleno berrinche mientras llora y grita.',
-          isCorrect: false,
-          feedback: 'Bajo secuestro emocional el cerebro no puede asimilar nuevo aprendizaje.'
-        },
-        {
-          id: 'b',
-          text: 'Durante un momento tranquilo de juego a modo de simulacro divertido.',
-          isCorrect: true,
-          feedback: '¡Exacto! El ensayo en frío permite automatizar la respuesta sin la presión del enojo.'
-        },
-        {
-          id: 'c',
-          text: 'Justo después de haberle puesto un castigo.',
-          isCorrect: false,
-          feedback: 'El niño estará a la defensiva o resentido y lo vivirá como un regaño extra.'
-        }
-      ]
-    },
-    practica: {
-      type: 'template_choice',
-      prompt: 'Entrenamiento rápido en 4 pasos:',
-      helper: 'Elige la conducta que ensayarán hoy durante 2 minutos:',
-      options: [
-        { id: '1', verb: 'Paso a paso:', action: 'Tú lo muestras → Lo hacen juntos → Él lo intenta → Lo elogias con entusiasmo.' },
-        { id: '2', verb: 'Respiración de león:', action: 'Jugar a inhalar por la nariz y rugir suavecito cuando se sienta enojado.' },
-        { id: '3', verb: 'Pedir turno:', action: 'Practicar pasar la pelota diciendo: “¿Me lo prestas por favor cuando termines?”.' }
-      ]
-    },
-    puedesDecir: [
-      '“Vamos a jugar a que nos enojamos mucho, pero respiramos como tortugas.”',
-      '“Mira cómo lo hago yo primero... ahora intentémoslo los dos.”',
-      '“¡Eso es! Justo así es como se pide. ¡Choca esos cinco!”'
+  "practica": {
+    "tag": "4. Practica",
+    "subtitle": "Selecciona una situación cotidiana para ensayar cómo transformar un elogio común en uno específico.",
+    "activities": [
+      {
+        "id": "tarea",
+        "name": "La tarea",
+        "icon": "/elogia/tab_tarea.png",
+        "image": "/elogia/practica_tarea.png",
+        "sceneDescription": "Tu hijo abrió sus cuadernos a la primera llamada sin discutir.",
+        "question": "¿Cómo elogiarías su iniciativa para fijar este hábito?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Ya era hora de que fueras responsable con tus cosas.”",
+            "isCorrect": false,
+            "feedback": "Suena a reproche por ocasiones anteriores y apaga la motivación."
+          },
+          {
+            "id": "b",
+            "text": "“¡Me encantó ver tus cuadernos listos a la primera llamada! Gran esfuerzo hoy.”",
+            "isCorrect": true,
+            "feedback": "¡Brillante! Describiste la puntualidad y valoraste el esfuerzo de forma concreta."
+          },
+          {
+            "id": "c",
+            "text": "“Muy bien, a ver si sacas una buena calificación.”",
+            "isCorrect": false,
+            "feedback": "Pone la presión en el resultado futuro en lugar de premiar la iniciativa presente."
+          }
+        ]
+      },
+      {
+        "id": "ropa",
+        "name": "Guardar ropa",
+        "icon": "/elogia/tab_ropa.png",
+        "image": "/elogia/practica_ropa.png",
+        "sceneDescription": "Puso sus zapatos en el armario después de llegar del parque.",
+        "question": "¿Cómo reconoces la acción terminada?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Gracias por poner tus zapatos dentro del armario justo al llegar.”",
+            "isCorrect": true,
+            "feedback": "¡Excelente! Nombraste el objeto exacto, el lugar y diste las gracias con cercanía."
+          },
+          {
+            "id": "b",
+            "text": "“¿Ves que no te costaba nada hacerlo?”",
+            "isCorrect": false,
+            "feedback": "Es un comentario irónico que genera molestia en vez de orgullo."
+          },
+          {
+            "id": "c",
+            "text": "“Bien hecho.”",
+            "isCorrect": false,
+            "feedback": "Es muy vago; no especifica qué conducta fue la que agradó."
+          }
+        ]
+      },
+      {
+        "id": "calma",
+        "name": "Autocontrol",
+        "icon": "/elogia/tab_calma.png",
+        "image": "/elogia/practica_calma.png",
+        "sceneDescription": "Sintió frustración porque se le cayó una torre de bloques y respiró hondo sin tirarla.",
+        "question": "¿Cómo refuerzas su autorregulación?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Menos mal no rompiste nada hoy.”",
+            "isCorrect": false,
+            "feedback": "Enfoca la atención en la conducta negativa pasada."
+          },
+          {
+            "id": "b",
+            "text": "“Vi que estabas molesto y respiraste con calma antes de volver a armarla. ¡Qué gran autocontrol!”",
+            "isCorrect": true,
+            "feedback": "¡Eso es! Describiste la emoción, la acción positiva y la etiquetaste como fortaleza."
+          },
+          {
+            "id": "c",
+            "text": "“No tenías por qué enojarte por un juego.”",
+            "isCorrect": false,
+            "feedback": "Invalida su emoción real en vez de premiar que la supo gestionar."
+          }
+        ]
+      },
+      {
+        "id": "mesa",
+        "name": "En la mesa",
+        "icon": "/elogia/tab_mesa.png",
+        "image": "/elogia/practica_mesa.png",
+        "sceneDescription": "Permaneció sentado y comió su sopa usando la cuchara.",
+        "question": "¿Cómo reconoces su conducta en la mesa?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“¡Qué rico que comiste tu sopa sentado derecho y usando la cuchara! Fue muy agradable almorzar juntos.”",
+            "isCorrect": true,
+            "feedback": "¡Eso es! Refuerzas la postura física, el uso del cubierto y la conexión familiar."
+          },
+          {
+            "id": "b",
+            "text": "“Ojalá comieras así todos los días.”",
+            "isCorrect": false,
+            "feedback": "Muestra desconfianza en su capacidad futura en vez de disfrutar el logro de hoy."
+          },
+          {
+            "id": "c",
+            "text": "“Termina rápido lo demás.”",
+            "isCorrect": false,
+            "feedback": "Ignora el avance presente y salta de inmediato a una nueva exigencia."
+          }
+        ]
+      }
     ],
-    evita: [
-      'Intentar dar lecciones o ensayar en plena crisis de furia.',
-      'Esperar que salga perfecto en el primer ensayo.',
-      'Convertir el juego de práctica en un interrogatorio o regaño.',
-      'Burlarse si al niño le cuesta seguir el ensayo.'
-    ],
-    pruebaloHoy: {
-      badge: 'Misión del día',
-      title: 'Simulacro de 2 Minutos',
-      description: 'Haz un juego de roles de 2 minutos sobre cómo pedir algo o cómo respirar antes de que ocurra el conflicto.',
-      habitKey: 'practiquen_juntos_simulacro'
-    }
+    "reminder": "Elogiar la acción concreta y el esfuerzo en caliente es la herramienta más poderosa para cambiar conductas."
   },
-
-  {
-    id: 'anticipate',
-    number: 6,
-    title: 'Anticípate',
-    tagline: 'Prepáralo antes del momento difícil.',
-    emoji: '🔮',
-    color: '#6366F1',
-    bgSoft: 'bg-indigo-50',
-    borderSoft: 'border-indigo-200',
-    miraQuePasa: {
-      dialogue: 'El niño lleva una hora concentrado jugando y de repente escucha: “¡Apaga eso YA y ven a bañarte!”',
-      childReaction: 'Gritos, llanto desbordado y resistencia feroz.',
-      coachInsight: 'A los 3-6 años la corteza cerebral tarda en cambiar de foco atencional. Un corte abrupto se vive como una agresión. Los avisos previos suavizan la transición.'
-    },
-    elige: {
-      prompt: '¿Cómo preparas mejor a tu hijo para salir del parque sin lágrimas?',
-      options: [
-        {
-          id: 'a',
-          text: 'Decirle a último segundo: “Nos vamos ya porque es tarde”.',
-          isCorrect: false,
-          feedback: 'Garantiza resistencia por sorpresa y frustración.'
-        },
-        {
-          id: 'b',
-          text: 'Avisar 5 minutos antes: “Te quedan 2 bajadas por el tobogán y nos vamos a cenar”.',
-          isCorrect: true,
-          feedback: '¡Perfecto! El tiempo tangible (2 bajadas) le permite cerrar su ciclo mental de juego.'
-        },
-        {
-          id: 'c',
-          text: 'Amenazarlo con no volver al parque si no corre hacia el auto.',
-          isCorrect: false,
-          feedback: 'Genera miedo y estrés innecesario en una rutina diaria.'
-        }
-      ]
-    },
-    practica: {
-      type: 'template_choice',
-      prompt: 'Crea tu plan de transición con cuenta regresiva:',
-      helper: 'Elige la rutina donde aplicarás los avisos de anticipación:',
-      options: [
-        { id: '1', verb: 'Apagar pantallas:', action: 'Aviso a los 10 min → Aviso a los 5 min → “¿Lo apagas tú o te ayudo?”.' },
-        { id: '2', verb: 'Ir a dormir:', action: '“Terminamos este rompecabezas, lavamos dientes y leemos el cuento”.' },
-        { id: '3', verb: 'Salir de casa:', action: '“Faltan 5 minutos para ponernos los zapatos y salir al colegio”.' }
-      ]
-    },
-    puedesDecir: [
-      '“En cinco minutos guardamos los juguetes para ir a cenar.”',
-      '“Te aviso cuando te queden dos lanzamientos en el columpio.”',
-      '“Se acabó el tiempo acordado. ¿Quieres guardar los bloques en la caja o en la repisa?”'
+  "puedesDecirOHacer": {
+    "tag": "5. Puedes decir o hacer",
+    "subtitle": "Para que tu elogio tenga máximo impacto pedagógico y afectivo, apóyate en estos cuatro pilares:",
+    "cards": [
+      {
+        "id": "accion_exacta",
+        "title": "Describe la acción",
+        "desc": "Nombra el verbo concreto: \"guardar\", \"compartir\", \"esperar\".",
+        "image": "/elogia/card_accion_exacta.png"
+      },
+      {
+        "id": "en_caliente",
+        "title": "Elogia de inmediato",
+        "desc": "Reconoce en los primeros 3 segundos de ocurrir la acción.",
+        "image": "/elogia/card_en_caliente.png"
+      },
+      {
+        "id": "calidez_fisica",
+        "title": "Calidez y cercanía",
+        "desc": "Sonríe, haz contacto visual, choca las manos o da un abrazo.",
+        "image": "/elogia/card_calidez_fisica.png"
+      },
+      {
+        "id": "valora_esfuerzo",
+        "title": "Valora el esfuerzo",
+        "desc": "Reconoce el intento y el progreso paso a paso, no la perfección.",
+        "image": "/elogia/card_valora_esfuerzo.png"
+      }
     ],
-    evita: [
-      'Cambios inesperados en rutinas que se pueden planificar.',
-      'Avisar 10 veces seguidas y nunca cumplir el corte prometido.',
-      'Reabrir la negociación cada vez que el niño empieza a llorar.',
-      'Usar términos confusos como “dentro de un ratito”.'
-    ],
-    pruebaloHoy: {
-      badge: 'Misión del día',
-      title: 'Transición con Aviso Previo',
-      description: 'Elige la hora de pantallas o salida del parque y da un aviso claro a los 5 minutos con una acción de cierre.',
-      habitKey: 'anticipate_aviso_previo'
-    }
+    "reminder": "Un elogio descriptivo e inmediato vale más que mil sermones o explicaciones."
   },
-
-  {
-    id: 'pon_limites',
-    number: 7,
-    title: 'Pon límites',
-    tagline: 'Sé firme sin entrar en una pelea.',
-    emoji: '🛑',
-    color: '#EF4444',
-    bgSoft: 'bg-rose-50',
-    borderSoft: 'border-rose-200',
-    miraQuePasa: {
-      dialogue: 'Niño: “¡NO! ¡No voy a guardar nada!” Adulto: “¡Pues lo vas a hacer porque aquí mando yo y punto!”',
-      childReaction: 'El niño desafía más fuerte y la discusión escala a un combate de poder.',
-      coachInsight: 'Cuando el adulto se engancha en la pelea verbal, valida el campo de batalla. La firmeza respetuosa no necesita gritos: valida la emoción y sostiene el límite sin ceder.'
-    },
-    elige: {
-      prompt: 'Tu hijo te exige comer galletas antes del almuerzo. ¿Cómo sostienes el límite sin pelea?',
-      options: [
-        {
-          id: 'a',
-          text: '“¡No me contestes así o te quedas sin postre toda la semana!”',
-          isCorrect: false,
-          feedback: 'Es una amenaza desproporcionada nacida del enfado del adulto.'
-        },
-        {
-          id: 'b',
-          text: 'Ceder y darle una galleta para que no haga un escándalo.',
-          isCorrect: false,
-          feedback: 'Le enseña que la insistencia y el berrinche anulan las reglas.'
-        },
-        {
-          id: 'c',
-          text: '“Sé que tienes antojo de galleta, pero ahora es hora de almorzar. La guardamos para la tarde.”',
-          isCorrect: true,
-          feedback: '¡Excelente! Valida su deseo (conexión) y mantiene firme la regla sin agresión.'
-        }
-      ]
-    },
-    practica: {
-      type: 'template_choice',
-      prompt: 'Fórmula de Límite Respetuoso: Reconoce emoción + Sostén la regla + Da alternativa:',
-      helper: 'Elige cómo formularás tu límite hoy:',
-      options: [
-        { id: '1', verb: 'Límite físico:', action: '“Puedes estar furioso, pero no permito golpes. Te acompaño hasta que pase la tormenta”.' },
-        { id: '2', verb: 'Límite de rutina:', action: '“Entiendo que quieras seguir jugando, pero el tiempo terminó. ¿Caminas o saltas a la cama?”.' },
-        { id: '3', verb: 'Límite de respeto:', action: '“Te escucho con gusto cuando me hables con tu voz normal”.' }
-      ]
-    },
-    puedesDecir: [
-      '“Sé que querías seguir, pero la respuesta sigue siendo no.”',
-      '“Está bien sentirse enojado; no está bien lastimar las cosas.”',
-      '“Hablamos sobre esto en cuanto tu cuerpo se sienta más tranquilo.”'
+  "evita": {
+    "tag": "6. Evita",
+    "subtitle": "Ciertas costumbres al elogiar pueden restarle todo el valor a tu reconocimiento. Conviene evitar:",
+    "cards": [
+      {
+        "id": "el_pero",
+        "title": "El \"pero\" final",
+        "desc": "Decir \"muy bien, pero la próxima hazlo más rápido\" borra el elogio.",
+        "image": "/elogia/card_el_pero.png"
+      },
+      {
+        "id": "sarcasmo",
+        "title": "Sarcasmo e ironía",
+        "desc": "Frases como \"¡milagro que recogiste!\" humillan en vez de motivar.",
+        "image": "/elogia/card_sarcasmo.png"
+      },
+      {
+        "id": "elogio_vago",
+        "title": "Elogios vacíos",
+        "desc": "Quedarte en un \"bien\" rutinario sin explicar qué hizo bien.",
+        "image": "/elogia/card_elogio_vago.png"
+      },
+      {
+        "id": "postergar",
+        "title": "Esperar a la noche",
+        "desc": "Dejar pasar las horas hace que el niño olvide el contexto de la acción.",
+        "image": "/elogia/card_postergar.png"
+      }
     ],
-    evita: [
-      'Amenazar con castigos humillantes o que no vas a cumplir.',
-      'Engancharte en discusiones lógicas de 20 minutos con un niño de 4 años.',
-      'Retirar el límite porque el niño llora o insiste con intensidad.',
-      'Justificarte con tono de súplica o culpa.'
-    ],
-    pruebaloHoy: {
-      badge: 'Misión del día',
-      title: 'Límite con Pocas Palabras',
-      description: 'Sostén un límite hoy usando tono neutro, validando su molestia pero sin cambiar el "No".',
-      habitKey: 'pon_limites_firme_calmado'
-    }
+    "reminder": "El cerebro infantil necesita claridad absoluta: celebra lo que ocurrió hoy sin mezclar reproches del pasado."
   },
-
-  {
-    id: 'ensena_que_hacer',
-    number: 8,
-    title: 'Enseña qué hacer',
-    tagline: 'No le digas solamente qué debe dejar de hacer.',
-    emoji: '🔄',
-    color: '#10B981',
-    bgSoft: 'bg-emerald-50',
-    borderSoft: 'border-emerald-200',
-    miraQuePasa: {
-      dialogue: 'El adulto repite a cada minuto: “¡NO CORRAS! ¡NO GRITES! ¡NO TOQUES ESO!”',
-      childReaction: 'El niño queda paralizado o hace exactamente lo que le dijeron que no hiciera.',
-      coachInsight: 'El cerebro infantil procesa con dificultad las instrucciones en negativo. Decir "no corras" no le dice cómo debe moverse. Necesita una conducta positiva sustituta.'
-    },
-    elige: {
-      prompt: 'Quieres que deje de tirar juguetes por el aire. ¿Qué instrucción enseña la conducta alternativa?',
-      options: [
-        {
-          id: 'a',
-          text: '“¡Deja de tirar todo al piso!”',
-          isCorrect: false,
-          feedback: 'Le recuerda el acto negativo sin darle un cauce constructivo a su energía.'
-        },
-        {
-          id: 'b',
-          text: '“Los carritos ruedan por la alfombra o los guardamos en su caja.”',
-          isCorrect: true,
-          feedback: '¡Exacto! Le dices exactamente cómo sí se usa el objeto y cuál es la alternativa segura.'
-        },
-        {
-          id: 'c',
-          text: '“Si vuelves a tirar eso te quito todos los juguetes.”',
-          isCorrect: false,
-          feedback: 'Es una amenaza que no le enseña la conducta adecuada.'
-        }
-      ]
-    },
-    practica: {
-      type: 'template_choice',
-      prompt: 'Transforma el problema prohibido en la conducta incompatible deseada:',
-      helper: 'Cambia un "NO hagas..." por un "Haz esto...":',
-      options: [
-        { id: '1', verb: 'De: “¡No grites!”', action: '→ A: “Usa tu voz de adentro / Dímelo en un susurro”.' },
-        { id: '2', verb: 'De: “¡No corras!”', action: '→ A: “Camina a mi lado y agarra el carrito de compras”.' },
-        { id: '3', verb: 'De: “¡No interrumpas!”', action: '→ A: “Pon tu mano en mi hombro para saber que quieres hablar”.' },
-        { id: '4', verb: 'De: “¡No pegues!”', action: '→ A: “Aprieta este cojín fuerte si sientes rabia en las manos”.' }
-      ]
-    },
-    puedesDecir: [
-      '“Camina despacito a mi lado, por favor.”',
-      '“Dímelo con voz tranquila para entender lo que necesitas.”',
-      '“Si quieres tocar al gato, hazlo suavemente con la palma abierta.”'
+  "pruebaloHoy": {
+    "tag": "7. Pruébalo hoy",
+    "badge": "Tu misión",
+    "title": "3 Elogios Descriptivos Hoy",
+    "description": "Encuentra 3 conductas positivas cotidianas hoy y descríbelas en voz alta con entusiasmo y calidez apenas ocurran.",
+    "habitKey": "elogia_3_descriptivos",
+    "durations": [
+      {
+        "id": "2min",
+        "label": "2 minutos",
+        "sub": "Versión breve"
+      },
+      {
+        "id": "5min",
+        "label": "5 minutos",
+        "sub": "Tiempo completo"
+      }
     ],
-    evita: [
-      'Llenar el día de órdenes en negativo (“No saltes, no toques, no comas así”).',
-      'Dar por hecho que el niño ya sabe cuál es la conducta correcta.',
-      'Dar explicaciones teóricas abstractas.',
-      'Repetir el "No" sin ofrecer una opción válida de juego o expresión.'
+    "moments": [
+      {
+        "id": "manana",
+        "label": "Mañana",
+        "icon": "sun"
+      },
+      {
+        "id": "tarde",
+        "label": "Tarde",
+        "icon": "sunset"
+      },
+      {
+        "id": "noche",
+        "label": "Noche",
+        "icon": "moon"
+      },
+      {
+        "id": "despues",
+        "label": "Elegir después",
+        "icon": "calendar"
+      }
     ],
-    pruebaloHoy: {
-      badge: 'Misión del día',
-      title: 'Cambia 1 "NO" por un "Haz esto"',
-      description: 'Cada vez que estés por decir "¡No hagas eso!", transfórmalo en la acción concreta que sí esperas ver.',
-      habitKey: 'ensena_conducta_alternativa'
-    }
-  },
-
-  {
-    id: 'se_constante',
-    number: 9,
-    title: 'Sé constante',
-    tagline: 'Lo que haces muchas veces enseña más que lo que haces una vez.',
-    emoji: '🔁',
-    color: '#0D9488',
-    bgSoft: 'bg-teal-50',
-    borderSoft: 'border-teal-200',
-    miraQuePasa: {
-      dialogue: 'Lunes: “Cero celular después de las 7”. Martes: “Bueno, 10 minutos más porque estoy cansado”. Miércoles: “Hoy no importa”. Jueves: “¡¿Por qué nunca me haces caso?!”',
-      childReaction: 'El niño insiste, llora y ruega cada noche porque sabe que a veces el límite se rompe.',
-      coachInsight: 'La inconsistencia genera persistencia en la queja (reforzamiento intermitente, como una máquina tragamonedas). Si el niño sabe que 1 de cada 4 veces cedes, insistirá siempre.'
-    },
-    elige: {
-      prompt: 'Cuando tu hijo llora e insiste para romper un acuerdo, ¿qué promueve mayor seguridad a largo plazo?',
-      options: [
-        {
-          id: 'a',
-          text: 'Ceder solo los días que estés de buen humor para que no sufra.',
-          isCorrect: false,
-          feedback: 'Crea confusión e inseguridad sobre cuándo la regla es real y cuándo no.'
-        },
-        {
-          id: 'b',
-          text: 'Mantener la misma respuesta con serenidad tanto el lunes como el domingo.',
-          isCorrect: true,
-          feedback: '¡Exacto! La previsibilidad reduce la ansiedad infantil y elimina la necesidad de probar los límites a diario.'
-        },
-        {
-          id: 'c',
-          text: 'Cambiar la regla sobre la marcha según cuánto llore.',
-          isCorrect: false,
-          feedback: 'Le enseña que el volumen del llanto determina las reglas de la casa.'
-        }
-      ]
-    },
-    practica: {
-      type: 'template_choice',
-      prompt: 'Construye tu ancla de consistencia para los momentos de duda:',
-      helper: 'Elige tu frase de recordatorio interno cuando sientas ganas de ceder por cansancio:',
-      options: [
-        { id: '1', verb: 'Consistencia:', action: '“Ceder hoy solo hará más difícil el berrinche de mañana. Mantengo la regla con amor”.' },
-        { id: '2', verb: 'Previsibilidad:', action: '“El acuerdo de hoy es el mismo de ayer. Acompaño su queja sin romper el límite”.' },
-        { id: '3', verb: 'Paciencia:', action: '“Elijo UNA sola regla fija esta semana y no la cambio sin importar mi cansancio”.' }
-      ]
-    },
-    puedesDecir: [
-      '“Sé que quieres seguir. La regla de hoy se mantiene igual que ayer.”',
-      '“Entiendo tu molestia, pero ya habíamos acordado esto juntos.”',
-      '“Mañana volveremos a tener tiempo para esto; ahora toca cenar.”'
-    ],
-    evita: [
-      'Poner 20 reglas a la vez que no vas a tener energía de supervisar.',
-      'Amenazar con algo que sabes que no vas a cumplir.',
-      'Cambiar el límite dependiendo de si estás de buenas o de malas.',
-      'Sentirte culpable por sostener un acuerdo que protege a tu hijo.'
-    ],
-    pruebaloHoy: {
-      badge: 'Misión del día',
-      title: 'Una Sola Regla Blindada',
-      description: 'Elige UNA sola regla sencilla hoy (ej. lavarse dientes o apagar tele) y mantén la misma respuesta todo el día.',
-      habitKey: 'se_constante_una_regla'
-    }
+    "reminder": "Ponte a su altura, sonríe, describe la acción exacta y agradécesela sin añadir ningún \"pero\"."
   }
+},
+
+  {
+  "id": "motiva",
+  "number": 4,
+  "title": "Motiva",
+  "subtitle": "Reforzadores sociales y privilegios",
+  "tagline": "Ayúdalo a querer repetir lo que hace bien.",
+  "emoji": "🎯",
+  "badge": "Habilidad 4 de 10",
+  "color": "#F97316",
+  "bgSoft": "bg-orange-50",
+  "borderSoft": "border-orange-200",
+  "category": "limits",
+  "isPremier": true,
+  "whyImportant": "Los sobornos materiales (\"te compro un juguete si no lloras\") pierden efecto y enseñan manipulación. Los privilegios de tiempo compartido y juegos juntos despiertan cooperación genuina y alegría.",
+  "miraQuePasa": {
+    "tag": "1. Mira qué pasa",
+    "subtitle": "Observa esta situación cotidiana. Fíjate en cómo los sobornos materiales desgastan la relación a largo plazo.",
+    "dialogue": "“Si haces la tarea sin quejarte, te compro un juguete el sábado en el centro comercial.”",
+    "didYouKnow": "Los niños pequeños valoran más 10 minutos de juego exclusivo con mamá o papá que un juguete nuevo comprado con prisa."
+  },
+  "elige": {
+    "tag": "2. Elige",
+    "prompt": "¿Cuál motivador es más saludable y duradero para un niño pequeño?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A",
+        "text": "Comprarle un dulce o juguete cada vez que coopera.",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Crea dependencia material externa y pierde su valor muy rápidamente."
+      },
+      {
+        "id": "b",
+        "label": "B",
+        "text": "Tiempo especial juntos: elegir el cuento de la noche o 10 minutos de juego libre.",
+        "isCorrect": true,
+        "feedbackTitle": "¡Exacto!",
+        "feedback": "¡Excelente! Los privilegios de tiempo y atención fortalecen el vínculo afectivo y la motivación interna del niño."
+      },
+      {
+        "id": "c",
+        "label": "C",
+        "text": "Darle el premio antes de que cumpla la conducta para que se calme.",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Refuerza la queja o el berrinche previo en lugar de incentivar el esfuerzo."
+      }
+    ]
+  },
+  "miraComoSeHace": {
+    "tag": "3. Mira cómo se hace",
+    "subtitle": "Escucha dos ejemplos reales de cómo vincular una rutina cotidiana con un privilegio positivo compartido.",
+    "panels": [
+      {
+        "id": 1,
+        "text": "“Cuando los zapatos estén en su mueble, ponemos tu canción favorita para bailar juntos en la sala.”"
+      },
+      {
+        "id": 2,
+        "text": "“¡Terminaste a tiempo tu tarea! Ahora tenemos 15 minutos extra para leer el cuento que tú elijas.”"
+      }
+    ],
+    "coachMessage": "Aplica la regla de oro: \"Primero cooperamos con la tarea, luego disfrutamos el privilegio divertido juntos\"."
+  },
+  "practica": {
+    "tag": "4. Practica",
+    "subtitle": "Selecciona una rutina para practicar cómo formular un motivador positivo basado en tiempo compartido.",
+    "activities": [
+      {
+        "id": "pijama",
+        "name": "Hora de dormir",
+        "icon": "🌙",
+        "sceneDescription": "Le cuesta dejar el juego para ponerse el pijama e ir a la cama.",
+        "question": "¿Cómo aplicas el principio de motivación?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Cuando tengas el pijama puesto y los dientes limpios, leemos dos cuentos en la cama juntos.”",
+            "isCorrect": true,
+            "feedback": "¡Exacto! Pones la condición clara y ofreces un momento de cercanía como recompensa natural."
+          },
+          {
+            "id": "b",
+            "text": "“Ponte el pijama o mañana no vas al cumpleaños.”",
+            "isCorrect": false,
+            "feedback": "Usa una amenaza lejana en vez de un motivador inmediato y conectivo."
+          },
+          {
+            "id": "c",
+            "text": "“Te dejo jugar media hora más si prometes dormirte rápido.”",
+            "isCorrect": false,
+            "feedback": "Cedes el límite antes del esfuerzo y enseñas que resistirse funciona."
+          }
+        ]
+      },
+      {
+        "id": "pantallas",
+        "name": "Apagar tele",
+        "icon": "📺",
+        "sceneDescription": "Es hora de apagar la pantalla y guardar la tablet.",
+        "question": "¿Qué privilegio de tiempo ayuda a la transición?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Apenas apagues la tele, elegimos el juego de mesa para jugar en la alfombra.”",
+            "isCorrect": true,
+            "feedback": "¡Muy bien! Sustituyes la pantalla por una actividad relacional aún más atractiva."
+          },
+          {
+            "id": "b",
+            "text": "“¡Si no apagas ya te decomiso la tablet una semana!”",
+            "isCorrect": false,
+            "feedback": "Genera confrontación reactiva y resistencia emocional."
+          },
+          {
+            "id": "c",
+            "text": "“Déjame ver qué te compro si la apagas ahora.”",
+            "isCorrect": false,
+            "feedback": "Soborno innecesario que crea dependencia económica."
+          }
+        ]
+      },
+      {
+        "id": "almuerzo",
+        "name": "Almuerzo",
+        "icon": "🍽️",
+        "sceneDescription": "Es hora de terminar el plato de verduras antes del postre.",
+        "question": "¿Cómo formulas la regla motivante?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Cuando termines tu porción de verduras, elegimos juntos la fruta dulce para el postre.”",
+            "isCorrect": true,
+            "feedback": "¡Perfecto! Secuencia lógica: primero el esfuerzo alimenticio, luego la recompensa saludable."
+          },
+          {
+            "id": "b",
+            "text": "“Cómete eso porque hay niños que no tienen nada.”",
+            "isCorrect": false,
+            "feedback": "Genera culpa pero no motivación para comer."
+          },
+          {
+            "id": "c",
+            "text": "“Toma la tableta mientras comes para que no llores.”",
+            "isCorrect": false,
+            "feedback": "Desconecta al niño de sus señales de saciedad y de la mesa familiar."
+          }
+        ]
+      },
+      {
+        "id": "bano",
+        "name": "El baño",
+        "icon": "🛁",
+        "sceneDescription": "Se niega a entrar a la tina para bañarse.",
+        "question": "¿Cómo conviertes el baño en una meta divertida?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“¡Hoy tenemos barquitos de espuma en el agua! En cuanto entres, hacemos carreras de burbujas.”",
+            "isCorrect": true,
+            "feedback": "¡Eso es! El juego dentro del agua hace que la rutina sea deseable por sí misma."
+          },
+          {
+            "id": "b",
+            "text": "“¡Al agua ya porque estás sucio y hueles feo!”",
+            "isCorrect": false,
+            "feedback": "Descalifica al niño y asocia el aseo con vergüenza."
+          },
+          {
+            "id": "c",
+            "text": "“Bueno, no te bañes hoy si vas a hacer escándalo.”",
+            "isCorrect": false,
+            "feedback": "Rompe la consistencia del hábito por evitar la rabieta."
+          }
+        ]
+      }
+    ],
+    "reminder": "El mejor motivador no se compra: se comparte a través de la presencia, el juego y la atención del adulto."
+  },
+  "puedesDecirOHacer": {
+    "tag": "5. Puedes decir o hacer",
+    "subtitle": "Para incentivar conductas positivas con motivación respetuosa y duradera:",
+    "cards": [
+      {
+        "id": "primero_luego",
+        "title": "Primero X, luego Y",
+        "desc": "Establece claramente: \"Primero recogemos, luego leemos juntos\"."
+      },
+      {
+        "id": "tiempo_compartido",
+        "title": "Privilegios de tiempo",
+        "desc": "Ofrece cosquillas, bailes, paseos en bici o juegos de mesa."
+      },
+      {
+        "id": "cumple_promesa",
+        "title": "Cumple siempre",
+        "desc": "Si prometiste 10 minutos de juego, cúmplelos sin falta."
+      },
+      {
+        "id": "celebra_juntos",
+        "title": "Reconoce el logro",
+        "desc": "Resalta que ambos ganaron tiempo agradable gracias a su cooperación."
+      }
+    ],
+    "reminder": "La motivación conectada enseña que cooperar beneficia a toda la familia."
+  },
+  "evita": {
+    "tag": "6. Evita",
+    "subtitle": "Trampas comunes que debilitan la motivación sana:",
+    "cards": [
+      {
+        "id": "sobornos_crisis",
+        "title": "Sobornos en crisis",
+        "desc": "Nunca ofrezcas premios en medio de un berrinche o queja."
+      },
+      {
+        "id": "premios_materiales",
+        "title": "Regalos y compras",
+        "desc": "Evita comprar juguetes como condición diaria para colaborar."
+      },
+      {
+        "id": "premio_anticipado",
+        "title": "Entregar antes",
+        "desc": "No des el beneficio antes de que se inicie la acción acordada."
+      },
+      {
+        "id": "promesas_falsas",
+        "title": "Promesas que no cumples",
+        "desc": "No ofrezcas salidas gigantes si no tienes tiempo de realizarlas."
+      }
+    ],
+    "reminder": "Si el niño aprende que la recompensa llega sin esfuerzo, la motivación desaparece."
+  },
+  "pruebaloHoy": {
+    "tag": "7. Pruébalo hoy",
+    "badge": "Tu misión",
+    "title": "Primero Cooperamos, Luego Jugamos",
+    "description": "Vincula una rutina difícil hoy con un privilegio divertido de tiempo compartido y cúmplelo apenas cumpla la acción.",
+    "habitKey": "motiva_tiempo_compartido",
+    "durations": [
+      {
+        "id": "2min",
+        "label": "2 minutos",
+        "sub": "Versión breve"
+      },
+      {
+        "id": "5min",
+        "label": "5 minutos",
+        "sub": "Tiempo completo"
+      }
+    ],
+    "moments": [
+      {
+        "id": "manana",
+        "label": "Mañana",
+        "icon": "sun"
+      },
+      {
+        "id": "tarde",
+        "label": "Tarde",
+        "icon": "sunset"
+      },
+      {
+        "id": "noche",
+        "label": "Noche",
+        "icon": "moon"
+      },
+      {
+        "id": "despues",
+        "label": "Elegir después",
+        "icon": "calendar"
+      }
+    ],
+    "reminder": "Define el privilegio divertido antes de empezar, sé claro en el \"primero X, luego Y\" y disfruta el momento juntos."
+  }
+},
+
+  {
+  "id": "da_ejemplo",
+  "number": 5,
+  "title": "Da ejemplo",
+  "subtitle": "Modelado consciente de regulación",
+  "tagline": "Enséñale con lo que haces.",
+  "emoji": "👀",
+  "badge": "Habilidad 5 de 10",
+  "color": "#06B6D4",
+  "bgSoft": "bg-cyan-50",
+  "borderSoft": "border-cyan-200",
+  "category": "communication",
+  "isPremier": true,
+  "whyImportant": "Los niños aprenden por neuronas espejo. No podemos enseñar calma gritando, ni enseñar respeto perdiendo el control. Tu respuesta ante el error es su mayor guía de vida.",
+  "miraQuePasa": {
+    "tag": "1. Mira qué pasa",
+    "subtitle": "Observa esta situación cotidiana. Fíjate en cómo la pérdida de control del adulto intensifica la crisis.",
+    "dialogue": "El adulto grita alterado: “¡TE DIJE QUE DEJES DE GRITAR EN ESTA CASA!”",
+    "didYouKnow": "El cerebro infantil no escucha las palabras de un adulto enojado: copia el tono muscular, la mirada tensa y los decibeles de su voz."
+  },
+  "elige": {
+    "tag": "2. Elige",
+    "prompt": "Tu hijo derrama un vaso de leche por accidente sobre la mesa. ¿Qué le enseñará mejor a manejar errores?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A",
+        "text": "“¡Mira lo que hiciste! ¡Siempre eres tan torpe y descuidado!”",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Enseña culpa, vergüenza y miedo a equivocarse, sin mostrar una solución."
+      },
+      {
+        "id": "b",
+        "label": "B",
+        "text": "“Fue un accidente. Respira hondo, toma un trapo y vamos a limpiarlo juntos.”",
+        "isCorrect": true,
+        "feedbackTitle": "¡Exacto!",
+        "feedback": "¡Perfecto! Modela que los accidentes cotidianos se resuelven con serenidad, responsabilidad y trabajo en equipo."
+      },
+      {
+        "id": "c",
+        "label": "C",
+        "text": "Limpiarlo tú con enojo y resoplando en silencio con cara de molestia.",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Comunica hostilidad pasiva y angustia al niño en lugar de una pauta tranquila."
+      }
+    ]
+  },
+  "miraComoSeHace": {
+    "tag": "3. Mira cómo se hace",
+    "subtitle": "Escucha dos ejemplos reales de cómo narrar tu propia autorregulación frente a tu hijo.",
+    "panels": [
+      {
+        "id": 1,
+        "text": "“Siento mucha prisa y me estoy alterando con el tráfico. Voy a respirar hondo tres veces antes de hablar.”"
+      },
+      {
+        "id": 2,
+        "text": "“Perdóname por levantar la voz hace un momento. Me sentía frustrado, pero ya me calmé y podemos resolverlo.”"
+      }
+    ],
+    "coachMessage": "Modelar no es ser un robot perfecto. Es mostrarle a tu hijo en voz alta cómo un adulto siente emociones difíciles y elige volver a la calma."
+  },
+  "practica": {
+    "tag": "4. Practica",
+    "subtitle": "Selecciona una situación cotidiana para practicar el modelado consciente de calma y resolución.",
+    "activities": [
+      {
+        "id": "derrame",
+        "name": "Derrame accidental",
+        "icon": "🥛",
+        "sceneDescription": "Un vaso de agua cae al piso mientras tu hijo intentaba servirlo.",
+        "question": "¿Cómo modelas la respuesta constructiva?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Los accidentes pasan. Vamos por el trapero y te enseño cómo secarlo.”",
+            "isCorrect": true,
+            "feedback": "¡Excelente! Enseña responsabilidad activa sin dramatismo ni recriminación."
+          },
+          {
+            "id": "b",
+            "text": "“¡Deja eso, tú no sabes servir nada!”",
+            "isCorrect": false,
+            "feedback": "Daña su autoeficacia y genera miedo a intentar tareas nuevas."
+          },
+          {
+            "id": "c",
+            "text": "Ignorarlo y dejar el charco sucio.",
+            "isCorrect": false,
+            "feedback": "No modela el cuidado del hogar ni la resolución compartida."
+          }
+        ]
+      },
+      {
+        "id": "trafico",
+        "name": "Retraso y prisa",
+        "icon": "🚗",
+        "sceneDescription": "Van tarde al colegio y hay una fila larga de autos.",
+        "question": "¿Cómo expresas el manejo del estrés en voz alta?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Estamos con el tiempo justo y siento ganas de acelerar. Voy a poner música suave y respirar tranquilos.”",
+            "isCorrect": true,
+            "feedback": "¡Brillante! Muestras cómo identificar la prisa y elegir conscientemente la serenidad."
+          },
+          {
+            "id": "b",
+            "text": "Tocar la bocina y maldecir a los otros conductores.",
+            "isCorrect": false,
+            "feedback": "Modela agresión e impulsividad cuando las cosas no salen como queremos."
+          },
+          {
+            "id": "c",
+            "text": "“¡Por tu culpa de no vestirte rápido vamos a llegar tardísimo!”",
+            "isCorrect": false,
+            "feedback": "Descarga la frustración del adulto culpando al niño."
+          }
+        ]
+      },
+      {
+        "id": "disculpa",
+        "name": "Reparar el error",
+        "icon": "🤝",
+        "sceneDescription": "Perdiste la paciencia y le hablaste con un tono brusco.",
+        "question": "¿Cómo modelas la reparación emocional sincera?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Hijo, te hablé de forma fea hace un momento. Estaba cansado, pero no debí hablarte así. Lo siento.”",
+            "isCorrect": true,
+            "feedback": "¡Poderoso! Enseña que los adultos también se equivocan y saben pedir perdón con madurez."
+          },
+          {
+            "id": "b",
+            "text": "Hacer como si nada hubiera pasado y comprarle un dulce.",
+            "isCorrect": false,
+            "feedback": "Enseña a encubrir los errores con objetos en lugar de hablar."
+          },
+          {
+            "id": "c",
+            "text": "“Te hablé así porque tú me provocaste.”",
+            "isCorrect": false,
+            "feedback": "Justifica la violencia verbal culpando a la otra persona."
+          }
+        ]
+      },
+      {
+        "id": "pantallas",
+        "name": "Uso de pantallas",
+        "icon": "📱",
+        "sceneDescription": "Quieres que tu hijo deje los videojuegos para cenar.",
+        "question": "¿Cómo modelas la coherencia con dispositivos?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Dejas tu propio celular en la canasta de la entrada antes de sentarte a la mesa.",
+            "isCorrect": true,
+            "feedback": "¡Eso es coherencia! Las reglas del hogar se aplican a todos con el ejemplo vivo."
+          },
+          {
+            "id": "b",
+            "text": "Le quitas la tablet mientras tú revisas mensajes en la mesa.",
+            "isCorrect": false,
+            "feedback": "Doble moral que despierta resentimiento y desobediencia."
+          },
+          {
+            "id": "c",
+            "text": "Decirle que los celulares son malos mientras miras series.",
+            "isCorrect": false,
+            "feedback": "Tus acciones contradicen totalmente tus palabras."
+          }
+        ]
+      }
+    ],
+    "reminder": "Tus hijos quizás no siempre hagan lo que dices, pero siempre imitarán lo que haces."
+  },
+  "puedesDecirOHacer": {
+    "tag": "5. Puedes decir o hacer",
+    "subtitle": "Pautas para convertirte en el mejor modelo de regulación emocional para tu hijo:",
+    "cards": [
+      {
+        "id": "narra_calma",
+        "title": "Narra tu calma",
+        "desc": "Di en voz alta: \"Estoy sintiendo enojo, voy a respirar hondo\"."
+      },
+      {
+        "id": "repara_fallas",
+        "title": "Repara si fallas",
+        "desc": "Pide disculpas con sencillez si perdiste la paciencia o alzaste la voz."
+      },
+      {
+        "id": "resuelve_sin_culpa",
+        "title": "Resuelve el error",
+        "desc": "Enfoca los accidentes en soluciones prácticas, no en buscar culpables."
+      },
+      {
+        "id": "coherencia_viva",
+        "title": "Sé coherente",
+        "desc": "Cumple tú mismo las normas de pantallas, orden y respeto de la casa."
+      }
+    ],
+    "reminder": "La serenidad no se enseña con sermones; se contagia con presencia y modelado constante."
+  },
+  "evita": {
+    "tag": "6. Evita",
+    "subtitle": "Incoherencias frecuentes que confunden el aprendizaje emocional del niño:",
+    "cards": [
+      {
+        "id": "exigir_sin_dar",
+        "title": "Exigir sin dar",
+        "desc": "No pidas calma a gritos ni respeto usando burlas o agresividad."
+      },
+      {
+        "id": "ocultar_errores",
+        "title": "Ocultar tropiezos",
+        "desc": "No finjas que eres perfecto; muestra cómo te recuperas y reparas."
+      },
+      {
+        "id": "resentimiento",
+        "title": "Resentimiento pasivo",
+        "desc": "Evita guardar silencio hostil o azotar puertas en la casa."
+      },
+      {
+        "id": "castigar_accidentes",
+        "title": "Castigar descuidos",
+        "desc": "No trates un vaso roto por torpeza motora como una falta grave."
+      }
+    ],
+    "reminder": "Cuando el adulto se desregula, el niño siente que el mundo es caótico y pierde su ancla segura."
+  },
+  "pruebaloHoy": {
+    "tag": "7. Pruébalo hoy",
+    "badge": "Tu misión",
+    "title": "Narra Tu Autocontrol en Voz Alta",
+    "description": "Elige una situación que te dé impaciencia hoy y narra en voz alta cómo respiras y eliges mantener la calma.",
+    "habitKey": "da_ejemplo_calma",
+    "durations": [
+      {
+        "id": "2min",
+        "label": "2 minutos",
+        "sub": "Versión breve"
+      },
+      {
+        "id": "5min",
+        "label": "5 minutos",
+        "sub": "Tiempo completo"
+      }
+    ],
+    "moments": [
+      {
+        "id": "manana",
+        "label": "Mañana",
+        "icon": "sun"
+      },
+      {
+        "id": "tarde",
+        "label": "Tarde",
+        "icon": "sunset"
+      },
+      {
+        "id": "noche",
+        "label": "Noche",
+        "icon": "moon"
+      },
+      {
+        "id": "despues",
+        "label": "Elegir después",
+        "icon": "calendar"
+      }
+    ],
+    "reminder": "Haz visible tu propio proceso de volver a la calma frente a tu hijo."
+  }
+},
+
+  {
+  "id": "practiquen_juntos",
+  "number": 6,
+  "title": "Practiquen juntos",
+  "subtitle": "Ensayo conductual fuera de crisis",
+  "tagline": "Las habilidades se aprenden practicando.",
+  "emoji": "🤝",
+  "badge": "Habilidad 6 de 10",
+  "color": "#8B5CF6",
+  "bgSoft": "bg-purple-50",
+  "borderSoft": "border-purple-200",
+  "category": "limits",
+  "isPremier": true,
+  "whyImportant": "Nadie aprende a nadar en medio de una tormenta. Los niños necesitan ensayar cómo respirar o cómo pedir las cosas jugando en momentos de paz, antes de que ocurra el conflicto.",
+  "miraQuePasa": {
+    "tag": "1. Mira qué pasa",
+    "subtitle": "Observa esta situación cotidiana. Fíjate en por qué las explicaciones lógicas fallan en el momento crítico.",
+    "dialogue": "“¡Ya te he dicho mil veces que cuando estés furioso no debes pegar a nadie!”",
+    "didYouKnow": "Saber una regla en teoría no activa los músculos. Solo el ensayo físico repetido en frío crea las conexiones neuronales automáticas."
+  },
+  "elige": {
+    "tag": "2. Elige",
+    "prompt": "¿Cuál es el mejor momento para ensayar cómo pedir las cosas por favor o cómo calmarse?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A",
+        "text": "En pleno berrinche mientras llora y grita.",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Bajo secuestro emocional el cerebro del niño está cerrado a cualquier nuevo aprendizaje."
+      },
+      {
+        "id": "b",
+        "label": "B",
+        "text": "Durante un momento tranquilo de juego a modo de simulacro divertido.",
+        "isCorrect": true,
+        "feedbackTitle": "¡Exacto!",
+        "feedback": "¡Perfecto! El ensayo en frío permite automatizar la respuesta corporal sin la presión del enojo."
+      },
+      {
+        "id": "c",
+        "label": "C",
+        "text": "Justo después de haberle puesto un castigo por desobedecer.",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "El niño estará a la defensiva o resentido y lo vivirá como un regaño extra."
+      }
+    ]
+  },
+  "miraComoSeHace": {
+    "tag": "3. Mira cómo se hace",
+    "subtitle": "Escucha dos ejemplos reales de cómo plantear un ensayo conductual divertido de 2 minutos.",
+    "panels": [
+      {
+        "id": 1,
+        "text": "“Vamos a jugar a que nos enojamos mucho, pero respiramos como un león: tomamos aire y soltamos despacio.”"
+      },
+      {
+        "id": 2,
+        "text": "“¡Eso es! Ahora practicamos pasar el juguete diciendo: ¿me lo prestas por favor cuando termines?”"
+      }
+    ],
+    "coachMessage": "La secuencia del ensayo: 1) Tú lo muestras, 2) Lo hacen juntos como juego, 3) El niño lo hace solo, 4) Elogias con entusiasmo."
+  },
+  "practica": {
+    "tag": "4. Practica",
+    "subtitle": "Selecciona una habilidad para practicar cómo estructurar un simulacro de juego de 2 minutos.",
+    "activities": [
+      {
+        "id": "turno",
+        "name": "Pedir turno",
+        "icon": "🎲",
+        "sceneDescription": "Le cuesta esperar su turno cuando juegan con otros niños.",
+        "question": "¿Cómo proponer el simulacro de juego?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Vamos a jugar a que yo tengo el juguete favorito. Mírame a los ojos y ensaya decir: ¿me lo prestas cuando termines?”",
+            "isCorrect": true,
+            "feedback": "¡Excelente! Ensayar la frase literal en frío crea el reflejo automático para la plaza."
+          },
+          {
+            "id": "b",
+            "text": "“Si no aprendes a compartir no te dejo jugar con nadie.”",
+            "isCorrect": false,
+            "feedback": "Es una amenaza que no le enseña la conducta motora de pedir."
+          },
+          {
+            "id": "c",
+            "text": "Decirle que los niños que no comparten son egoístas.",
+            "isCorrect": false,
+            "feedback": "Coloca una etiqueta negativa que daña su autoconcepto."
+          }
+        ]
+      },
+      {
+        "id": "respirar",
+        "name": "Respiración de león",
+        "icon": "🦁",
+        "sceneDescription": "Enseñar qué hacer con el cuerpo cuando siente ganas de empujar.",
+        "question": "¿Cómo practicar la respuesta física alternativa?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Juguemos a que las manos se ponen como puños cerrados, pero inhalamos fuerte y las abrimos como estrellas.”",
+            "isCorrect": true,
+            "feedback": "¡Brillante! Asocia la tensión muscular con una acción incompatible de relajación."
+          },
+          {
+            "id": "b",
+            "text": "“¡No se te ocurra volver a empujar a tu primo!”",
+            "isCorrect": false,
+            "feedback": "Prohibir no le da una alternativa motora a su energía física."
+          },
+          {
+            "id": "c",
+            "text": "Explicarle un tratado sobre por qué empujar está mal.",
+            "isCorrect": false,
+            "feedback": "Los discursos largos no se traducen en autocontrol motor."
+          }
+        ]
+      },
+      {
+        "id": "ayuda",
+        "name": "Pedir ayuda",
+        "icon": "🆘",
+        "sceneDescription": "Se frustra al ponerse los zapatos y los lanza con rabia.",
+        "question": "¿Cómo ensayar pedir auxilio antes de la explosión?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Vamos a jugar a que el zapato está rebelde. Antes de enojarte, grita la palabra mágica: ¡Auxilio papá!”",
+            "isCorrect": true,
+            "feedback": "¡Eso es! Sustituyes el lanzamiento del objeto por una petición verbal divertida."
+          },
+          {
+            "id": "b",
+            "text": "Ponérselos tú siempre para que no llore.",
+            "isCorrect": false,
+            "feedback": "Fomenta la indefensión aprendida y no desarrolla autonomía."
+          },
+          {
+            "id": "c",
+            "text": "“Si los tiras te quedas descalzo.”",
+            "isCorrect": false,
+            "feedback": "Castigo reactivo que no soluciona la dificultad motora."
+          }
+        ]
+      },
+      {
+        "id": "saludar",
+        "name": "Saludar con soltura",
+        "icon": "👋",
+        "sceneDescription": "Suele esconderse detrás de tus piernas al llegar visitas.",
+        "question": "¿Cómo entrenar el saludo con un juego sin presión?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Juguemos a ser detectives: cuando llegue el abuelo, miramos el color de sus ojos y chocamos los cinco.”",
+            "isCorrect": true,
+            "feedback": "¡Fantástico! Desvía la timidez hacia un juego de observación y contacto motriz amable."
+          },
+          {
+            "id": "b",
+            "text": "Obligarlo a abrazar y dar besos a la fuerza.",
+            "isCorrect": false,
+            "feedback": "Vulnera sus límites corporales y aumenta la resistencia."
+          },
+          {
+            "id": "c",
+            "text": "“Saluda bien, qué vergüenza que seas tan tímido.”",
+            "isCorrect": false,
+            "feedback": "Lo expone ante otros y refuerza la timidez como identidad."
+          }
+        ]
+      }
+    ],
+    "reminder": "Los ensayos breves y divertidos fuera de crisis fijan hábitos más rápido que cualquier regaño."
+  },
+  "puedesDecirOHacer": {
+    "tag": "5. Puedes decir o hacer",
+    "subtitle": "Pautas para realizar simulacros de juego efectivos con tu hijo:",
+    "cards": [
+      {
+        "id": "hazlo_juego",
+        "title": "Hazlo un juego",
+        "desc": "Plantea el ensayo como una misión divertida o juego de roles."
+      },
+      {
+        "id": "tu_primero",
+        "title": "Modela tú primero",
+        "desc": "Muestra tú la acción física con gracia antes de pedir que él la haga."
+      },
+      {
+        "id": "ensayos_cortos",
+        "title": "Ensayos de 2 minutos",
+        "desc": "Practica solo dos o tres repeticiones breves para no cansar al niño."
+      },
+      {
+        "id": "elogia_inmediato",
+        "title": "Celebra el avance",
+        "desc": "Choca los cinco apenas realice el movimiento esperado en el ensayo."
+      }
+    ],
+    "reminder": "Lo que el cuerpo practica en calma, el cerebro lo ejecuta automáticamente en el momento difícil."
+  },
+  "evita": {
+    "tag": "6. Evita",
+    "subtitle": "Errores frecuentes al intentar practicar habilidades:",
+    "cards": [
+      {
+        "id": "ensayo_en_rabia",
+        "title": "Ensayar en crisis",
+        "desc": "Nunca intentes enseñar mientras el niño llora o está furioso."
+      },
+      {
+        "id": "perfeccionismo",
+        "title": "Exigir perfección",
+        "desc": "No te enfades si en el primer simulacro se ríe o se distrae."
+      },
+      {
+        "id": "examen_rigido",
+        "title": "Hacerlo un examen",
+        "desc": "No conviertas la práctica en una prueba tensa o regaño."
+      },
+      {
+        "id": "burlarse",
+        "title": "Burlarse del intento",
+        "desc": "Evita comentarios como \"a ver si ahora sí te sale\"."
+      }
+    ],
+    "reminder": "El ensayo debe ser siempre un espacio seguro, alegre y libre de juicio."
+  },
+  "pruebaloHoy": {
+    "tag": "7. Pruébalo hoy",
+    "badge": "Tu misión",
+    "title": "Simulacro de Juego de 2 Minutos",
+    "description": "Haz un juego de roles de 2 minutos sobre cómo pedir algo con calma o respirar antes de que ocurra el conflicto.",
+    "habitKey": "practiquen_juntos_simulacro",
+    "durations": [
+      {
+        "id": "2min",
+        "label": "2 minutos",
+        "sub": "Versión breve"
+      },
+      {
+        "id": "5min",
+        "label": "5 minutos",
+        "sub": "Tiempo completo"
+      }
+    ],
+    "moments": [
+      {
+        "id": "manana",
+        "label": "Mañana",
+        "icon": "sun"
+      },
+      {
+        "id": "tarde",
+        "label": "Tarde",
+        "icon": "sunset"
+      },
+      {
+        "id": "noche",
+        "label": "Noche",
+        "icon": "moon"
+      },
+      {
+        "id": "despues",
+        "label": "Elegir después",
+        "icon": "calendar"
+      }
+    ],
+    "reminder": "Muestra tú primero, háganlo juntos como juego y elogia con entusiasmo al terminar."
+  }
+},
+
+  {
+  "id": "anticipate",
+  "number": 7,
+  "title": "Anticípate",
+  "subtitle": "Alertas y preparación de transiciones",
+  "tagline": "Prepáralo antes del momento difícil.",
+  "emoji": "🔮",
+  "badge": "Habilidad 7 de 10",
+  "color": "#6366F1",
+  "bgSoft": "bg-indigo-50",
+  "borderSoft": "border-indigo-200",
+  "category": "limits",
+  "isPremier": true,
+  "whyImportant": "A los 3 a 6 años, el cerebro tarda en cambiar de foco atencional. Un corte abrupto en su juego se siente como una agresión. Los avisos previos de 5 minutos suavizan la transición sin lágrimas.",
+  "miraQuePasa": {
+    "tag": "1. Mira qué pasa",
+    "subtitle": "Observa esta situación cotidiana. Fíjate en cómo los cortes abruptos detonan resistencia y berrinches.",
+    "dialogue": "“¡Apaga eso YA y ven a cenar ahora mismo!” (Corte abrupto sin aviso previo)",
+    "didYouKnow": "Avisar 5 minutos antes con una meta tangible (\"dos bajadas más en el tobogán\") activa la corteza prefrontal del niño para cerrar su ciclo mental de juego."
+  },
+  "elige": {
+    "tag": "2. Elige",
+    "prompt": "¿Cómo preparas mejor a tu hijo para salir del parque sin lágrimas ni persecuciones?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A",
+        "text": "Decirle a último segundo: “Nos vamos ya porque es tarde”.",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Garantiza resistencia por sorpresa y frustración al cortar en seco su juego."
+      },
+      {
+        "id": "b",
+        "label": "B",
+        "text": "Avisar 5 minutos antes: “Te quedan 2 bajadas por el tobogán y nos vamos a cenar juntos”.",
+        "isCorrect": true,
+        "feedbackTitle": "¡Exacto!",
+        "feedback": "¡Perfecto! La meta tangible (2 bajadas) le permite completar su ciclo y prepararse con autonomía."
+      },
+      {
+        "id": "c",
+        "label": "C",
+        "text": "Amenazarlo con no volver al parque si no corre hacia la salida.",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Genera miedo y estrés innecesario en una rutina diaria."
+      }
+    ]
+  },
+  "miraComoSeHace": {
+    "tag": "3. Mira cómo se hace",
+    "subtitle": "Escucha dos ejemplos reales de cómo estructurar avisos previos con amabilidad y firmeza.",
+    "panels": [
+      {
+        "id": 1,
+        "text": "“En 5 minutos guardamos las pinturas para ir a cenar. Ve terminando este dibujo tan bonito.”"
+      },
+      {
+        "id": 2,
+        "text": "“Se cumplieron los 5 minutos acordados. ¿Guardas tú los pinceles o los guardamos juntos?”"
+      }
+    ],
+    "coachMessage": "La regla de oro de la anticipación: Avisa con tiempo medible, ofrece una opción de cierre y mantén el corte con afecto."
+  },
+  "practica": {
+    "tag": "4. Practica",
+    "subtitle": "Selecciona una transición típica para practicar cómo estructurar el aviso previo:",
+    "activities": [
+      {
+        "id": "parque",
+        "name": "Salida del parque",
+        "icon": "🌳",
+        "sceneDescription": "Está jugando feliz en el columpio del parque.",
+        "question": "¿Cómo das el aviso de transición?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Te aviso cuando te queden dos columpiadas más para despedirnos del parque.”",
+            "isCorrect": true,
+            "feedback": "¡Excelente! La medida concreta de 2 columpiadas le da control y cierre mental."
+          },
+          {
+            "id": "b",
+            "text": "“Nos vamos en un ratito.”",
+            "isCorrect": false,
+            "feedback": "Los niños pequeños no comprenden la palabra abstracta \"ratito\"."
+          },
+          {
+            "id": "c",
+            "text": "Subirlo al coche a la fuerza sin decirle nada.",
+            "isCorrect": false,
+            "feedback": "Provoca sensación de invasión y un berrinche reactivo intenso."
+          }
+        ]
+      },
+      {
+        "id": "pantallas",
+        "name": "Apagar pantallas",
+        "icon": "📱",
+        "sceneDescription": "Está mirando su serie favorita en la tablet.",
+        "question": "¿Cómo anticipas el final del tiempo acordado?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Faltan 5 minutos para terminar el capítulo. Cuando suene la alarma, ¿apagas tú la pantalla o te ayudo?”",
+            "isCorrect": true,
+            "feedback": "¡Brillante! La alarma externa actúa como juez neutro y tú eres el guía empático."
+          },
+          {
+            "id": "b",
+            "text": "Desconectar el WiFi de sorpresa.",
+            "isCorrect": false,
+            "feedback": "Crea desconfianza y sensación de trampa."
+          },
+          {
+            "id": "c",
+            "text": "Gritarle desde la cocina que apague eso ya.",
+            "isCorrect": false,
+            "feedback": "Las órdenes a distancia casi nunca se cumplen."
+          }
+        ]
+      },
+      {
+        "id": "bano",
+        "name": "Hora del baño",
+        "icon": "🛁",
+        "sceneDescription": "Está absorto armando un rompecabezas en el suelo.",
+        "question": "¿Cómo preparas la transición hacia el baño?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Coloca las últimas dos fichas del rompecabezas y vamos juntos a saltar a la tina con espuma.”",
+            "isCorrect": true,
+            "feedback": "¡Eso es! Respetas su juego, cierras con 2 fichas y anuncias algo agradable."
+          },
+          {
+            "id": "b",
+            "text": "“Deja todo tirado y ven a bañarte rápido.”",
+            "isCorrect": false,
+            "feedback": "Corta su proceso mental bruscamente y garantiza queja."
+          },
+          {
+            "id": "c",
+            "text": "Esperar a que se canse solo aunque sean las 10 de la noche.",
+            "isCorrect": false,
+            "feedback": "Rompe la estructura y horarios saludables de la familia."
+          }
+        ]
+      },
+      {
+        "id": "colegio",
+        "name": "Salir de casa",
+        "icon": "🎒",
+        "sceneDescription": "Faltan 10 minutos para salir por la puerta rumbo al colegio.",
+        "question": "¿Cómo anticipas los pasos de la salida?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Faltan 5 minutos: primero ponemos los zapatos, luego tomamos la mochila y salimos como astronautas.”",
+            "isCorrect": true,
+            "feedback": "¡Fantástico! Desglosas los pasos secuenciales con un toque de imaginación."
+          },
+          {
+            "id": "b",
+            "text": "“¡Vamos tarde, apúrate, siempre nos atrasas!”",
+            "isCorrect": false,
+            "feedback": "Genera pánico y bloquea las habilidades motoras del niño."
+          },
+          {
+            "id": "c",
+            "text": "No decir nada hasta que abres la puerta del auto.",
+            "isCorrect": false,
+            "feedback": "No le da oportunidad de colaborar ni de aprender a organizarse."
+          }
+        ]
+      }
+    ],
+    "reminder": "La anticipación convierte los choques de voluntad en acuerdos previsibles y pacíficos."
+  },
+  "puedesDecirOHacer": {
+    "tag": "5. Puedes decir o hacer",
+    "subtitle": "Pautas para dominar el arte de la anticipación en casa:",
+    "cards": [
+      {
+        "id": "alerta_cinco",
+        "title": "Aviso a los 5 minutos",
+        "desc": "Da una alerta previa clara con una medida comprensible para él."
+      },
+      {
+        "id": "metas_tangibles",
+        "title": "Metas tangibles",
+        "desc": "Usa referencias físicas: \"dos canciones\", \"dos bajadas\", \"dos fichas\"."
+      },
+      {
+        "id": "dos_opciones",
+        "title": "Ofrece dos opciones",
+        "desc": "Pregunta: \"¿Caminas como robot o como gigante hacia la cena?\"."
+      },
+      {
+        "id": "sosten_corte",
+        "title": "Sostén el cierre",
+        "desc": "Acompaña el final sin abrir una negociación interminable."
+      }
+    ],
+    "reminder": "El cerebro infantil coopera mejor cuando sabe qué esperar con antelación."
+  },
+  "evita": {
+    "tag": "6. Evita",
+    "subtitle": "Errores comunes que generan berrinches durante las transiciones:",
+    "cards": [
+      {
+        "id": "corte_abrupto",
+        "title": "Cortes abruptos",
+        "desc": "Evita apagar aparatos o arrebatar juguetes sin previo aviso."
+      },
+      {
+        "id": "avisos_eternos",
+        "title": "Avisar 15 veces",
+        "desc": "No des avisos falsos que nunca se cumplen; pierde credibilidad."
+      },
+      {
+        "id": "ceder_al_llanto",
+        "title": "Negociar en el llanto",
+        "desc": "No permitas más tiempo solo porque protestó al sonar la campana."
+      },
+      {
+        "id": "terminos_vagos",
+        "title": "Palabras vagas",
+        "desc": "Evita decir \"en un ratito\" o \"ya casi\", que el niño no puede medir."
+      }
+    ],
+    "reminder": "La previsibilidad amorosa es el mayor antídoto contra la angustia infantil."
+  },
+  "pruebaloHoy": {
+    "tag": "7. Pruébalo hoy",
+    "badge": "Tu misión",
+    "title": "Transición con Aviso Previo",
+    "description": "Elige la hora de pantallas o salida del parque y da un aviso claro a los 5 minutos con una meta de cierre tangible.",
+    "habitKey": "anticipate_aviso_previo",
+    "durations": [
+      {
+        "id": "2min",
+        "label": "2 minutos",
+        "sub": "Versión breve"
+      },
+      {
+        "id": "5min",
+        "label": "5 minutos",
+        "sub": "Tiempo completo"
+      }
+    ],
+    "moments": [
+      {
+        "id": "manana",
+        "label": "Mañana",
+        "icon": "sun"
+      },
+      {
+        "id": "tarde",
+        "label": "Tarde",
+        "icon": "sunset"
+      },
+      {
+        "id": "noche",
+        "label": "Noche",
+        "icon": "moon"
+      },
+      {
+        "id": "despues",
+        "label": "Elegir después",
+        "icon": "calendar"
+      }
+    ],
+    "reminder": "Avisa con tiempo tangible, ofrece una opción amable para cerrar y mantén la transición con calma."
+  }
+},
+
+  {
+  "id": "pon_limites",
+  "number": 8,
+  "title": "Pon límites",
+  "subtitle": "Firmeza serena y límites claros",
+  "tagline": "Sé firme sin entrar en una pelea.",
+  "emoji": "🛑",
+  "badge": "Habilidad 8 de 10",
+  "color": "#EF4444",
+  "bgSoft": "bg-rose-50",
+  "borderSoft": "border-rose-200",
+  "category": "limits",
+  "isPremier": true,
+  "whyImportant": "Poner límites no es pelear ni ganar una discusión a los gritos. La firmeza real es tranquila: valida el deseo o molestia del niño, pero sostiene el \"No\" con seguridad y afecto incondicional.",
+  "miraQuePasa": {
+    "tag": "1. Mira qué pasa",
+    "subtitle": "Observa esta situación cotidiana. Fíjate en cómo engancharse en una pelea de poder agrava la resistencia.",
+    "dialogue": "Niño: “¡NO! ¡No voy a guardar nada!” Adulto: “¡Pues lo vas a hacer porque aquí mando yo y punto!”",
+    "didYouKnow": "Cuando los adultos se enganchan en el debate verbal, el niño siente que el límite es negociable y escala el volumen para imponerse."
+  },
+  "elige": {
+    "tag": "2. Elige",
+    "prompt": "Tu hijo te exige comer galletas antes del almuerzo y se queja fuertemente. ¿Cómo sostienes el límite sin pelea?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A",
+        "text": "“¡No me contestes así o te quedas sin postre toda la semana entera!”",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Es una amenaza desproporcionada nacida del enfado que el adulto no podrá sostener."
+      },
+      {
+        "id": "b",
+        "label": "B",
+        "text": "Ceder y darle una galleta para que no haga un escándalo en la casa.",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Le enseña que la insistencia y el berrinche anulan las reglas de salud."
+      },
+      {
+        "id": "c",
+        "label": "C",
+        "text": "“Sé que tienes muchas ganas de esa galleta, pero ahora es hora del almuerzo. La guardamos para la tarde.”",
+        "isCorrect": true,
+        "feedbackTitle": "¡Exacto!",
+        "feedback": "¡Excelente! Valida su deseo (conexión) y mantiene firme la regla sin agresividad ni sermones."
+      }
+    ]
+  },
+  "miraComoSeHace": {
+    "tag": "3. Mira cómo se hace",
+    "subtitle": "Escucha dos ejemplos reales de cómo sostener un límite con afecto y pocas palabras.",
+    "panels": [
+      {
+        "id": 1,
+        "text": "“Entiendo que estés furioso, pero no permito golpes. Te acompaño mientras pasa la tormenta.”"
+      },
+      {
+        "id": 2,
+        "text": "“Sé que querías seguir jugando, pero la respuesta sigue siendo no. ¿Caminas o saltas hacia la cama?”"
+      }
+    ],
+    "coachMessage": "La fórmula del límite respetuoso: 1) Valida la emoción (\"Entiendo tu molestia\"), 2) Sostén el límite con pocas palabras, 3) Ofrece una alternativa constructiva."
+  },
+  "practica": {
+    "tag": "4. Practica",
+    "subtitle": "Selecciona una situación típica para ensayar cómo sostener un límite con firmeza y calma:",
+    "activities": [
+      {
+        "id": "dulce",
+        "name": "Golosinas",
+        "icon": "🍬",
+        "sceneDescription": "Pide golosinas justo antes del almuerzo.",
+        "question": "¿Cómo sostienes el límite con serenidad?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Sé que se te antoja, pero ahora comemos la sopa. El dulce queda para después.”",
+            "isCorrect": true,
+            "feedback": "¡Eso es! Valida el antojo y mantiene firme la secuencia alimenticia."
+          },
+          {
+            "id": "b",
+            "text": "“¡Qué fastidio contigo y los dulces, me tienes harto!”",
+            "isCorrect": false,
+            "feedback": "Ataca al niño en lugar de sostener la regla."
+          },
+          {
+            "id": "c",
+            "text": "Dárselo con tal de que no grite.",
+            "isCorrect": false,
+            "feedback": "Premia la exigencia ruidosa."
+          }
+        ]
+      },
+      {
+        "id": "agresion",
+        "name": "Límite físico",
+        "icon": "🛑",
+        "sceneDescription": "Intenta dar un manotazo por frustración.",
+        "question": "¿Cómo intervienes de forma protectora?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Sostienes sus manos con suavidad y dices: “Puedes estar enojado, pero no permito golpes. Yo te cuido”.",
+            "isCorrect": true,
+            "feedback": "¡Brillante! Pones un freno físico protector con tono seguro y afectuoso."
+          },
+          {
+            "id": "b",
+            "text": "Devolverle el golpe para que vea lo que se siente.",
+            "isCorrect": false,
+            "feedback": "Modela agresión física y destruye la seguridad del apego."
+          },
+          {
+            "id": "c",
+            "text": "Reírse pensando que es una broma graciosa.",
+            "isCorrect": false,
+            "feedback": "Confunde al niño sobre los límites corporales y de seguridad."
+          }
+        ]
+      },
+      {
+        "id": "tienda",
+        "name": "En la tienda",
+        "icon": "🛒",
+        "sceneDescription": "Exige comprar un juguete en el supermercado y llora en el pasillo.",
+        "question": "¿Cómo mantienes la calma sin ceder?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Te agachas a su altura y dices con calma: “Hoy vinimos por la comida. Sé que te gustó mucho, podemos anotarlo en tu lista de deseos”.",
+            "isCorrect": true,
+            "feedback": "¡Excelente! No compras el juguete y canalizas su ilusión en una lista sin discusión."
+          },
+          {
+            "id": "b",
+            "text": "Comprarlo para no pasar vergüenza ante la gente.",
+            "isCorrect": false,
+            "feedback": "Enseña que el llanto público doblega a los adultos."
+          },
+          {
+            "id": "c",
+            "text": "“¡Eres un malcriado, nunca más te saco a ningún lado!”",
+            "isCorrect": false,
+            "feedback": "Etiqueta al niño y hace amenazas poco realistas."
+          }
+        ]
+      },
+      {
+        "id": "dormir",
+        "name": "Hora de acostarse",
+        "icon": "🛏️",
+        "sceneDescription": "Sale de la cama 4 veces pidiendo agua y juego.",
+        "question": "¿Cómo acompañas el límite del sueño?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Lo tomas de la mano con cariño y lo devuelves a la cama diciendo: “Es hora de dormir. Te arropo y aquí estoy”.",
+            "isCorrect": true,
+            "feedback": "¡Eso es! Repites el mismo procedimiento sereno tantas veces como sea necesario."
+          },
+          {
+            "id": "b",
+            "text": "Perder el control y gritarle para que se duerma del susto.",
+            "isCorrect": false,
+            "feedback": "El cortisol del miedo impide el descanso reparador del cerebro infantil."
+          },
+          {
+            "id": "c",
+            "text": "Dejarlo en la sala hasta la madrugada frente a la tele.",
+            "isCorrect": false,
+            "feedback": "Afecta su ritmo circadiano y salud física."
+          }
+        ]
+      }
+    ],
+    "reminder": "La firmeza no necesita elevar la voz: necesita mantenerse tranquila y constante en el tiempo."
+  },
+  "puedesDecirOHacer": {
+    "tag": "5. Puedes decir o hacer",
+    "subtitle": "Principios para sostener límites sin entrar en combates verbales:",
+    "cards": [
+      {
+        "id": "valida_primero",
+        "title": "Valida la emoción",
+        "desc": "Dile: \"Sé que tienes muchas ganas / entiendo que te enoje\"."
+      },
+      {
+        "id": "pocas_palabras",
+        "title": "Pocas palabras",
+        "desc": "Sostén la respuesta sin dar discursos interminables."
+      },
+      {
+        "id": "tono_neutro",
+        "title": "Tono neutro y seguro",
+        "desc": "Habla con calma y firmeza sin suplicar ni gritar."
+      },
+      {
+        "id": "presencia_cercana",
+        "title": "Acompaña su enojo",
+        "desc": "Quédate cerca con presencia afectuosa mientras pasa el berrinche."
+      }
+    ],
+    "reminder": "El límite cuida al niño; tu calma le enseña que la frustración se puede superar."
+  },
+  "evita": {
+    "tag": "6. Evita",
+    "subtitle": "Trampas que destruyen la eficacia de los límites:",
+    "cards": [
+      {
+        "id": "debatir",
+        "title": "Engancharte a debatir",
+        "desc": "No entres en discusiones lógicas de 20 minutos con un niño alterado."
+      },
+      {
+        "id": "ceder_cansancio",
+        "title": "Ceder por cansancio",
+        "desc": "Si dijiste que no, no lo transformes en sí por evitar el llanto."
+      },
+      {
+        "id": "amenazas_vacias",
+        "title": "Amenazas gigantes",
+        "desc": "Evita castigos absurdos nacidos de tu desesperación momentánea."
+      },
+      {
+        "id": "culpa",
+        "title": "Sentirte culpable",
+        "desc": "No pidas perdón por una regla razonable que protege su bienestar."
+      }
+    ],
+    "reminder": "Un niño que nunca escucha un \"No\" firme crece con angustia y desorientación."
+  },
+  "pruebaloHoy": {
+    "tag": "7. Pruébalo hoy",
+    "badge": "Tu misión",
+    "title": "Límite Firme y Respetuoso",
+    "description": "Sostén un límite hoy usando tono neutro, validando su molestia pero manteniendo el \"No\" con serenidad.",
+    "habitKey": "pon_limites_firme_calmado",
+    "durations": [
+      {
+        "id": "2min",
+        "label": "2 minutos",
+        "sub": "Versión breve"
+      },
+      {
+        "id": "5min",
+        "label": "5 minutos",
+        "sub": "Tiempo completo"
+      }
+    ],
+    "moments": [
+      {
+        "id": "manana",
+        "label": "Mañana",
+        "icon": "sun"
+      },
+      {
+        "id": "tarde",
+        "label": "Tarde",
+        "icon": "sunset"
+      },
+      {
+        "id": "noche",
+        "label": "Noche",
+        "icon": "moon"
+      },
+      {
+        "id": "despues",
+        "label": "Elegir después",
+        "icon": "calendar"
+      }
+    ],
+    "reminder": "Valida la emoción en 5 segundos, sostén la regla sin ceder y acompaña su proceso con cariño."
+  }
+},
+
+  {
+  "id": "ensena_que_hacer",
+  "number": 9,
+  "title": "Enseña qué hacer",
+  "subtitle": "Conductas alternativas positivas",
+  "tagline": "No le digas solamente qué debe dejar de hacer.",
+  "emoji": "🔄",
+  "badge": "Habilidad 9 de 10",
+  "color": "#10B981",
+  "bgSoft": "bg-emerald-50",
+  "borderSoft": "border-emerald-200",
+  "category": "communication",
+  "isPremier": true,
+  "whyImportant": "El cerebro infantil no puede procesar un vacío de conducta. Decir \"¡no corras!\" o \"¡no grites!\" solo resalta la palabra negativa. Tu hijo necesita saber con qué movimiento exacto reemplazar esa energía.",
+  "miraQuePasa": {
+    "tag": "1. Mira qué pasa",
+    "subtitle": "Observa esta situación cotidiana. Fíjate en por qué las órdenes en negativo producen el efecto contrario.",
+    "dialogue": "“¡NO CORRAS! ¡NO TOQUES ESO! ¡NO GRITES EN LA CASA!”",
+    "didYouKnow": "Cuando reemplazas una orden negativa por una conducta alternativa positiva, la tasa de cooperación infantil aumenta más de un 70% a la primera indicación."
+  },
+  "elige": {
+    "tag": "2. Elige",
+    "prompt": "Tu hijo está tirando bloques de madera por los aires. ¿Qué indicación enseña la conducta alternativa?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A",
+        "text": "“¡Deja de tirar todo al piso ahora mismo!”",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Le recuerda el acto negativo sin darle un cauce constructivo a su energía motriz."
+      },
+      {
+        "id": "b",
+        "label": "B",
+        "text": "“Los bloques ruedan por la alfombra o los guardamos en la caja, por favor.”",
+        "isCorrect": true,
+        "feedbackTitle": "¡Exacto!",
+        "feedback": "¡Brillante! Le dices exactamente cómo sí se usa el objeto y cuál es la alternativa segura."
+      },
+      {
+        "id": "c",
+        "label": "C",
+        "text": "“Si vuelves a tirar eso te quito todos los juguetes.”",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Es una amenaza reactiva que no le enseña la conducta adecuada."
+      }
+    ]
+  },
+  "miraComoSeHace": {
+    "tag": "3. Mira cómo se hace",
+    "subtitle": "Escucha dos ejemplos reales de cómo transformar un \"NO\" en una indicación motora positiva.",
+    "panels": [
+      {
+        "id": 1,
+        "text": "“En la casa usamos pies que caminan despacio a mi lado.”"
+      },
+      {
+        "id": 2,
+        "text": "“Háblame con voz suave y bajita para poder entender lo que necesitas.”"
+      }
+    ],
+    "coachMessage": "Convierte cada prohibición en una acción física que sus manos o pies sí puedan realizar de inmediato."
+  },
+  "practica": {
+    "tag": "4. Practica",
+    "subtitle": "Selecciona una situación típica para transformar una prohibición en una conducta incompatible positiva:",
+    "activities": [
+      {
+        "id": "correr",
+        "name": "Correr en pasillo",
+        "icon": "🏃",
+        "sceneDescription": "Tu hijo corre a toda velocidad en un piso resbaloso.",
+        "question": "¿Cuál es la alternativa positiva?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Camina despacito y toma mi mano para cruzar este pasillo.”",
+            "isCorrect": true,
+            "feedback": "¡Exacto! Sustituyes el correr por caminar y tomar la mano con seguridad."
+          },
+          {
+            "id": "b",
+            "text": "“¡Que no corras te dije!”",
+            "isCorrect": false,
+            "feedback": "El niño solo escucha \"corras\" y sigue acelerando."
+          },
+          {
+            "id": "c",
+            "text": "Hacerle una zancadilla para detenerlo.",
+            "isCorrect": false,
+            "feedback": "Peligroso e inadecuado para la confianza."
+          }
+        ]
+      },
+      {
+        "id": "gritar",
+        "name": "Gritos en el auto",
+        "icon": "🚗",
+        "sceneDescription": "Grita fuertemente en el asiento trasero.",
+        "question": "¿Cómo redirigir su voz?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Dímelo en un susurro como si fuera un secreto para que pueda escucharte mientras manejo.”",
+            "isCorrect": true,
+            "feedback": "¡Brillante! El susurro es una conducta incompatible con el grito y le divierte."
+          },
+          {
+            "id": "b",
+            "text": "“¡Cállate ya que me vas a hacer chocar!”",
+            "isCorrect": false,
+            "feedback": "Aumenta los decibeles de tensión en el vehículo."
+          },
+          {
+            "id": "c",
+            "text": "Subir la música al máximo para tapar su voz.",
+            "isCorrect": false,
+            "feedback": "Sobrecarga sensorial que empeora la desregulación infantil."
+          }
+        ]
+      },
+      {
+        "id": "tirar",
+        "name": "Tirar objetos",
+        "icon": "🧱",
+        "sceneDescription": "Lanza cojines o juguetes pesados hacia las personas.",
+        "question": "¿Qué conducta alternativa le ofreces?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Si quieres lanzar, lanza esta pelota blanda adentro de la cesta de ropa.”",
+            "isCorrect": true,
+            "feedback": "¡Excelente! Canalizas la necesidad motora de lanzar hacia un objetivo seguro."
+          },
+          {
+            "id": "b",
+            "text": "“¡Deja de ser tan agresivo!”",
+            "isCorrect": false,
+            "feedback": "Etiqueta al niño en vez de orientar su energía."
+          },
+          {
+            "id": "c",
+            "text": "Quitarle todo y encerrarlo en su cuarto.",
+            "isCorrect": false,
+            "feedback": "Aislamiento punitivo que no enseña uso seguro de objetos."
+          }
+        ]
+      },
+      {
+        "id": "hablar",
+        "name": "Interrumpir",
+        "icon": "🗣️",
+        "sceneDescription": "Jala de tu ropa mientras estás conversando con otra persona.",
+        "question": "¿Cómo enseñarle a pedir la palabra con respeto?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“Pon tu mano en mi hombro para saber que quieres hablar y en cuanto termine la frase te atiendo.”",
+            "isCorrect": true,
+            "feedback": "¡Fantástico! Crea un código corporal de espera respetuoso y eficaz."
+          },
+          {
+            "id": "b",
+            "text": "“¡No interrumpas a los grandes!”",
+            "isCorrect": false,
+            "feedback": "Le hace sentir invisible y aumentará los tirones."
+          },
+          {
+            "id": "c",
+            "text": "Ignorarlo por completo hasta que se canse.",
+            "isCorrect": false,
+            "feedback": "El niño escalará al llanto o al grito para ser notado."
+          }
+        ]
+      }
+    ],
+    "reminder": "Dile a tu hijo qué hacer con su cuerpo y sus manos, en vez de repetirle lo que debe evitar."
+  },
+  "puedesDecirOHacer": {
+    "tag": "5. Puedes decir o hacer",
+    "subtitle": "Pautas para transformar el lenguaje de prohibición en indicaciones de acción:",
+    "cards": [
+      {
+        "id": "sustituye_no",
+        "title": "Sustituye el \"No\"",
+        "desc": "Cambia \"no corras\" por \"camina despacio a mi lado\"."
+      },
+      {
+        "id": "nombra_cuerpo",
+        "title": "Nombra el cuerpo",
+        "desc": "Indica qué hacer con las manos, los pies o la voz."
+      },
+      {
+        "id": "salida_segura",
+        "title": "Canal seguro",
+        "desc": "Da una opción compatible con la energía que está sintiendo."
+      },
+      {
+        "id": "reconoce_cambio",
+        "title": "Elogia el cambio",
+        "desc": "Apenas adopte la conducta positiva, reconóceselo con una sonrisa."
+      }
+    ],
+    "reminder": "Guiar es mostrar el camino que sí se debe pisar, no solo poner carteles de prohibido pasar."
+  },
+  "evita": {
+    "tag": "6. Evita",
+    "subtitle": "Costumbres que bloquean la conducta alternativa:",
+    "cards": [
+      {
+        "id": "bombardeo_no",
+        "title": "Bombardeo de \"No\"",
+        "desc": "Evita pasar el día diciendo no toques, no saltes, no grites."
+      },
+      {
+        "id": "asumir_sabe",
+        "title": "Asumir que ya sabe",
+        "desc": "No des por sentado que el niño sabe cómo actuar en vez de."
+      },
+      {
+        "id": "discursos_largos",
+        "title": "Discursos abstractos",
+        "desc": "Decir \"sé educado\" no le dice a sus músculos qué hacer."
+      },
+      {
+        "id": "prohibir_sin_canal",
+        "title": "Prohibir sin opción",
+        "desc": "No bloquees una conducta sin ofrecer un juego o salida segura."
+      }
+    ],
+    "reminder": "Un niño ocupado en una conducta positiva no tiene tiempo de incurrir en la negativa."
+  },
+  "pruebaloHoy": {
+    "tag": "7. Pruébalo hoy",
+    "badge": "Tu misión",
+    "title": "Cambia 1 \"NO\" por una Acción Positiva",
+    "description": "Cada vez que estés por decir \"¡No hagas eso!\", transfórmalo en la acción concreta que sí esperas ver en ese momento.",
+    "habitKey": "ensena_conducta_alternativa",
+    "durations": [
+      {
+        "id": "2min",
+        "label": "2 minutos",
+        "sub": "Versión breve"
+      },
+      {
+        "id": "5min",
+        "label": "5 minutos",
+        "sub": "Tiempo completo"
+      }
+    ],
+    "moments": [
+      {
+        "id": "manana",
+        "label": "Mañana",
+        "icon": "sun"
+      },
+      {
+        "id": "tarde",
+        "label": "Tarde",
+        "icon": "sunset"
+      },
+      {
+        "id": "noche",
+        "label": "Noche",
+        "icon": "moon"
+      },
+      {
+        "id": "despues",
+        "label": "Elegir después",
+        "icon": "calendar"
+      }
+    ],
+    "reminder": "Di el verbo de acción, ponte a su altura y reconoce su cooperación apenas empiece."
+  }
+},
+
+  {
+  "id": "se_constante",
+  "number": 10,
+  "title": "Sé constante",
+  "subtitle": "Previsibilidad y consistencia",
+  "tagline": "Lo que haces muchas veces enseña más que lo que haces una vez.",
+  "emoji": "🔁",
+  "badge": "Habilidad 10 de 10",
+  "color": "#0D9488",
+  "bgSoft": "bg-teal-50",
+  "borderSoft": "border-teal-200",
+  "category": "limits",
+  "isPremier": true,
+  "whyImportant": "La inconsistencia es el mayor combustible de los berrinches persistentes. Si un niño sabe que 1 de cada 4 veces sus quejas hacen que cedas, insistirá siempre. La consistencia crea un hogar predecible y seguro.",
+  "miraQuePasa": {
+    "tag": "1. Mira qué pasa",
+    "subtitle": "Observa esta situación cotidiana. Fíjate en cómo la falta de consistencia genera confusión y discusiones diarias.",
+    "dialogue": "Lunes: “Cero celular en la mesa”. Martes: “Bueno, unos minutos porque estoy cansado”. Miércoles: “¡¿Por qué nunca me haces caso?!”",
+    "didYouKnow": "El cerebro infantil busca patrones. Cuando las reglas cambian con el humor del adulto, el niño vive en incertidumbre y prueba los límites cada día."
+  },
+  "elige": {
+    "tag": "2. Elige",
+    "prompt": "Cuando tu hijo llora e insiste para romper un acuerdo, ¿qué promueve mayor seguridad y paz a largo plazo?",
+    "options": [
+      {
+        "id": "a",
+        "label": "A",
+        "text": "Ceder solo los días que estés de buen humor para que no sufra.",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Crea confusión e inseguridad sobre cuándo la regla es real y cuándo no."
+      },
+      {
+        "id": "b",
+        "label": "B",
+        "text": "Mantener la misma respuesta tranquila tanto el lunes como el domingo.",
+        "isCorrect": true,
+        "feedbackTitle": "¡Exacto!",
+        "feedback": "¡Perfecto! La previsibilidad reduce la ansiedad infantil y elimina la necesidad de probar los límites a diario."
+      },
+      {
+        "id": "c",
+        "label": "C",
+        "text": "Cambiar la regla sobre la marcha según cuánto llore.",
+        "isCorrect": false,
+        "feedbackTitle": "¡Probemos otra forma!",
+        "feedback": "Le enseña que el volumen del llanto determina las reglas de la casa."
+      }
+    ]
+  },
+  "miraComoSeHace": {
+    "tag": "3. Mira cómo se hace",
+    "subtitle": "Escucha dos ejemplos reales de cómo responder con la misma serenidad predecible cada día.",
+    "panels": [
+      {
+        "id": 1,
+        "text": "“Sé que tienes ganas de seguir, pero la regla de hoy es la misma de ayer. La hora de dormir no cambia.”"
+      },
+      {
+        "id": 2,
+        "text": "“Entiendo tu molestia. Mañana volveremos a tener tiempo para jugar; ahora corresponde cenar juntos.”"
+      }
+    ],
+    "coachMessage": "Es mejor tener 3 reglas que puedas sostener con serenidad todos los días, que 20 reglas que rompas por agotamiento a mitad de semana."
+  },
+  "practica": {
+    "tag": "4. Practica",
+    "subtitle": "Selecciona una situación típica para practicar la consistencia tranquila:",
+    "activities": [
+      {
+        "id": "dormir",
+        "name": "Hora de dormir fija",
+        "icon": "🌙",
+        "sceneDescription": "Insiste en quedarse despierto 30 minutos más jugando.",
+        "question": "¿Cómo responder con consistencia serena?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“La hora de dormir es la misma de siempre. Te acompaño a tu cama y leemos el cuento.”",
+            "isCorrect": true,
+            "feedback": "¡Eso es! No negocias el límite del descanso y ofreces presencia amorosa."
+          },
+          {
+            "id": "b",
+            "text": "“Bueno, pero mañana te duermes temprano.”",
+            "isCorrect": false,
+            "feedback": "Rompe la regla y garantiza que mañana insista el doble."
+          },
+          {
+            "id": "c",
+            "text": "Gritarle que es un desconsiderado.",
+            "isCorrect": false,
+            "feedback": "Pierde el control y no sostiene el hábito con calma."
+          }
+        ]
+      },
+      {
+        "id": "orden",
+        "name": "Guardar antes de sacar",
+        "icon": "📦",
+        "sceneDescription": "Quiere sacar las pinturas teniendo todos los bloques tirados.",
+        "question": "¿Cómo mantener el acuerdo básico?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“En cuanto los bloques estén en su caja, bajamos las pinturas. Te ayudo con los primeros tres.”",
+            "isCorrect": true,
+            "feedback": "¡Excelente! Mantienes la regla con colaboración y sin enfado."
+          },
+          {
+            "id": "b",
+            "text": "Dejar que saque todo y luego quejarte del desorden.",
+            "isCorrect": false,
+            "feedback": "Inconsistencia que genera caos en el hogar."
+          },
+          {
+            "id": "c",
+            "text": "Recoger tú todo con enojo mientras él pinta.",
+            "isCorrect": false,
+            "feedback": "Fomenta la falta de responsabilidad en el niño."
+          }
+        ]
+      },
+      {
+        "id": "comida",
+        "name": "Pantallas en la mesa",
+        "icon": "🍽️",
+        "sceneDescription": "Pide el celular para comer durante el almuerzo.",
+        "question": "¿Cómo sostener la regla de la mesa?",
+        "options": [
+          {
+            "id": "a",
+            "text": "“En la mesa los celulares descansan. Ahora disfrutamos la comida y conversamos de nuestro día.”",
+            "isCorrect": true,
+            "feedback": "¡Brillante! Mensaje predecible y claro que protege la conexión familiar."
+          },
+          {
+            "id": "b",
+            "text": "Dárselo porque hoy no tienes paciencia.",
+            "isCorrect": false,
+            "feedback": "Enseña que las normas dependen de tu nivel de cansancio."
+          },
+          {
+            "id": "c",
+            "text": "Burlarte de su apego al teléfono.",
+            "isCorrect": false,
+            "feedback": "Ofensivo e ineficaz para crear hábitos de desconexión."
+          }
+        ]
+      },
+      {
+        "id": "cansancio",
+        "name": "Desafío y cansancio",
+        "icon": "😮‍💨",
+        "sceneDescription": "Estás exhausto y tu hijo llora para romper una regla acordada.",
+        "question": "¿Cómo sostenerte sin pelear ni ceder?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Respiras hondo y repites con voz baja: “Sé que estás cansado y yo también. El acuerdo se mantiene igual”.",
+            "isCorrect": true,
+            "feedback": "¡Impresionante! Validas el cansancio de ambos sin quebrar la estructura protectora."
+          },
+          {
+            "id": "b",
+            "text": "Ceder gritando que te arruinó el día.",
+            "isCorrect": false,
+            "feedback": "Doble mensaje: rompes la regla y además lo culpas."
+          },
+          {
+            "id": "c",
+            "text": "Imponer un castigo nuevo y severo.",
+            "isCorrect": false,
+            "feedback": "La severidad inconsistente no enseña disciplina interna."
+          }
+        ]
+      }
+    ],
+    "reminder": "La consistencia tranquila le da al niño el mayor regalo de la infancia: un mundo predecible y seguro."
+  },
+  "puedesDecirOHacer": {
+    "tag": "5. Puedes decir o hacer",
+    "subtitle": "Claves para mantener la constancia en el día a día sin desgastarte:",
+    "cards": [
+      {
+        "id": "pocas_reglas",
+        "title": "Pocas reglas de oro",
+        "desc": "Elige solo 2 o 3 acuerdos que tengas la energía de cuidar siempre."
+      },
+      {
+        "id": "mismo_mensaje",
+        "title": "Mismo mensaje",
+        "desc": "Usa las mismas palabras y tono sereno tanto el lunes como el domingo."
+      },
+      {
+        "id": "resiste_cansancio",
+        "title": "Anticipa el cansancio",
+        "desc": "Recuerda que ceder por apuro hoy multiplica el conflicto de mañana."
+      },
+      {
+        "id": "afecto_siempre",
+        "title": "Firmeza con amor",
+        "desc": "La regla no se rompe, pero el abrazo y la contención siempre están."
+      }
+    ],
+    "reminder": "Lo que haces de forma constante es lo que tu hijo recordará e integrará en su vida."
+  },
+  "evita": {
+    "tag": "6. Evita",
+    "subtitle": "Inconsistencias que alimentan la queja infantil:",
+    "cards": [
+      {
+        "id": "reglas_humor",
+        "title": "Reglas según humor",
+        "desc": "No seas permisivo un día y estricto y punitivo al siguiente."
+      },
+      {
+        "id": "ceder_agotamiento",
+        "title": "Ceder por cansancio",
+        "desc": "Ceder enseña que el berrinche largo y ruidoso da resultados."
+      },
+      {
+        "id": "amenazas_sin_cumplir",
+        "title": "Amenazas en el aire",
+        "desc": "No digas cosas que sabes que no vas a llevar a cabo."
+      },
+      {
+        "id": "culpa_regla",
+        "title": "Culpa por la regla",
+        "desc": "La previsibilidad no daña al niño; le da contención y tranquilidad."
+      }
+    ],
+    "reminder": "Un padre predecible es un refugio seguro donde el niño no necesita pelear por el control."
+  },
+  "pruebaloHoy": {
+    "tag": "7. Pruébalo hoy",
+    "badge": "Tu misión",
+    "title": "Una Regla de Oro Blindada",
+    "description": "Elige UNA sola regla sencilla hoy (ej. lavarse dientes o apagar tele a la hora acordada) y mantén la misma respuesta todo el día.",
+    "habitKey": "se_constante_una_regla",
+    "durations": [
+      {
+        "id": "2min",
+        "label": "2 minutos",
+        "sub": "Versión breve"
+      },
+      {
+        "id": "5min",
+        "label": "5 minutos",
+        "sub": "Tiempo completo"
+      }
+    ],
+    "moments": [
+      {
+        "id": "manana",
+        "label": "Mañana",
+        "icon": "sun"
+      },
+      {
+        "id": "tarde",
+        "label": "Tarde",
+        "icon": "sunset"
+      },
+      {
+        "id": "noche",
+        "label": "Noche",
+        "icon": "moon"
+      },
+      {
+        "id": "despues",
+        "label": "Elegir después",
+        "icon": "calendar"
+      }
+    ],
+    "reminder": "Elige una sola regla, mantén la misma respuesta con tranquilidad y felicítate por tu consistencia."
+  }
+}
 ];
 
 export const getSkillById = (id) => {
