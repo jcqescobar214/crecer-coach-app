@@ -16,9 +16,10 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { getPracticeLogs, getLearningProgress } from '../data/planStorage';
+import { learnSkills } from '../data/learnBank';
 
 export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractice }) {
-  const [selectedSkillDetail, setSelectedSkillDetail] = useState(null); // null | 'conecta' | 'habla_claro'
+  const [selectedSkillDetail, setSelectedSkillDetail] = useState(null); // null | skillId
   const [detailTab, setDetailTab] = useState('progreso'); // 'progreso' | 'practicas'
   const [logs, setLogs] = useState([]);
   const [learnProgress, setLearnProgress] = useState({});
@@ -28,22 +29,18 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
     setLearnProgress(getLearningProgress());
   }, []);
 
-  const isHablaClaro = selectedSkillDetail === 'habla_claro';
   const activeSkillId = selectedSkillDetail || 'conecta';
+  const currentSkill = learnSkills.find(s => s.id === activeSkillId) || learnSkills[0];
 
-  const conectaLogs = logs.filter(l => l.skillId === 'conecta' || (!l.skillId && l.skillTitle !== 'Habla claro'));
-  const hablaLogs = logs.filter(l => l.skillId === 'habla_claro');
-
-  const activeLogs = isHablaClaro ? hablaLogs : conectaLogs;
+  const activeLogs = logs.filter(l => l.skillId === activeSkillId || (!l.skillId && activeSkillId === 'conecta' && l.skillTitle !== 'Habla claro'));
   const activeCompletedCount = activeLogs.filter(l => l.status === 'Realizada').length;
 
-  const conectaCompletedCount = conectaLogs.filter(l => l.status === 'Realizada').length;
-  const hablaCompletedCount = hablaLogs.filter(l => l.status === 'Realizada').length;
-  const totalCompletedPractices = conectaCompletedCount + hablaCompletedCount;
+  const totalCompletedPractices = logs.filter(l => l.status === 'Realizada').length;
+  const exploredSkillsCount = Math.max(2, Object.keys(learnProgress).length);
 
   // Evolution message calculation for Conecta y juega
   const getConectaInsights = () => {
-    if (conectaCompletedCount === 0) {
+    if (activeCompletedCount === 0) {
       return {
         logrando: 'Estás comenzando tu camino en esta habilidad. Da el primer paso con una práctica de 2 o 5 minutos.',
         fortaleciendo: 'Aprender a seguir la iniciativa de tu hijo fortalece su confianza y cercanía emocional.',
@@ -51,8 +48,7 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
       };
     }
 
-    const latest = conectaLogs[0]?.answers || {};
-
+    const latest = activeLogs[0]?.answers || {};
     let logrando = 'En tus últimas prácticas has reportado mayor facilidad para dejar que tu hijo elija cómo jugar.';
     let fortaleciendo = 'Ahora estás practicando cómo acompañar su juego sin darle tantas instrucciones.';
     let siguientePaso = 'Comparte dos minutos de juego siguiendo sus ideas. Antes de darle una instrucción, observa y comenta lo que está haciendo.';
@@ -70,7 +66,7 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
 
   // Evolution message calculation for Habla claro
   const getHablaClaroInsights = () => {
-    if (hablaCompletedCount === 0) {
+    if (activeCompletedCount === 0) {
       return {
         logrando: 'Estás iniciando en instrucciones efectivas. Empieza con una sola rutina sencilla como recoger los zapatos.',
         fortaleciendo: 'Aprender a ponerte a la altura física de tu hijo y nombrar una sola acción concreta.',
@@ -78,7 +74,7 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
       };
     }
 
-    const latest = hablaLogs[0]?.answers || {};
+    const latest = activeLogs[0]?.answers || {};
     let logrando = 'En tus últimas prácticas has aplicado mayor cercanía física antes de dar una indicación.';
     let fortaleciendo = 'Estás fortaleciendo pedir un solo paso motor a la vez con calma y firmeza.';
     let siguientePaso = 'Recuerda esperar 5 segundos en silencio tras dar la orden antes de repetir o intervenir.';
@@ -94,10 +90,35 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
     return { logrando, fortaleciendo, siguientePaso };
   };
 
-  const insights = isHablaClaro ? getHablaClaroInsights() : getConectaInsights();
+  // Generic evolution message calculation for other skills
+  const getGenericInsights = () => {
+    if (activeCompletedCount === 0) {
+      return {
+        logrando: `Has comenzado a explorar la habilidad ${currentSkill.title}.`,
+        fortaleciendo: `${currentSkill.subtitle}.`,
+        siguientePaso: `Activa tu misión de hoy en Mi plan para ponerla en práctica en tu próxima rutina.`
+      };
+    }
 
-  // VISTA 2: DETALLE DE HABILIDAD (CONECTA Y JUEGA O HABLA CLARO)
+    const latest = activeLogs[0]?.answers || {};
+    return {
+      logrando: `Has registrado ${activeCompletedCount} práctica(s) activa(s) con foco en ${currentSkill.title.toLowerCase()}.`,
+      fortaleciendo: `Estás consolidando una respuesta predecible y conectada con tu hijo.`,
+      siguientePaso: activeLogs[0]?.evaluation?.reto || `Continúa aplicando ${currentSkill.tagline.toLowerCase()}`
+    };
+  };
+
+  const insights = activeSkillId === 'conecta' 
+    ? getConectaInsights() 
+    : activeSkillId === 'habla_claro' 
+    ? getHablaClaroInsights() 
+    : getGenericInsights();
+
+  // VISTA 2: DETALLE DE HABILIDAD SELECCIONADA
   if (selectedSkillDetail) {
+    const isHablaClaro = activeSkillId === 'habla_claro';
+    const isConecta = activeSkillId === 'conecta';
+
     return (
       <div className="flex flex-col bg-slate-50 w-full relative pb-24 animate-fadeIn">
         {/* Header con botón atrás */}
@@ -113,12 +134,15 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
             <span className="text-base font-black tracking-wider text-[#0F2942]">
               Crecer
             </span>
+            <span className="text-[11px] font-semibold text-slate-500">
+              {currentSkill.badge || `Habilidad ${currentSkill.number} de 10`}
+            </span>
           </div>
-          <div className="w-10 h-10 flex items-center justify-center">
-            {isHablaClaro ? (
-              <span className="text-xl">🗣️</span>
-            ) : (
+          <div className="w-10 h-10 flex items-center justify-center text-xl">
+            {isConecta ? (
               <img src="/conecta/sprout_logo.png" alt="Sprout" className="w-7 h-7 object-contain" />
+            ) : (
+              <span>{currentSkill.emoji || '⭐'}</span>
             )}
           </div>
         </header>
@@ -126,19 +150,22 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
         <div className="p-4 flex flex-col gap-4 max-w-md mx-auto w-full">
           {/* Banner de Cabecera de la Habilidad */}
           <div className="bg-white rounded-3xl p-4 border border-slate-100 shadow-xs flex items-center gap-3.5">
-            <div className="w-20 h-20 rounded-2xl overflow-hidden bg-amber-50/50 flex-shrink-0 border border-slate-100">
+            <div className="w-16 h-16 rounded-2xl overflow-hidden bg-amber-50/50 flex-shrink-0 border border-slate-100 flex items-center justify-center text-3xl">
               <img 
-                src={isHablaClaro ? "/habla_claro/illustration_intro.png" : "/conecta/illustration_intro.png"} 
-                alt={isHablaClaro ? "Habla claro" : "Conecta y juega"} 
-                className="w-full h-full object-cover"
+                src={`/${currentSkill.id}/illustration_intro.png`} 
+                alt={currentSkill.title} 
+                className="w-full h-full object-cover" 
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
               />
             </div>
             <div className="flex flex-col flex-1">
               <h1 className="text-lg font-black text-[#0F2942] tracking-tight">
-                {isHablaClaro ? "Habla claro" : "Conecta y juega"}
+                {currentSkill.title}
               </h1>
-              <p className={`text-xs font-semibold ${isHablaClaro ? "text-amber-700" : "text-[#00A896]"}`}>
-                {isHablaClaro ? "Instrucciones concretas y efectivas" : "Vínculo y atención compartida"}
+              <p className="text-xs font-semibold text-amber-700">
+                {currentSkill.subtitle}
               </p>
             </div>
           </div>
@@ -149,7 +176,7 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
               onClick={() => setDetailTab('progreso')}
               className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 detailTab === 'progreso'
-                  ? 'bg-[#E0F7F6] text-[#0A3B5C] shadow-xs'
+                  ? 'bg-white text-slate-800 shadow-xs'
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
@@ -159,7 +186,7 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
               onClick={() => setDetailTab('practicas')}
               className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 detailTab === 'practicas'
-                  ? 'bg-[#E0F7F6] text-[#0A3B5C] shadow-xs'
+                  ? 'bg-white text-slate-800 shadow-xs'
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
@@ -177,8 +204,12 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
                     <BookOpen className="w-5 h-5" />
                     <span className="text-[11px] font-bold text-slate-700">Lo que has aprendido</span>
                   </div>
-                  <span className="text-2xl font-black text-[#0F2942]">3</span>
-                  <span className="text-[11px] text-slate-500 font-medium">contenidos completados</span>
+                  <span className="text-2xl font-black text-[#0F2942]">
+                    {Object.keys(learnProgress[activeSkillId]?.steps || {}).length > 0 
+                      ? Object.keys(learnProgress[activeSkillId]?.steps || {}).length 
+                      : (isConecta || isHablaClaro ? 3 : 1)}
+                  </span>
+                  <span className="text-[11px] text-slate-500 font-medium">pasos completados</span>
                 </div>
 
                 <div className="bg-white rounded-3xl p-4 border border-slate-100 shadow-xs flex flex-col gap-1">
@@ -189,184 +220,119 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
                   <span className="text-2xl font-black text-[#0F2942]">
                     {activeCompletedCount}
                   </span>
-                  <span className="text-[11px] text-slate-500 font-medium">en casa</span>
+                  <span className="text-[11px] text-slate-500 font-medium">sesiones registradas</span>
                 </div>
               </div>
 
-              {/* Lo que has aprendido */}
+              {/* Tu evolución en esta habilidad */}
               <div className="bg-white rounded-3xl p-4 border border-slate-100 shadow-xs flex flex-col gap-3">
-                <div className="flex items-center gap-2 text-[#0F2942]">
-                  <BookOpen className="w-4 h-4 text-[#00A896]" />
-                  <h2 className="text-sm font-black">Lo que has aprendido</h2>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-extrabold text-[#0F2942]">
+                    Tu evolución en esta habilidad
+                  </span>
                 </div>
 
                 <div className="flex flex-col gap-2.5">
-                  {isHablaClaro ? (
-                    <>
-                      <div className="flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                        <p className="text-xs text-slate-700 font-medium leading-snug">
-                          Acercarte a su altura física y buscar contacto visual amable antes de hablar.
-                        </p>
-                      </div>
-                      <div className="flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                        <p className="text-xs text-slate-700 font-medium leading-snug">
-                          Dar una sola indicación física por vez nombrando la acción concreta y el lugar.
-                        </p>
-                      </div>
-                      <div className="flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                        <p className="text-xs text-slate-700 font-medium leading-snug">
-                          Usar un tono firme y tranquilo haciendo una pausa de 5 segundos en silencio.
-                        </p>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className="flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-[#00A896] flex-shrink-0 mt-0.5" />
-                        <p className="text-xs text-slate-700 font-medium leading-snug">
-                          Reconocer cuándo acompañas el juego sin dirigirlo.
-                        </p>
-                      </div>
-
-                      <div className="flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-[#00A896] flex-shrink-0 mt-0.5" />
-                        <p className="text-xs text-slate-700 font-medium leading-snug">
-                          Identificar formas de participar: observar, describir, imitar y responder.
-                        </p>
-                      </div>
-
-                      <div className="flex items-start gap-2.5">
-                        <CheckCircle2 className="w-4 h-4 text-[#00A896] flex-shrink-0 mt-0.5" />
-                        <p className="text-xs text-slate-700 font-medium leading-snug">
-                          Distinguir entre comentar lo que hace tu hijo y darle instrucciones.
-                        </p>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {/* Cómo lo estás aplicando */}
-              <div className="bg-white rounded-3xl p-4 border border-slate-100 shadow-xs flex flex-col gap-3">
-                <div className="flex items-center gap-2 text-[#0F2942]">
-                  {isHablaClaro ? (
-                    <span className="text-base">🗣️</span>
-                  ) : (
-                    <img src="/conecta/sprout_logo.png" alt="Leaf" className="w-4 h-4 object-contain" />
-                  )}
-                  <h2 className="text-sm font-black">Cómo lo estás aplicando</h2>
-                </div>
-
-                <div className="flex flex-col gap-3">
-                  <div className="flex items-start gap-3 bg-slate-50 p-3 rounded-2xl">
-                    <span className="text-xl">👦</span>
-                    <p className="text-xs text-slate-700 font-medium leading-relaxed">
-                      {insights.logrando}
-                    </p>
+                  <div className="p-3 bg-emerald-50/70 rounded-2xl border border-emerald-100 flex items-start gap-2.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex flex-col">
+                      <span className="text-[11px] font-bold text-emerald-900 uppercase">Lo que estás logrando</span>
+                      <p className="text-xs text-slate-700 font-medium leading-relaxed">{insights.logrando}</p>
+                    </div>
                   </div>
 
-                  <div className="flex items-start gap-3 bg-slate-50 p-3 rounded-2xl">
-                    <Target className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />
-                    <p className="text-xs text-slate-700 font-medium leading-relaxed">
-                      {insights.fortaleciendo}
-                    </p>
+                  <div className="p-3 bg-blue-50/70 rounded-2xl border border-blue-100 flex items-start gap-2.5">
+                    <Sparkles className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex flex-col">
+                      <span className="text-[11px] font-bold text-blue-900 uppercase">Lo que estás fortaleciendo</span>
+                      <p className="text-xs text-slate-700 font-medium leading-relaxed">{insights.fortaleciendo}</p>
+                    </div>
+                  </div>
+
+                  <div className="p-3 bg-amber-50/70 rounded-2xl border border-amber-100 flex items-start gap-2.5">
+                    <Lightbulb className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex flex-col">
+                      <span className="text-[11px] font-bold text-amber-900 uppercase">Tu siguiente paso</span>
+                      <p className="text-xs text-slate-700 font-medium leading-relaxed">{insights.siguientePaso}</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Tu siguiente paso */}
-              <div className="bg-[#FFFBEB] rounded-3xl p-4 border border-amber-200/70 shadow-xs flex gap-3.5 items-start">
-                <div className="w-9 h-9 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Lightbulb className="w-5 h-5" strokeWidth={2.5} />
-                </div>
-                <div className="flex flex-col flex-1">
-                  <h3 className="text-sm font-black text-[#0F2942] tracking-tight mb-1">
-                    Tu siguiente paso
-                  </h3>
-                  <p className="text-xs font-medium text-slate-700 leading-relaxed">
-                    {insights.siguientePaso}
-                  </p>
-                </div>
-              </div>
+              {/* Botón de acción */}
+              <button
+                onClick={() => onSelectSkillToLearn(currentSkill)}
+                className="w-full bg-amber-500 hover:bg-amber-600 active:scale-[0.99] text-white font-extrabold text-base py-4 px-6 rounded-full flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
+              >
+                <span>Explorar recorrido interactivo</span>
+                <ArrowRight className="w-5 h-5" strokeWidth={2.5} />
+              </button>
             </div>
           )}
 
-          {/* PESTAÑA: MIS PRÁCTICAS (HISTORIAL DETALLADO) */}
+          {/* PESTAÑA: MIS PRÁCTICAS */}
           {detailTab === 'practicas' && (
             <div className="flex flex-col gap-3 animate-fadeIn">
-              {activeLogs.length > 0 ? (
-                activeLogs.map((log) => (
-                  <div key={log.id} className="bg-white rounded-3xl p-4 border border-slate-100 shadow-xs flex flex-col gap-2.5">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        {isHablaClaro ? (
-                          <span className="text-sm">🗣️</span>
-                        ) : (
-                          <img src="/conecta/sprout_logo.png" alt="Leaf" className="w-4 h-4 object-contain" />
-                        )}
-                        <span className="text-xs font-extrabold text-[#0F2942]">
-                          {new Date(log.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
-                        </span>
-                      </div>
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black ${
-                        log.status === 'Realizada' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
-                      }`}>
-                        {log.status}
-                      </span>
-                    </div>
-
-                    <div className="text-xs text-slate-600 flex flex-col gap-1 pt-1 border-t border-slate-100">
-                      <div className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{log.duration} • {log.timeOfDay}</span>
-                      </div>
-                      {log.answers && (
-                        <>
-                          {isHablaClaro ? (
-                            <>
-                              <div className="text-[11px] text-slate-700 mt-1">
-                                📏 A su altura: <span className="font-bold capitalize">{log.answers.seAcerco || 'Sí'}</span>
-                              </div>
-                              <div className="text-[11px] text-slate-700">
-                                ☝️ Una indicación: <span className="font-bold capitalize">{log.answers.unaSolaCosa || 'Sí'}</span>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <div className="text-[11px] text-slate-700 mt-1">
-                                🌱 Dejé elegir: <span className="font-bold capitalize">{log.answers.dejoElegir || 'Sí'}</span>
-                              </div>
-                              <div className="text-[11px] text-slate-700">
-                                👥 Sin dirigir: <span className="font-bold capitalize">{log.answers.acompanoSinDirigir || 'Sí'}</span>
-                              </div>
-                            </>
-                          )}
-                        </>
-                      )}
-                    </div>
+              {activeLogs.length === 0 ? (
+                <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mb-2">
+                    <Calendar className="w-6 h-6" />
                   </div>
-                ))
-              ) : (
-                <div className="bg-white rounded-3xl p-6 border border-slate-100 text-center flex flex-col items-center gap-3">
-                  <p className="text-xs text-slate-500">
-                    Aún no tienes registros de práctica para esta habilidad.
+                  <h3 className="text-base font-extrabold text-[#0F2942]">Aún no hay prácticas registradas</h3>
+                  <p className="text-xs text-slate-500 font-medium mt-1 mb-4">
+                    Cuando apliques esta habilidad en casa, registra tus reflexiones aquí.
                   </p>
                   <button
                     onClick={() => onRegisterPractice?.(activeSkillId)}
-                    className="bg-[#00A896] text-white font-extrabold text-xs py-3 px-5 rounded-full cursor-pointer hover:bg-[#009282]"
+                    className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm py-3 px-4 rounded-full"
                   >
                     Registrar práctica
                   </button>
                 </div>
+              ) : (
+                activeLogs.map((log) => (
+                  <div 
+                    key={log.id}
+                    className="bg-white rounded-3xl p-4 border border-slate-100 shadow-xs flex flex-col gap-2.5"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black text-[#0F2942]">
+                        {log.habitTitle || currentSkill.title}
+                      </span>
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold ${
+                        log.status === 'Realizada' 
+                          ? 'bg-emerald-100 text-emerald-800' 
+                          : 'bg-amber-100 text-amber-800'
+                      }`}>
+                        {log.status || 'Realizada'}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-4 text-xs text-slate-500 font-semibold">
+                      <div className="flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5" />
+                        <span>{log.duration}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <Sun className="w-3.5 h-3.5 text-amber-600" />
+                        <span>{log.timeOfDay}</span>
+                      </div>
+                    </div>
+
+                    {log.evaluation && (
+                      <div className="bg-slate-50 rounded-2xl p-3 border border-slate-100 flex flex-col gap-1 text-xs">
+                        <span className="font-extrabold text-emerald-800">Lo que hiciste bien:</span>
+                        <p className="text-slate-700 font-medium">{log.evaluation.bien}</p>
+                      </div>
+                    )}
+                  </div>
+                ))
               )}
 
               {activeLogs.length > 0 && (
                 <button
                   onClick={() => onRegisterPractice?.(activeSkillId)}
-                  className="mt-2 w-full bg-[#00A896] hover:bg-[#009282] active:scale-[0.99] text-white font-extrabold text-sm py-3.5 px-6 rounded-full flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
+                  className="w-full bg-white hover:bg-slate-50 border-2 border-amber-500 text-amber-700 font-bold text-sm py-3 px-4 rounded-full flex items-center justify-center gap-2 mt-2"
                 >
                   <Plus className="w-4 h-4" strokeWidth={3} />
                   <span>Registrar nueva práctica</span>
@@ -379,7 +345,7 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
     );
   }
 
-  // VISTA 1: MI PROGRESO (VISTA GENERAL)
+  // VISTA 1: MI PROGRESO (VISTA GENERAL CON LAS 10 HABILIDADES)
   return (
     <div className="flex flex-col bg-slate-50 w-full relative pb-24 animate-fadeIn">
       {/* Header */}
@@ -416,7 +382,7 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
               <BookOpen className="w-5 h-5" />
               <span className="text-[11px] font-bold text-slate-700">Estoy aprendiendo</span>
             </div>
-            <span className="text-2xl font-black text-[#0F2942]">2 de 9</span>
+            <span className="text-2xl font-black text-[#0F2942]">{exploredSkillsCount} de 10</span>
             <span className="text-[11px] text-slate-500 font-medium">habilidades exploradas</span>
           </div>
 
@@ -432,116 +398,73 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
           </div>
         </div>
 
-        {/* Sección: Mis Habilidades */}
+        {/* Sección: Mis Habilidades (Las 10 habilidades completas) */}
         <div className="flex flex-col gap-3">
-          <h2 className="text-base font-extrabold text-[#0F2942]">
-            Mis habilidades
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-extrabold text-[#0F2942]">
+              Mis habilidades
+            </h2>
+            <span className="text-xs font-bold text-slate-400">10 habilidades clave</span>
+          </div>
 
-          {/* Tarjeta Destacada: Conecta y juega */}
-          <button
-            onClick={() => setSelectedSkillDetail('conecta')}
-            className="bg-white rounded-3xl p-4 border border-emerald-200 shadow-xs flex items-center justify-between text-left group hover:border-[#00A896] transition-all cursor-pointer"
-          >
-            <div className="flex items-center gap-3.5 min-w-0">
-              <div className="w-14 h-14 rounded-2xl overflow-hidden bg-amber-50 flex-shrink-0 border border-slate-100">
-                <img 
-                  src="/conecta/illustration_intro.png" 
-                  alt="Conecta y juega" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                />
-              </div>
+          {learnSkills.map((skill) => {
+            const isSkillConecta = skill.id === 'conecta';
+            const isSkillHabla = skill.id === 'habla_claro';
+            const isSkillActive = isSkillConecta || isSkillHabla || learnProgress[skill.id];
 
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-sm font-black text-[#0F2942] group-hover:text-[#00A896] transition-colors truncate">
-                  Conecta y juega
-                </h3>
-                <span className="text-xs text-slate-500 font-medium truncate">
-                  Vínculo y atención compartida
-                </span>
+            return (
+              <button
+                key={skill.id}
+                onClick={() => setSelectedSkillDetail(skill.id)}
+                className={`bg-white rounded-3xl p-4 border shadow-xs flex items-center justify-between text-left group transition-all cursor-pointer ${
+                  isSkillConecta 
+                    ? 'border-emerald-200 hover:border-[#00A896]' 
+                    : isSkillHabla 
+                    ? 'border-amber-200 hover:border-amber-500' 
+                    : 'border-slate-100 hover:border-amber-300'
+                }`}
+              >
+                <div className="flex items-center gap-3.5 min-w-0 flex-1">
+                  <div className={`w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 border border-slate-100 flex items-center justify-center text-2xl relative ${
+                    isSkillConecta ? 'bg-[#E0F7F6]' : 'bg-amber-50'
+                  }`}>
+                    <img 
+                      src={`/${skill.id}/illustration_intro.png`} 
+                      alt={skill.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
 
-                {/* Segmentos de progreso verde */}
-                <div className="flex items-center gap-1 mt-2">
-                  <div className="h-2 w-6 rounded-full bg-[#00A896]" />
-                  <div className="h-2 w-6 rounded-full bg-[#00A896]" />
-                  <div className="h-2 w-6 rounded-full bg-[#00A896]" />
-                  <div className="h-2 w-6 rounded-full bg-slate-200" />
-                  <div className="h-2 w-6 rounded-full bg-slate-200" />
-                </div>
-              </div>
-            </div>
+                    <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-slate-800 text-white text-[9px] font-black flex items-center justify-center">
+                      {skill.number}
+                    </span>
+                  </div>
 
-            <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-[#00A896] flex-shrink-0 transition-colors" />
-          </button>
+                  <div className="flex flex-col min-w-0 flex-1">
+                    <h3 className="text-sm font-black text-[#0F2942] group-hover:text-amber-700 transition-colors truncate">
+                      {skill.title}
+                    </h3>
+                    <span className="text-xs text-slate-500 font-medium truncate">
+                      {skill.subtitle}
+                    </span>
 
-          {/* Tarjeta Destacada: Habla claro */}
-          <button
-            onClick={() => setSelectedSkillDetail('habla_claro')}
-            className="bg-white rounded-3xl p-4 border border-amber-200 shadow-xs flex items-center justify-between text-left group hover:border-amber-500 transition-all cursor-pointer"
-          >
-            <div className="flex items-center gap-3.5 min-w-0">
-              <div className="w-14 h-14 rounded-2xl overflow-hidden bg-amber-50 flex-shrink-0 border border-slate-100">
-                <img 
-                  src="/habla_claro/illustration_intro.png" 
-                  alt="Habla claro" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                />
-              </div>
-
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-sm font-black text-[#0F2942] group-hover:text-amber-700 transition-colors truncate">
-                  Habla claro
-                </h3>
-                <span className="text-xs text-slate-500 font-medium truncate">
-                  Instrucciones concretas y efectivas
-                </span>
-
-                {/* Segmentos de progreso ámbar */}
-                <div className="flex items-center gap-1 mt-2">
-                  <div className="h-2 w-6 rounded-full bg-amber-500" />
-                  <div className="h-2 w-6 rounded-full bg-amber-500" />
-                  <div className="h-2 w-6 rounded-full bg-amber-500" />
-                  <div className="h-2 w-6 rounded-full bg-slate-200" />
-                  <div className="h-2 w-6 rounded-full bg-slate-200" />
-                </div>
-              </div>
-            </div>
-
-            <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-amber-600 flex-shrink-0 transition-colors" />
-          </button>
-
-          {/* Otras habilidades del programa */}
-          {[
-            { id: 'comunica', title: 'Comunica y regula', subtitle: 'Comunicación y manejo emocional', icon: '💬' },
-            { id: 'refuerza', title: 'Refuerza y motiva', subtitle: 'Conducta y motivación', icon: '⭐' },
-            { id: 'rutinas', title: 'Establece rutinas', subtitle: 'Organización y predictibilidad', icon: '📅' },
-            { id: 'desafios', title: 'Maneja desafíos', subtitle: 'Conductas difíciles', icon: '👥' }
-          ].map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-3xl p-4 border border-slate-100 shadow-xs flex items-center justify-between text-left opacity-80"
-            >
-              <div className="flex items-center gap-3.5">
-                <div className="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center text-2xl flex-shrink-0 border border-slate-100">
-                  {item.icon}
-                </div>
-                <div className="flex flex-col">
-                  <h3 className="text-sm font-extrabold text-slate-800">
-                    {item.title}
-                  </h3>
-                  <span className="text-xs text-slate-400 font-medium">
-                    {item.subtitle}
-                  </span>
-                  <div className="flex items-center gap-1 mt-1.5">
-                    <div className="h-1.5 w-5 rounded-full bg-slate-200" />
-                    <div className="h-1.5 w-5 rounded-full bg-slate-200" />
-                    <div className="h-1.5 w-5 rounded-full bg-slate-200" />
+                    {/* Segmentos de progreso */}
+                    <div className="flex items-center gap-1 mt-2">
+                      <div className={`h-2 w-5 rounded-full ${isSkillActive ? (isSkillConecta ? 'bg-[#00A896]' : 'bg-amber-500') : 'bg-slate-200'}`} />
+                      <div className={`h-2 w-5 rounded-full ${isSkillActive ? (isSkillConecta ? 'bg-[#00A896]' : 'bg-amber-500') : 'bg-slate-200'}`} />
+                      <div className={`h-2 w-5 rounded-full ${isSkillActive ? (isSkillConecta ? 'bg-[#00A896]/60' : 'bg-amber-500/60') : 'bg-slate-200'}`} />
+                      <div className="h-2 w-5 rounded-full bg-slate-200" />
+                      <div className="h-2 w-5 rounded-full bg-slate-200" />
+                    </div>
                   </div>
                 </div>
-              </div>
-              <ChevronRight className="w-5 h-5 text-slate-300" />
-            </div>
-          ))}
+
+                <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-amber-600 flex-shrink-0 transition-colors ml-2" />
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

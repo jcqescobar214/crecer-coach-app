@@ -312,12 +312,143 @@ export const evaluateHablaClaroPractice = (answers) => {
   };
 };
 
+// Matriz de evaluación para habilidades 3 a 10
+export const evaluateGenericPremierPractice = (skillId, answers) => {
+  const pudo = answers.pudoPracticar || answers.pudoJugar;
+  if (pudo === 'hoy_no' || pudo === 'no') {
+    return {
+      type: 'hoy_no',
+      title: 'Hoy no pudiste realizar la práctica',
+      message: 'No te preocupes. Lo valioso es mantener la intención y elegir un momento oportuno en tu próxima rutina.',
+      bien: 'Reconociste con honestidad que hoy no fue el momento propicio.',
+      recomendacion: 'Elige un espacio breve de 2 minutos donde puedas estar sin prisa.',
+      reto: 'Programar la práctica para cuando tengas un momento de calma.',
+      status: 'Reprogramada'
+    };
+  }
+
+  const skillEvaluations = {
+    elogia: {
+      perfect: {
+        bien: 'Describiste la acción motora exacta con entusiasmo cálido e inmediato.',
+        recomendacion: 'Acompaña tu elogio con una sonrisa, contacto visual o un gesto de afecto físico (chocar los cinco o palmada suave).',
+        reto: 'Identifica y elogia 3 conductas positivas cotidianas a lo largo del día.'
+      },
+      improvement: {
+        bien: 'Reconociste el buen comportamiento de tu hijo en su rutina.',
+        recomendacion: 'Evita los "muy bien" genéricos: nombra siempre el verbo y el objeto con exactitud.',
+        reto: 'En tu próximo elogio, di exactamente lo que sus manos o cuerpo hicieron bien.'
+      }
+    },
+    motiva: {
+      perfect: {
+        bien: 'Utilizaste motivadores sociales y privilegios vinculados al esfuerzo y colaboración de tu hijo.',
+        recomendacion: 'Asegúrate de que los incentivos sean pequeños, inmediatos y alcanzables en el mismo día.',
+        reto: 'Ofrece un privilegio especial compartido (como leer un cuento extra) tras cumplir una rutina.'
+      },
+      improvement: {
+        bien: 'Buscaste entusiasmar a tu hijo para que participe en las tareas cotidianas.',
+        recomendacion: 'Entrega el reconocimiento inmediatamente después del comportamiento adecuado para fijar la conexión.',
+        reto: 'Elige una sola rutina pequeña para aplicar el incentivo hoy.'
+      }
+    },
+    da_ejemplo: {
+      perfect: {
+        bien: 'Modelaste la calma y la conducta esperada con tus propias acciones, respiración y tono sereno.',
+        recomendacion: 'Nombra en voz alta tu propia estrategia de regulación cuando sientas frustración cotidiana.',
+        reto: 'Muestra a tu hijo cómo respiras hondo o haces una pausa antes de reaccionar ante un reto.'
+      },
+      improvement: {
+        bien: 'Identificaste que tus reacciones son el espejo en el que tu hijo aprende a regularse.',
+        recomendacion: 'Si notas que sube tu tensión, haz una pausa de 5 segundos antes de hablar.',
+        reto: 'Practica hacer una respiración profunda visible frente a tu hijo cuando algo se complique.'
+      }
+    },
+    practiquen_juntos: {
+      perfect: {
+        bien: 'Practicaste la conducta en un momento tranquilo a modo de juego y ensayo conductual.',
+        recomendacion: 'El ensayo lúdico fuera de crisis fija la respuesta en la memoria procedimental del niño.',
+        reto: 'Haz un juego de roles de 2 minutos sobre cómo pedir las cosas amablemente.'
+      },
+      improvement: {
+        bien: 'Buscaste un espacio para enseñar sin reproches ni presiones.',
+        recomendacion: 'Mantén el ensayo breve y divertido, como si fuera una obra de teatro.',
+        reto: 'Practica una situación cotidiana por turnos simulando ser personajes.'
+      }
+    },
+    anticipate: {
+      perfect: {
+        bien: 'Avisaste con anticipación el fin de la actividad y acompañaste la transición con suavidad.',
+        recomendacion: 'Utiliza apoyos concretos como un temporizador visual o una señal acordada previamente.',
+        reto: 'Da un aviso de 5 minutos y otro de 2 minutos antes de cambiar de una actividad placentera a una rutina.'
+      },
+      improvement: {
+        bien: 'Intentaste preparar a tu hijo antes de interrumpir lo que estaba haciendo.',
+        recomendacion: 'Asegúrate de que te escuche antes de que empiece a correr el tiempo del aviso.',
+        reto: 'Acércate y valida su juego antes de anunciar los minutos restantes.'
+      }
+    },
+    pon_limites: {
+      perfect: {
+        bien: 'Mantuviste un límite firme y claro sin recurrir a gritos ni amenazas.',
+        recomendacion: 'Valida la emoción del niño ("sé que quieres seguir jugando") mientras sostienes el límite ("pero es hora de bañarse").',
+        reto: 'Mantén un límite con serenidad y silencio paciente ante la primera protesta.'
+      },
+      improvement: {
+        bien: 'Sostuviste la norma con la intención de cuidar su seguridad y estructura.',
+        recomendacion: 'Menos palabras y mayor tranquilidad transmiten más seguridad que largos discursos explicativos.',
+        reto: 'Repite la regla una sola vez con calma y acompáñalo físicamente a cumplirla.'
+      }
+    },
+    ensena_que_hacer: {
+      perfect: {
+        bien: 'Indicaste la conducta alternativa positiva en vez de limitarte a decir lo que no debía hacer.',
+        recomendacion: 'El cerebro infantil necesita una acción motora sustituta para dejar la no deseada.',
+        reto: 'Cada vez que quieras decir "no corras" o "no toques", reemplázalo por la acción positiva que sí puede hacer.'
+      },
+      improvement: {
+        bien: 'Buscaste corregir la situación en el momento oportuno.',
+        recomendacion: 'En lugar de decir lo que debe parar ("no grites"), dile qué hacer con su cuerpo ("usa tu voz suave").',
+        reto: 'Convierte una prohibición habitual en una instrucción de conducta positiva.'
+      }
+    },
+    se_constante: {
+      perfect: {
+        bien: 'Fuiste predecible y consistente con la respuesta acordada.',
+        recomendacion: 'La consistencia en el 80% de las ocasiones es suficiente para que la regla se consolide con seguridad.',
+        reto: 'Mantén la misma pauta ante la misma conducta durante tres días consecutivos.'
+      },
+      improvement: {
+        bien: 'Notaste la importancia de que las reglas no dependan del cansancio del día.',
+        recomendacion: 'Elige una sola batalla a la vez para que te resulte fácil sostenerla sin agotarte.',
+        reto: 'Enfócate en ser constante en una sola rutina (como la hora de dormir).'
+      }
+    }
+  };
+
+  const skillEval = skillEvaluations[skillId] || skillEvaluations.elogia;
+  const isHighQuality = answers.dificultad === 'nada' || answers.dificultad === 'ninguna' || answers.acompanoSinDirigir === 'si' || answers.seAcerco === 'si' || answers.pudoPracticar === 'si' || answers.pudoJugar === 'si';
+
+  const selectedTemplate = isHighQuality ? skillEval.perfect : skillEval.improvement;
+
+  return {
+    type: isHighQuality ? 'perfect' : 'improvement',
+    bien: selectedTemplate.bien,
+    recomendacion: selectedTemplate.recomendacion,
+    reto: selectedTemplate.reto,
+    status: 'Realizada'
+  };
+};
+
 // Dispatcher de evaluación por habilidad
 export const evaluatePractice = (skillId, answers) => {
   if (skillId === 'habla_claro') {
     return evaluateHablaClaroPractice(answers);
   }
-  return evaluateConectaPractice(answers);
+  if (skillId === 'conecta') {
+    return evaluateConectaPractice(answers);
+  }
+  return evaluateGenericPremierPractice(skillId, answers);
 };
 
 // --- Progreso de Aprendizaje en "Quiero aprender" ---

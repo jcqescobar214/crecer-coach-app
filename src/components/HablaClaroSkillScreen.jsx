@@ -197,7 +197,7 @@ export default function HablaClaroSkillScreen({ onBack, onComplete, onGoToPlan }
               CRECER
             </span>
             <span className="text-[11px] font-semibold text-slate-500">
-              Habilidad 2 de 9
+              Habilidad 2 de 10
             </span>
           </div>
 

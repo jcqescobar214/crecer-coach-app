@@ -18,5 +18,8 @@
     "tailwindcss": "^3.4.1",
     "vite": "^5.1.0",
     "vite-plugin-pwa": "^2.0.0"
+  },
+  "overrides": {
+    "esbuild": "^0.25.0"
   }
 }

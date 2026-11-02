@@ -19,19 +19,22 @@ import {
   Calendar
 } from 'lucide-react';
 import { savePracticeLog, evaluatePractice, getSavedPlanHabits, savePlanHabit } from '../data/planStorage';
+import { getSkillById } from '../data/learnBank';
 
 export default function RegisterPracticeScreen({ onBack, onComplete, skillId = 'conecta' }) {
+  const currentSkill = getSkillById(skillId);
   const isHablaClaro = skillId === 'habla_claro';
+  const isConecta = skillId === 'conecta';
 
   // Practice info from saved plan
   const savedHabits = getSavedPlanHabits();
   const currentHabit = savedHabits.find(h => h.skillId === skillId) || {
-    title: isHablaClaro ? '3 Instrucciones Claras' : '5 minutos juntos',
+    title: currentSkill?.pruebaloHoy?.title || (isHablaClaro ? '3 Instrucciones Claras' : '5 minutos juntos'),
     duration: '5 minutos',
     timeOfDay: 'Tarde',
-    description: isHablaClaro 
+    description: currentSkill?.pruebaloHoy?.description || (isHablaClaro 
       ? 'Acércate a su altura, da una sola instrucción por vez y di exactamente la acción concreta.'
-      : 'Deja que tu hijo elija un juego seguro. Acompáñalo sin dirigir.'
+      : 'Deja que tu hijo elija un juego seguro. Acompáñalo sin dirigir.')
   };
 
   // Form states - General & Conecta
@@ -73,7 +76,7 @@ export default function RegisterPracticeScreen({ onBack, onComplete, skillId = '
     // Save to logs
     savePracticeLog({
       skillId,
-      skillTitle: isHablaClaro ? 'Habla claro' : 'Conecta y juega',
+      skillTitle: currentSkill?.title || (isHablaClaro ? 'Habla claro' : 'Conecta y juega'),
       habitTitle: currentHabit.title,
       duration: currentHabit.duration || '5 minutos',
       timeOfDay: currentHabit.timeOfDay || 'Tarde',
@@ -103,7 +106,7 @@ export default function RegisterPracticeScreen({ onBack, onComplete, skillId = '
               Crecer
             </span>
             <span className="text-[11px] font-semibold text-slate-500">
-              {isHablaClaro ? 'Habilidad 2 de 9' : 'Habilidad 1 de 9'}
+              {currentSkill?.badge || (isHablaClaro ? 'Habilidad 2 de 10' : 'Habilidad 1 de 10')}
             </span>
           </div>
           <div className="w-10 h-10" />

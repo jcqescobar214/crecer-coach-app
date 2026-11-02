@@ -198,7 +198,7 @@ export default function ConectaSkillScreen({ onBack, onComplete, onGoToPlan }) {
               CRECER
             </span>
             <span className="text-[11px] font-semibold text-slate-500">
-              Habilidad 1 de 9
+              Habilidad 1 de 10
             </span>
           </div>
 

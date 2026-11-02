@@ -100,7 +100,7 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
                 : 'text-slate-500 hover:text-slate-700'
             }`}
           >
-            Todas (9)
+            Todas ({learnSkills.length})
           </button>
           <button
             onClick={() => setFilter('communication')}
@@ -141,22 +141,27 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
                     : 'bg-white border-slate-100 hover:border-amber-300'
                 }`}
               >
-                {/* Emoji / Icono con Número */}
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-105 transition-transform shadow-xs relative ${
+                {/* Imagen / Ilustración con Número */}
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-105 transition-transform shadow-xs relative overflow-hidden ${
                   skill.id === 'conecta'
                     ? 'bg-[#E0F7F6] border border-[#00A896]/30 text-[#00A896]'
                     : skill.id === 'habla_claro'
                     ? 'bg-amber-100/70 border border-amber-300/60 text-amber-700'
                     : 'bg-amber-50/80 border border-amber-200/70'
                 }`}>
-                  {skill.id === 'conecta' ? (
-                    <img src="/conecta/sprout_logo.png" alt="Sprout" className="w-7 h-7 object-contain" />
-                  ) : skill.id === 'habla_claro' ? (
-                    <span className="text-2xl">🗣️</span>
-                  ) : (
-                    <span>{skill.emoji}</span>
-                  )}
-                  <span className={`absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full text-white text-[10px] font-black flex items-center justify-center border-2 border-white shadow-xs ${
+                  <img 
+                    src={`/${skill.id}/illustration_intro.png`} 
+                    alt={skill.title} 
+                    className="w-full h-full object-cover" 
+                    onError={(e) => {
+                      if (skill.id === 'conecta') {
+                        e.currentTarget.src = "/conecta/sprout_logo.png";
+                      } else {
+                        e.currentTarget.style.display = 'none';
+                      }
+                    }} 
+                  />
+                  <span className={`absolute -top-1 -right-1 w-5 h-5 rounded-full text-white text-[10px] font-black flex items-center justify-center border-2 border-white shadow-xs z-10 ${
                     skill.id === 'conecta' ? 'bg-[#00A896]' : skill.id === 'habla_claro' ? 'bg-amber-600' : 'bg-slate-800'
                   }`}>
                     {skill.number}
