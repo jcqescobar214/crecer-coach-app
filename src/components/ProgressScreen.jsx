@@ -18,7 +18,7 @@ import {
 import { getPracticeLogs, getLearningProgress } from '../data/planStorage';
 
 export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractice }) {
-  const [selectedSkillDetail, setSelectedSkillDetail] = useState(null); // null | 'conecta'
+  const [selectedSkillDetail, setSelectedSkillDetail] = useState(null); // null | 'conecta' | 'habla_claro'
   const [detailTab, setDetailTab] = useState('progreso'); // 'progreso' | 'practicas'
   const [logs, setLogs] = useState([]);
   const [learnProgress, setLearnProgress] = useState({});
@@ -28,12 +28,22 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
     setLearnProgress(getLearningProgress());
   }, []);
 
-  const conectaLogs = logs.filter(l => l.skillId === 'conecta' || !l.skillId);
-  const completedPracticesCount = conectaLogs.filter(l => l.status === 'Realizada').length;
+  const isHablaClaro = selectedSkillDetail === 'habla_claro';
+  const activeSkillId = selectedSkillDetail || 'conecta';
+
+  const conectaLogs = logs.filter(l => l.skillId === 'conecta' || (!l.skillId && l.skillTitle !== 'Habla claro'));
+  const hablaLogs = logs.filter(l => l.skillId === 'habla_claro');
+
+  const activeLogs = isHablaClaro ? hablaLogs : conectaLogs;
+  const activeCompletedCount = activeLogs.filter(l => l.status === 'Realizada').length;
+
+  const conectaCompletedCount = conectaLogs.filter(l => l.status === 'Realizada').length;
+  const hablaCompletedCount = hablaLogs.filter(l => l.status === 'Realizada').length;
+  const totalCompletedPractices = conectaCompletedCount + hablaCompletedCount;
 
   // Evolution message calculation for Conecta y juega
-  const getEvolutionInsights = () => {
-    if (completedPracticesCount === 0) {
+  const getConectaInsights = () => {
+    if (conectaCompletedCount === 0) {
       return {
         logrando: 'Estás comenzando tu camino en esta habilidad. Da el primer paso con una práctica de 2 o 5 minutos.',
         fortaleciendo: 'Aprender a seguir la iniciativa de tu hijo fortalece su confianza y cercanía emocional.',
@@ -42,7 +52,6 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
     }
 
     const latest = conectaLogs[0]?.answers || {};
-    const previous = conectaLogs[1]?.answers || null;
 
     let logrando = 'En tus últimas prácticas has reportado mayor facilidad para dejar que tu hijo elija cómo jugar.';
     let fortaleciendo = 'Ahora estás practicando cómo acompañar su juego sin darle tantas instrucciones.';
@@ -59,10 +68,36 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
     return { logrando, fortaleciendo, siguientePaso };
   };
 
-  const insights = getEvolutionInsights();
+  // Evolution message calculation for Habla claro
+  const getHablaClaroInsights = () => {
+    if (hablaCompletedCount === 0) {
+      return {
+        logrando: 'Estás iniciando en instrucciones efectivas. Empieza con una sola rutina sencilla como recoger los zapatos.',
+        fortaleciendo: 'Aprender a ponerte a la altura física de tu hijo y nombrar una sola acción concreta.',
+        siguientePaso: 'Antes de hablar, camina hasta donde esté tu hijo, ponte a su altura y da una sola indicación con voz tranquila.'
+      };
+    }
 
-  // VISTA 2: DETALLE DE HABILIDAD (CONECTA Y JUEGA)
-  if (selectedSkillDetail === 'conecta') {
+    const latest = hablaLogs[0]?.answers || {};
+    let logrando = 'En tus últimas prácticas has aplicado mayor cercanía física antes de dar una indicación.';
+    let fortaleciendo = 'Estás fortaleciendo pedir un solo paso motor a la vez con calma y firmeza.';
+    let siguientePaso = 'Recuerda esperar 5 segundos en silencio tras dar la orden antes de repetir o intervenir.';
+
+    if (latest.dificultad === 'grite_lejos' || latest.seAcerco === 'le_costo') {
+      fortaleciendo = 'Estás practicando no pedir nada desde otra habitación o a distancia.';
+      siguientePaso = 'Camina hasta colocarte a su altura física y busca contacto visual amable.';
+    } else if (latest.dificultad === 'esperar_pausa' || latest.tonoCalmo === 'eleve_voz') {
+      fortaleciendo = 'Estás fortaleciendo la pausa paciente de 5 segundos y el tono sereno.';
+      siguientePaso = 'Cuenta mentalmente hasta cinco en silencio con calma mientras tu hijo procesa la indicación.';
+    }
+
+    return { logrando, fortaleciendo, siguientePaso };
+  };
+
+  const insights = isHablaClaro ? getHablaClaroInsights() : getConectaInsights();
+
+  // VISTA 2: DETALLE DE HABILIDAD (CONECTA Y JUEGA O HABLA CLARO)
+  if (selectedSkillDetail) {
     return (
       <div className="flex flex-col bg-slate-50 w-full relative pb-24 animate-fadeIn">
         {/* Header con botón atrás */}
@@ -80,7 +115,11 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
             </span>
           </div>
           <div className="w-10 h-10 flex items-center justify-center">
-            <img src="/conecta/sprout_logo.png" alt="Sprout" className="w-7 h-7 object-contain" />
+            {isHablaClaro ? (
+              <span className="text-xl">🗣️</span>
+            ) : (
+              <img src="/conecta/sprout_logo.png" alt="Sprout" className="w-7 h-7 object-contain" />
+            )}
           </div>
         </header>
 
@@ -89,17 +128,17 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
           <div className="bg-white rounded-3xl p-4 border border-slate-100 shadow-xs flex items-center gap-3.5">
             <div className="w-20 h-20 rounded-2xl overflow-hidden bg-amber-50/50 flex-shrink-0 border border-slate-100">
               <img 
-                src="/conecta/illustration_intro.png" 
-                alt="Conecta y juega" 
+                src={isHablaClaro ? "/habla_claro/illustration_intro.png" : "/conecta/illustration_intro.png"} 
+                alt={isHablaClaro ? "Habla claro" : "Conecta y juega"} 
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="flex flex-col flex-1">
               <h1 className="text-lg font-black text-[#0F2942] tracking-tight">
-                Conecta y juega
+                {isHablaClaro ? "Habla claro" : "Conecta y juega"}
               </h1>
-              <p className="text-xs font-semibold text-[#00A896]">
-                Vínculo y atención compartida
+              <p className={`text-xs font-semibold ${isHablaClaro ? "text-amber-700" : "text-[#00A896]"}`}>
+                {isHablaClaro ? "Instrucciones concretas y efectivas" : "Vínculo y atención compartida"}
               </p>
             </div>
           </div>
@@ -124,7 +163,7 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
                   : 'text-slate-500 hover:text-slate-700'
               }`}
             >
-              Mis prácticas ({conectaLogs.length})
+              Mis prácticas ({activeLogs.length})
             </button>
           </div>
 
@@ -148,7 +187,7 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
                     <span className="text-[11px] font-bold text-slate-700">Prácticas realizadas</span>
                   </div>
                   <span className="text-2xl font-black text-[#0F2942]">
-                    {completedPracticesCount}
+                    {activeCompletedCount}
                   </span>
                   <span className="text-[11px] text-slate-500 font-medium">en casa</span>
                 </div>
@@ -162,33 +201,62 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
                 </div>
 
                 <div className="flex flex-col gap-2.5">
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#00A896] flex-shrink-0 mt-0.5" />
-                    <p className="text-xs text-slate-700 font-medium leading-snug">
-                      Reconocer cuándo acompañas el juego sin dirigirlo.
-                    </p>
-                  </div>
+                  {isHablaClaro ? (
+                    <>
+                      <div className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                        <p className="text-xs text-slate-700 font-medium leading-snug">
+                          Acercarte a su altura física y buscar contacto visual amable antes de hablar.
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                        <p className="text-xs text-slate-700 font-medium leading-snug">
+                          Dar una sola indicación física por vez nombrando la acción concreta y el lugar.
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                        <p className="text-xs text-slate-700 font-medium leading-snug">
+                          Usar un tono firme y tranquilo haciendo una pausa de 5 segundos en silencio.
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-[#00A896] flex-shrink-0 mt-0.5" />
+                        <p className="text-xs text-slate-700 font-medium leading-snug">
+                          Reconocer cuándo acompañas el juego sin dirigirlo.
+                        </p>
+                      </div>
 
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#00A896] flex-shrink-0 mt-0.5" />
-                    <p className="text-xs text-slate-700 font-medium leading-snug">
-                      Identificar formas de participar: observar, describir, imitar y responder.
-                    </p>
-                  </div>
+                      <div className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-[#00A896] flex-shrink-0 mt-0.5" />
+                        <p className="text-xs text-slate-700 font-medium leading-snug">
+                          Identificar formas de participar: observar, describir, imitar y responder.
+                        </p>
+                      </div>
 
-                  <div className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-[#00A896] flex-shrink-0 mt-0.5" />
-                    <p className="text-xs text-slate-700 font-medium leading-snug">
-                      Distinguir entre comentar lo que hace tu hijo y darle instrucciones.
-                    </p>
-                  </div>
+                      <div className="flex items-start gap-2.5">
+                        <CheckCircle2 className="w-4 h-4 text-[#00A896] flex-shrink-0 mt-0.5" />
+                        <p className="text-xs text-slate-700 font-medium leading-snug">
+                          Distinguir entre comentar lo que hace tu hijo y darle instrucciones.
+                        </p>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
               {/* Cómo lo estás aplicando */}
               <div className="bg-white rounded-3xl p-4 border border-slate-100 shadow-xs flex flex-col gap-3">
                 <div className="flex items-center gap-2 text-[#0F2942]">
-                  <img src="/conecta/sprout_logo.png" alt="Leaf" className="w-4 h-4 object-contain" />
+                  {isHablaClaro ? (
+                    <span className="text-base">🗣️</span>
+                  ) : (
+                    <img src="/conecta/sprout_logo.png" alt="Leaf" className="w-4 h-4 object-contain" />
+                  )}
                   <h2 className="text-sm font-black">Cómo lo estás aplicando</h2>
                 </div>
 
@@ -229,12 +297,16 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
           {/* PESTAÑA: MIS PRÁCTICAS (HISTORIAL DETALLADO) */}
           {detailTab === 'practicas' && (
             <div className="flex flex-col gap-3 animate-fadeIn">
-              {conectaLogs.length > 0 ? (
-                conectaLogs.map((log) => (
+              {activeLogs.length > 0 ? (
+                activeLogs.map((log) => (
                   <div key={log.id} className="bg-white rounded-3xl p-4 border border-slate-100 shadow-xs flex flex-col gap-2.5">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <img src="/conecta/sprout_logo.png" alt="Leaf" className="w-4 h-4 object-contain" />
+                        {isHablaClaro ? (
+                          <span className="text-sm">🗣️</span>
+                        ) : (
+                          <img src="/conecta/sprout_logo.png" alt="Leaf" className="w-4 h-4 object-contain" />
+                        )}
                         <span className="text-xs font-extrabold text-[#0F2942]">
                           {new Date(log.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
                         </span>
@@ -253,12 +325,25 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
                       </div>
                       {log.answers && (
                         <>
-                          <div className="text-[11px] text-slate-700 mt-1">
-                            🌱 Dejé elegir: <span className="font-bold capitalize">{log.answers.dejoElegir || 'Sí'}</span>
-                          </div>
-                          <div className="text-[11px] text-slate-700">
-                            👥 Sin dirigir: <span className="font-bold capitalize">{log.answers.acompanoSinDirigir || 'Sí'}</span>
-                          </div>
+                          {isHablaClaro ? (
+                            <>
+                              <div className="text-[11px] text-slate-700 mt-1">
+                                📏 A su altura: <span className="font-bold capitalize">{log.answers.seAcerco || 'Sí'}</span>
+                              </div>
+                              <div className="text-[11px] text-slate-700">
+                                ☝️ Una indicación: <span className="font-bold capitalize">{log.answers.unaSolaCosa || 'Sí'}</span>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <div className="text-[11px] text-slate-700 mt-1">
+                                🌱 Dejé elegir: <span className="font-bold capitalize">{log.answers.dejoElegir || 'Sí'}</span>
+                              </div>
+                              <div className="text-[11px] text-slate-700">
+                                👥 Sin dirigir: <span className="font-bold capitalize">{log.answers.acompanoSinDirigir || 'Sí'}</span>
+                              </div>
+                            </>
+                          )}
                         </>
                       )}
                     </div>
@@ -270,7 +355,7 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
                     Aún no tienes registros de práctica para esta habilidad.
                   </p>
                   <button
-                    onClick={() => onRegisterPractice?.('conecta')}
+                    onClick={() => onRegisterPractice?.(activeSkillId)}
                     className="bg-[#00A896] text-white font-extrabold text-xs py-3 px-5 rounded-full cursor-pointer hover:bg-[#009282]"
                   >
                     Registrar práctica
@@ -278,9 +363,9 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
                 </div>
               )}
 
-              {conectaLogs.length > 0 && (
+              {activeLogs.length > 0 && (
                 <button
-                  onClick={() => onRegisterPractice?.('conecta')}
+                  onClick={() => onRegisterPractice?.(activeSkillId)}
                   className="mt-2 w-full bg-[#00A896] hover:bg-[#009282] active:scale-[0.99] text-white font-extrabold text-sm py-3.5 px-6 rounded-full flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
                 >
                   <Plus className="w-4 h-4" strokeWidth={3} />
@@ -341,7 +426,7 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
               <span className="text-[11px] font-bold text-slate-700">Estoy practicando</span>
             </div>
             <span className="text-2xl font-black text-[#0F2942]">
-              {completedPracticesCount > 0 ? completedPracticesCount : '1'}
+              {totalCompletedPractices > 0 ? totalCompletedPractices : '1'}
             </span>
             <span className="text-[11px] text-slate-500 font-medium">prácticas realizadas</span>
           </div>
@@ -387,6 +472,42 @@ export default function ProgressScreen({ onSelectSkillToLearn, onRegisterPractic
             </div>
 
             <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-[#00A896] flex-shrink-0 transition-colors" />
+          </button>
+
+          {/* Tarjeta Destacada: Habla claro */}
+          <button
+            onClick={() => setSelectedSkillDetail('habla_claro')}
+            className="bg-white rounded-3xl p-4 border border-amber-200 shadow-xs flex items-center justify-between text-left group hover:border-amber-500 transition-all cursor-pointer"
+          >
+            <div className="flex items-center gap-3.5 min-w-0">
+              <div className="w-14 h-14 rounded-2xl overflow-hidden bg-amber-50 flex-shrink-0 border border-slate-100">
+                <img 
+                  src="/habla_claro/illustration_intro.png" 
+                  alt="Habla claro" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                />
+              </div>
+
+              <div className="flex flex-col min-w-0">
+                <h3 className="text-sm font-black text-[#0F2942] group-hover:text-amber-700 transition-colors truncate">
+                  Habla claro
+                </h3>
+                <span className="text-xs text-slate-500 font-medium truncate">
+                  Instrucciones concretas y efectivas
+                </span>
+
+                {/* Segmentos de progreso ámbar */}
+                <div className="flex items-center gap-1 mt-2">
+                  <div className="h-2 w-6 rounded-full bg-amber-500" />
+                  <div className="h-2 w-6 rounded-full bg-amber-500" />
+                  <div className="h-2 w-6 rounded-full bg-amber-500" />
+                  <div className="h-2 w-6 rounded-full bg-slate-200" />
+                  <div className="h-2 w-6 rounded-full bg-slate-200" />
+                </div>
+              </div>
+            </div>
+
+            <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-amber-600 flex-shrink-0 transition-colors" />
           </button>
 
           {/* Otras habilidades del programa */}

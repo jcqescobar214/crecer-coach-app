@@ -136,6 +136,8 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
                 className={`rounded-2xl p-4 border shadow-xs transition-all text-left flex items-start gap-3.5 group cursor-pointer active:scale-[0.99] ${
                   skill.id === 'conecta'
                     ? 'bg-gradient-to-r from-[#E8F8F7]/70 to-white border-[#00A896]/40 hover:border-[#00A896]'
+                    : skill.id === 'habla_claro'
+                    ? 'bg-gradient-to-r from-amber-50/70 to-white border-amber-300/70 hover:border-amber-500'
                     : 'bg-white border-slate-100 hover:border-amber-300'
                 }`}
               >
@@ -143,15 +145,19 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 group-hover:scale-105 transition-transform shadow-xs relative ${
                   skill.id === 'conecta'
                     ? 'bg-[#E0F7F6] border border-[#00A896]/30 text-[#00A896]'
+                    : skill.id === 'habla_claro'
+                    ? 'bg-amber-100/70 border border-amber-300/60 text-amber-700'
                     : 'bg-amber-50/80 border border-amber-200/70'
                 }`}>
                   {skill.id === 'conecta' ? (
                     <img src="/conecta/sprout_logo.png" alt="Sprout" className="w-7 h-7 object-contain" />
+                  ) : skill.id === 'habla_claro' ? (
+                    <span className="text-2xl">🗣️</span>
                   ) : (
                     <span>{skill.emoji}</span>
                   )}
                   <span className={`absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full text-white text-[10px] font-black flex items-center justify-center border-2 border-white shadow-xs ${
-                    skill.id === 'conecta' ? 'bg-[#00A896]' : 'bg-slate-800'
+                    skill.id === 'conecta' ? 'bg-[#00A896]' : skill.id === 'habla_claro' ? 'bg-amber-600' : 'bg-slate-800'
                   }`}>
                     {skill.number}
                   </span>
@@ -162,13 +168,22 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
                   <div className="flex items-center justify-between gap-1">
                     <div className="flex items-center gap-1.5 min-w-0">
                       <h2 className={`text-sm font-extrabold truncate ${
-                        skill.id === 'conecta' ? 'text-[#0F2942] group-hover:text-[#00A896]' : 'text-slate-800 group-hover:text-amber-700'
+                        skill.id === 'conecta' 
+                          ? 'text-[#0F2942] group-hover:text-[#00A896]' 
+                          : skill.id === 'habla_claro'
+                          ? 'text-slate-900 group-hover:text-amber-800'
+                          : 'text-slate-800 group-hover:text-amber-700'
                       }`}>
                         {skill.title}
                       </h2>
                       {skill.id === 'conecta' && (
                         <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-md bg-[#00A896]/15 text-[#00A896] uppercase flex-shrink-0">
                           Nueva
+                        </span>
+                      )}
+                      {skill.id === 'habla_claro' && (
+                        <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-md bg-amber-500/15 text-amber-800 uppercase flex-shrink-0">
+                          Interactiva
                         </span>
                       )}
                     </div>
@@ -181,7 +196,7 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
                     ) : (
                       <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1 flex-shrink-0">
                         <Clock className="w-3 h-3 text-slate-400" />
-                        <span>{skill.id === 'conecta' ? '3 min' : '2 min'}</span>
+                        <span>{skill.isPremier ? '3 min' : '2 min'}</span>
                       </span>
                     )}
                   </div>
@@ -192,12 +207,20 @@ const LearnHubScreen = ({ onSelectSkill, onBack }) => {
 
                   <div className="flex items-center justify-between pt-2 mt-1 border-t border-slate-100/80">
                     <span className={`text-[10px] font-extrabold uppercase tracking-wider ${
-                      skill.id === 'conecta' ? 'text-[#00A896]' : 'text-amber-700'
+                      skill.id === 'conecta' 
+                        ? 'text-[#00A896]' 
+                        : skill.id === 'habla_claro'
+                        ? 'text-amber-700'
+                        : 'text-amber-700'
                     }`}>
-                      {skill.id === 'conecta' ? 'Recorrido visual guiado' : 'Micropráctica guiada'}
+                      {skill.isPremier ? 'Recorrido visual guiado' : 'Micropráctica guiada'}
                     </span>
                     <span className={`text-xs font-bold flex items-center gap-0.5 group-hover:translate-x-1 transition-transform ${
-                      skill.id === 'conecta' ? 'text-[#00A896]' : 'text-amber-600'
+                      skill.id === 'conecta' 
+                        ? 'text-[#00A896]' 
+                        : skill.id === 'habla_claro'
+                        ? 'text-amber-600'
+                        : 'text-amber-600'
                     }`}>
                       <span>Empezar</span>
                       <ChevronRight className="w-4 h-4" />

@@ -6,6 +6,7 @@ import HelpNowScreen from './components/HelpNowScreen';
 import LearnHubScreen from './components/LearnHubScreen';
 import SkillExperienceScreen from './components/SkillExperienceScreen';
 import ConectaSkillScreen from './components/ConectaSkillScreen';
+import HablaClaroSkillScreen from './components/HablaClaroSkillScreen';
 import PlanScreen from './components/PlanScreen';
 import ProgressScreen from './components/ProgressScreen';
 import RegisterPracticeScreen from './components/RegisterPracticeScreen';
@@ -66,6 +67,23 @@ export default function App() {
       if (selectedSkill.id === 'conecta') {
         return (
           <ConectaSkillScreen
+            onBack={() => setSelectedSkill(null)}
+            onComplete={() => {
+              setSelectedSkill(null);
+              setActiveTab('aprender');
+            }}
+            onGoToPlan={() => {
+              setSelectedSkill(null);
+              setActiveTab('plan');
+            }}
+          />
+        );
+      }
+
+      // Si es "Habla claro", usamos la experiencia especializada de alta fidelidad
+      if (selectedSkill.id === 'habla_claro') {
+        return (
+          <HablaClaroSkillScreen
             onBack={() => setSelectedSkill(null)}
             onComplete={() => {
               setSelectedSkill(null);

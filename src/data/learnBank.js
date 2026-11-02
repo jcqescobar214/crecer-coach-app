@@ -280,72 +280,285 @@ export const learnSkills = [
     id: 'habla_claro',
     number: 2,
     title: 'Habla claro',
+    subtitle: 'Instrucciones concretas y efectivas',
     tagline: 'Dile exactamente qué esperas que haga.',
     emoji: '🗣️',
+    badge: 'Habilidad 2 de 9',
     color: '#D97706',
     bgSoft: 'bg-amber-50',
     borderSoft: 'border-amber-200',
+    category: 'communication',
+    isPremier: true,
+    whyImportant: 'Cuando le pides a tu hijo que "se porte bien", para él es una idea abstracta. Cuando le dices la acción física exacta que esperas, su cerebro sabe exactamente qué hacer.',
+    introImage: '/habla_claro/illustration_intro.png',
     miraQuePasa: {
-      dialogue: '“¡Organiza todo este desorden y compórtate!”',
-      childReaction: 'El niño continúa jugando como si no hubiera escuchado.',
-      coachInsight: 'A veces creemos que fuimos claros, pero para un niño de 3 a 6 años "desorden" o "pórtate bien" son conceptos abstractos. Necesita saber la acción física exacta.'
+      tag: '1. Mira qué pasa',
+      subtitle: 'Observa esta situación. Fíjate en cómo reacciona el niño cuando la indicación se da desde lejos y de forma imprecisa.',
+      image: '/habla_claro/illustration_mira.png',
+      dialogue: '“¡Organiza todo este desorden y pórtate bien!”',
+      didYouKnow: 'A veces decimos “¡pórtate bien!” o “¡recoge todo ese desorden!” creyendo que fuimos claros. Para un niño de 3 a 6 años, esos son conceptos abstractos que generan bloqueo o distracción.'
     },
     elige: {
-      prompt: 'Quieres que guarde sus juguetes. ¿Cuál instrucción es más efectiva?',
+      tag: '2. Elige',
+      prompt: 'Tu hijo tiene sus juguetes esparcidos por la sala. ¿Cuál indicación es más efectiva?',
+      image: '/habla_claro/illustration_elige.png',
       options: [
         {
           id: 'a',
+          label: 'A',
           text: '“¡Deja de ser tan desordenado!”',
+          thumb: '/habla_claro/thumb_opt_a.png',
           isCorrect: false,
-          feedback: 'Etiqueta al niño y no le dice qué acción física debe realizar ahora.'
+          feedbackTitle: '¡Probemos otra forma!',
+          feedback: 'Esta frase desahoga la frustración del adulto y etiqueta al niño, pero no le dice qué acción física esperas que realice en este momento.'
         },
         {
           id: 'b',
-          text: '“Guarda los juguetes en la caja, por favor.”',
+          label: 'B',
+          text: '“Guarda los bloques en la caja amarilla, por favor.”',
+          thumb: '/habla_claro/thumb_opt_b.png',
           isCorrect: true,
-          feedback: '¡Exacto! Le dijiste exactamente qué hacer, dónde ponerlo y de forma respetuosa.'
+          feedbackTitle: '¡Eso es!',
+          feedback: '¡Exacto! Nombraste la acción física directa (guardar), el objeto (bloques) y el lugar (caja amarilla) de manera respetuosa y alcanzable.'
         },
         {
           id: 'c',
+          label: 'C',
           text: '“¿Cuántas veces tengo que decirte lo mismo?”',
+          thumb: '/habla_claro/thumb_opt_c.png',
           isCorrect: false,
-          feedback: 'Es un desahogo de frustración del adulto, no una indicación clara.'
+          feedbackTitle: '¡Probemos otra forma!',
+          feedback: 'Hacer preguntas de reproche aumenta la tensión y no orienta su atención hacia la tarea concreta.'
         }
       ]
     },
+    miraComoSeHace: {
+      tag: '3. Mira cómo se hace',
+      subtitle: 'Observa dos momentos clave para dar una instrucción con cercanía, claridad y calma.',
+      panels: [
+        {
+          id: 1,
+          image: '/habla_claro/demo_panel_1.png',
+          text: '“Guarda el bloque amarillo en la canasta, por favor.”'
+        },
+        {
+          id: 2,
+          image: '/habla_claro/demo_panel_2.png',
+          text: '“¡Muchas gracias por guardarlo en la canasta!”'
+        }
+      ],
+      coachMessage: 'Dar instrucciones claras no es imponerse con gritos. Es hacer fácil para tu hijo entender exactamente qué debe hacer ahora con su cuerpo y sus manos.'
+    },
     practica: {
-      type: 'template_choice',
-      prompt: 'Transforma: “¡Pórtate bien!” en una instrucción concreta.',
-      helper: 'Intenta comenzar con una acción física: guarda, trae, siéntate, habla, pon...',
-      options: [
-        { id: '1', verb: 'Guarda', action: 'los bloques en el cesto amarillo.' },
-        { id: '2', verb: 'Siéntate', action: 'en la silla con los pies hacia adelante.' },
-        { id: '3', verb: 'Camina', action: 'despacio a mi lado mientras cruzamos.' },
-        { id: '4', verb: 'Habla', action: 'con voz bajita para poder escucharte.' }
-      ]
+      tag: '4. Practica',
+      subtitle: 'Selecciona el momento en el que más te gustaría mejorar tus indicaciones.',
+      activities: [
+        {
+          id: 'juguetes',
+          name: 'Juguetes',
+          icon: '🧸',
+          sceneImage: '/habla_claro/practica_juguetes.png',
+          sceneDescription: 'Juguetes esparcidos sobre la alfombra.',
+          question: '¿Cómo transformarías: “¡Ordena todo este reguero ahora!”?',
+          options: [
+            {
+              id: 'a',
+              text: '“¡No dejes nada tirado en el piso!”',
+              isCorrect: false,
+              feedback: 'Le dices lo que quieres evitar, pero no le das la acción que debe realizar ahora.'
+            },
+            {
+              id: 'b',
+              text: '“Pon los bloques dentro del baúl, por favor.”',
+              isCorrect: true,
+              feedback: '¡Exacto! Nombraste el objeto exacto, la acción física y el lugar con amabilidad.'
+            },
+            {
+              id: 'c',
+              text: '“¿Quieres ayudarme a recoger tus cosas?”',
+              isCorrect: false,
+              feedback: 'Formularlo como pregunta da la opción de decir "no" cuando es una indicación necesaria.'
+            }
+          ]
+        },
+        {
+          id: 'mesa',
+          name: 'En la mesa',
+          icon: '🥣',
+          sceneImage: '/habla_claro/practica_mesa.png',
+          sceneDescription: 'El niño comiendo en la mesa de la cocina.',
+          question: '¿Cómo transformarías: “¡Pórtate bien mientras comemos!”?',
+          options: [
+            {
+              id: 'a',
+              text: '“¡Deja de moverte tanto en la silla!”',
+              isCorrect: false,
+              feedback: 'Prohibir no orienta su postura física. El niño necesita saber qué hacer con su cuerpo.'
+            },
+            {
+              id: 'b',
+              text: '“Siéntate derecho y toma la cuchara para la sopa.”',
+              isCorrect: true,
+              feedback: '¡Muy bien! Describiste dos acciones físicas concretas y alcanzables de inmediato.'
+            },
+            {
+              id: 'c',
+              text: '“Come bien como los niños grandes.”',
+              isCorrect: false,
+              feedback: 'Es una comparación abstracta que suele generar frustración en vez de cooperación.'
+            }
+          ]
+        },
+        {
+          id: 'calle',
+          name: 'En la calle',
+          icon: '🚶',
+          sceneImage: '/habla_claro/practica_calle.png',
+          sceneDescription: 'Caminando por la acera antes de cruzar la calle.',
+          question: '¿Cómo transformarías: “¡Ten mucho cuidado!” antes de cruzar?',
+          options: [
+            {
+              id: 'a',
+              text: '“¡No se te ocurra soltarte o correr!”',
+              isCorrect: false,
+              feedback: 'Enfoca la mente del niño en la palabra "correr" en vez de indicarle detenerse.'
+            },
+            {
+              id: 'b',
+              text: '“Detén tus pies en la línea y dame la mano para cruzar.”',
+              isCorrect: true,
+              feedback: '¡Eso es! Le diste una orden motora clara y precisa para garantizar su seguridad.'
+            },
+            {
+              id: 'c',
+              text: '“¿Estás listo para pasar la calle?”',
+              isCorrect: false,
+              feedback: 'La seguridad no es una sugerencia; requiere una indicación protectora y clara.'
+            }
+          ]
+        },
+        {
+          id: 'voz',
+          name: 'Voz suave',
+          icon: '🤫',
+          sceneImage: '/habla_claro/practica_voz.png',
+          sceneDescription: 'Jugando y hablando en la habitación.',
+          question: '¿Cómo transformarías: “¡Deja de gritar de esa manera!”?',
+          options: [
+            {
+              id: 'a',
+              text: '“¡Que te calles y dejes la bulla te dije!”',
+              isCorrect: false,
+              feedback: 'Gritarle para que no grite modela justamente la conducta que deseas reducir.'
+            },
+            {
+              id: 'b',
+              text: '“Háblame con voz suave y bajita para poder escucharte.”',
+              isCorrect: true,
+              feedback: '¡Excelente! Sustituyes el grito por una conducta incompatible explicada con calma.'
+            },
+            {
+              id: 'c',
+              text: '“¿Por qué siempre tienes que gritar?”',
+              isCorrect: false,
+              feedback: 'Las preguntas acusatorias generan defensa, no autorregulación.'
+            }
+          ]
+        }
+      ],
+      reminder: 'Los niños cooperan mejor cuando escuchan una sola acción que pueden ejecutar con su cuerpo, en vez de prohibiciones abstractas.'
+    },
+    puedesDecirOHacer: {
+      tag: '5. Puedes decir o hacer',
+      subtitle: 'Para que tu indicación funcione a la primera, apóyate en estas cuatro pautas prácticas de comunicación:',
+      cards: [
+        {
+          id: 'acercate',
+          title: 'Acércate',
+          desc: 'Ponte a su altura física y busca contacto visual amable.',
+          image: '/habla_claro/card_acercate.png'
+        },
+        {
+          id: 'una_a_la_vez',
+          title: 'Una sola indicación',
+          desc: 'Pide un solo paso por vez. Evita encadenar tareas.',
+          image: '/habla_claro/card_una_instruccion.png'
+        },
+        {
+          id: 'accion_concreta',
+          title: 'Acción concreta',
+          desc: 'Nombra el objeto, el lugar y la acción física exacta.',
+          image: '/habla_claro/card_accion_concreta.png'
+        },
+        {
+          id: 'tono_calmo',
+          title: 'Tono firme y cálido',
+          desc: 'Habla con calma y seguridad sin elevar la voz.',
+          image: '/habla_claro/card_tono_calmo.png'
+        }
+      ],
+      reminder: 'Menos palabras y más cercanía física multiplican la capacidad de tu hijo para cooperar sin discusiones.'
+    },
+    evita: {
+      tag: '6. Evita',
+      subtitle: 'Estas formas de comunicarte dificultan que tu hijo responda a la primera. Aquí te mostramos cuatro cosas que conviene evitar:',
+      cards: [
+        {
+          id: 'a_distancia',
+          title: 'A distancia',
+          desc: 'Gritar la orden desde la cocina u otra habitación.',
+          image: '/habla_claro/card_a_distancia.png'
+        },
+        {
+          id: 'abstracto',
+          title: 'Palabras abstractas',
+          desc: 'Decir "sé bueno" o "pórtate bien" sin decir qué hacer.',
+          image: '/habla_claro/card_abstracto.png'
+        },
+        {
+          id: 'cadenas',
+          title: 'Cadenas de órdenes',
+          desc: 'Dar tres o cuatro indicaciones juntas que se olvidan.',
+          image: '/habla_claro/card_cadenas.png'
+        },
+        {
+          id: 'preguntar',
+          title: 'Preguntar dudas',
+          desc: 'Decir "¿quieres recoger?" cuando no es opcional.',
+          image: '/habla_claro/card_preguntar.png'
+        }
+      ],
+      reminder: 'Cuando gritamos desde lejos o encadenamos muchas órdenes, el niño no desobedece por rebeldía: simplemente no retiene lo que esperamos de él.'
     },
     puedesDecir: [
       '“Pon los zapatos en el armario, por favor.”',
       '“Guarda el celular y ven a la mesa.”',
       '“Háblame con voz tranquila.”'
     ],
-    evita: [
-      'Dar varias instrucciones al mismo tiempo.',
-      'Usar palabras absolutas como “siempre” y “nunca”.',
-      'Gritar la orden desde otra habitación.',
-      'Preguntar (“¿quieres guardar?”) cuando es una instrucción.'
-    ],
     pruebaloHoy: {
-      badge: 'Misión del día',
+      tag: '7. Pruébalo hoy',
+      badge: 'Tu misión',
       title: '3 Instrucciones Claras y Específicas',
       description: 'Acércate a su altura, da una sola instrucción por vez y di exactamente la acción concreta que esperas.',
-      habitKey: 'habla_claro_3_instrucciones'
+      image: '/habla_claro/illustration_mision.png',
+      habitKey: 'habla_claro_3_instrucciones',
+      durations: [
+        { id: '2min', label: '2 minutos', sub: 'Versión breve' },
+        { id: '5min', label: '5 minutos', sub: 'Tiempo completo' }
+      ],
+      moments: [
+        { id: 'manana', label: 'Mañana', icon: 'sun' },
+        { id: 'tarde', label: 'Tarde', icon: 'sunset' },
+        { id: 'noche', label: 'Noche', icon: 'moon' },
+        { id: 'despues', label: 'Elegir después', icon: 'calendar' }
+      ],
+      reminder: 'Pide una sola cosa concreta. Espera 5 segundos antes de repetir. Cuando inicie, reconócelo de inmediato.'
     }
   },
 
   {
     id: 'elogia',
-    number: 2,
+    number: 3,
     title: 'Elogia',
     tagline: 'Hazle saber exactamente qué hizo bien.',
     emoji: '⭐',
